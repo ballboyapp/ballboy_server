@@ -1,0 +1,27 @@
+{
+  "name": "crae-simple",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {},
+  "license": "MIT",
+  "engines": {
+    "node": "10.15.3",
+    "npm": "6.4.1",
+    "yarn": "1.12.3"
+  },
+  "scripts": {
+    "build": "\"cd server && yarn build\"",
+    "clean": "concurrently \"rimraf node_modules yarn.lock package-lock.json\" \"cd server && rimraf node_modules build yarn.lock package-lock.json\"",
+    "heroku-postbuild": "yarn build",
+    "install": "cd server && yarn",
+    "start": "concurrently \"cd client && yarn start\" \"cd server && yarn start\"",
+    "start:prod": "cd server && yarn start:prod",
+    "local-prod": "yarn clean && yarn install && yarn build && heroku local",
+    "local": "yarn clean && yarn install && yarn start",
+    "test": "(cd client && yarn test) && (cd server && yarn test)"
+  },
+  "dependencies": {
+    "concurrently": "^4.1.0",
+    "rimraf": "^2.6.2"
+  }
+}
