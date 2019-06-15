@@ -1,11 +1,11 @@
-const user = require('./user');
+const privateUser = require('./private-user');
 const publicUser = require('./public-user');
-const publicUserProfiles = require('./public-user-profiles');
+const publicUsers = require('./public-users');
 
 const Query = {
-  user,
+  privateUser,
   publicUser,
-  publicUserProfiles,
+  publicUsers,
 };
 
 module.exports = Query;

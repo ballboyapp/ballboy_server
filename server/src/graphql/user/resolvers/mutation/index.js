@@ -1,15 +1,13 @@
-const updateUserProfile = require('./update-user-profile');
-const newChatkitRoom = require('./new-chatkit-room');
-const newMessage = require('./new-message');
-// const setMessageAsSeen = require('./set-message-as-seen');
-// const setNotificationsToSeen = require('./set-notifications-to-seen');
+const login = require('./login');
+const signup = require('./signup');
+const sendPasscode = require('./send-passcode');
+const updateUser = require('./update-user');
 
 const Mutation = {
-  updateUserProfile,
-  newChatkitRoom,
-  newMessage,
-  // setMessageAsSeen,
-  // setNotificationsToSeen,
+  login,
+  signup,
+  sendPasscode,
+  updateUser,
 };
 
 module.exports = Mutation;
