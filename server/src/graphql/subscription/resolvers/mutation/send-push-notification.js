@@ -1,7 +1,7 @@
 const pick = require('lodash/pick');
 const { Subscription } = require('../../../../models');
 const pushAPI = require('../../../../services/push');
-const asyncForEach = require('../../../../utils/async-for-each');
+const { asyncForEach } = require('../../../../utils');
 
 //------------------------------------------------------------------------------
 // MUTATION:

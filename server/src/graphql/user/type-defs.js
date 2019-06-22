@@ -12,14 +12,19 @@ const typeDefs = `
 
   # TYPES
 
-  type User { # PrivateUser
+  type AuthToken {
     _id: ID!
-    createdAt: Date!
-    facebookId: String!
-    email: String!
+    token: String!
+  }
+
+  type PrivateUser {
+    _id: ID!
+    createdAt: Date
+    # facebookId: String!
     username: String!
-    gender: String
-    images: [Image]
+    email: String
+    # gender: String
+    # images: [Image]
   }
 
   type PublicUser {
@@ -47,19 +52,18 @@ const typeDefs = `
   # QUERIES
 
   type Query {
-    user: User
+    privateUser: PrivateUser
     publicUser(_id: ID!): PublicUser
-    publicUserProfiles(_ids: [ID!]): [PublicUser]
+    publicUsers(_ids: [ID!]): [PublicUser]
   }
 
   # MUTATIONS
 
   type Mutation {
-    updateUserProfile(userFields: UserInput!): User
-    newChatkitRoom(roomName: String!, recipientId: ID!): User
-    newMessage(roomName: String!, recipientId: ID!): User
-    # setMessageAsSeen(roomName: String!): User
-    # setNotificationsToSeen(field: NotificationField!, listIds: [ID!]): User
+    signup(username: String!, email: String!): PrivateUser!
+    sendPasscode(email: String!): PrivateUser!
+    login(email: String!, passcode: Int!): AuthToken!
+    updateUser(userFields: UserInput!): PrivateUser
   }
 `;
 
