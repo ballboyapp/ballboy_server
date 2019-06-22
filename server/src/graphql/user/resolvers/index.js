@@ -3,7 +3,8 @@ const Query = require('./query');
 const Mutation = require('./mutation');
 
 const resolvers = {
-  User,
+  PrivateUser: User,
+  PublicUser: User,
   Query,
   Mutation,
 };

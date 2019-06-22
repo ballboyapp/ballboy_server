@@ -19,12 +19,12 @@ const typeDefs = `
 
   type PrivateUser {
     _id: ID!
-    createdAt: Date!
-    facebookId: String!
-    email: String!
+    createdAt: Date
+    # facebookId: String!
     username: String!
-    gender: String
-    images: [Image]
+    email: String
+    # gender: String
+    # images: [Image]
   }
 
   type PublicUser {
@@ -60,7 +60,7 @@ const typeDefs = `
   # MUTATIONS
 
   type Mutation {
-    signup(email: String!): PrivateUser!
+    signup(username: String!, email: String!): PrivateUser!
     sendPasscode(email: String!): PrivateUser!
     login(email: String!, passcode: Int!): AuthToken!
     updateUser(userFields: UserInput!): PrivateUser

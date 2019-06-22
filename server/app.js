@@ -41,7 +41,8 @@ app.use(express.json());
 
 if (app.get('env') === 'development') {
   // Enable the app to receive requests from the React app and Storybook when running locally.
-  app.use('*', cors({ origin: ['http://localhost:3000', 'http://localhost:9009'] }));
+  // app.use('*', cors({ origin: ['http://localhost:3000', 'http://localhost:9009'] }));
+  app.use(cors());
   app.use(morgan('tiny'));
 }
 
@@ -65,7 +66,7 @@ require('./src/startup/db');
 //------------------------------------------------------------------------------
 // PASSPORT AUTH
 //------------------------------------------------------------------------------
-require('./src/startup/passport')(app);
+// require('./src/startup/passport')(app);
 
 //------------------------------------------------------------------------------
 // VALIDATE JWT MIDDLEWARE

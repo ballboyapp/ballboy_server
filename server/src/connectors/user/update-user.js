@@ -1,13 +1,12 @@
-const { User, validateUserUpdate } = require('../../models');
+const { User, validateUserProfile } = require('../../models');
 
-const updateUserProfile = async ({ usr }, { userFields }) => {
+const updateUser = async ({ usr }, { userFields }) => {
   // Only allow owner to update her own data
   if (!usr || !usr._id) {
     return null;
   }
 
-  // TODO: change name to validateUserProfile
-  const { error } = validateUserUpdate({ userFields });
+  const { error } = validateUserProfile({ userFields });
   if (error) {
     throw new Error(error.details[0].message);
   }
@@ -22,4 +21,4 @@ const updateUserProfile = async ({ usr }, { userFields }) => {
   return user.updateUserFields({ userFields });
 };
 
-module.exports = updateUserProfile;
+module.exports = updateUser;
