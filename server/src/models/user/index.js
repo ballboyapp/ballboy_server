@@ -151,8 +151,8 @@ schema.methods.updateUserFields = async function ({ userFields }) {
 //------------------------------------------------------------------------------
 // OBS: you shouldn't use these methods outside connectors
 //------------------------------------------------------------------------------
-schema.statics.createUser = async function ({ email }) {
-  const newUser = new this({ email });
+schema.statics.createUser = async function ({ username, email }) {
+  const newUser = new this({ username, email });
   await newUser.save();
   return newUser;
 };
@@ -203,6 +203,7 @@ const emailsSchema = Joi.object({ value: Joi.string() });
 const arraySchema = Joi.array().items(emailsSchema);
 
 const validateSignup = (user) => {
+  console.log('VALIDATE SIGNUP', user);
   const joiSchema = {
     username: usernameVal,
     email: emailVal,

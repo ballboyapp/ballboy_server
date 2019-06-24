@@ -39,9 +39,17 @@ app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.use((req, res, next) => {
+  console.log('req.body', req.body);
+  // console.log('res', res);
+  next();
+});
+
+console.log('app.get(env)', app.get('env'));
 if (app.get('env') === 'development') {
   // Enable the app to receive requests from the React app and Storybook when running locally.
   // app.use('*', cors({ origin: ['http://localhost:3000', 'http://localhost:9009'] }));
+  // This is CORS-enabled for all origins!
   app.use(cors());
   app.use(morgan('tiny'));
 }
@@ -81,12 +89,12 @@ require('./src/startup/apollo-server')(app);
 //------------------------------------------------------------------------------
 // CHATKIT AUTH
 //------------------------------------------------------------------------------
-require('./src/startup/chatkit-auth')(app);
+// require('./src/startup/chatkit-auth')(app);
 
 //------------------------------------------------------------------------------
 // CRON JOBS
 //------------------------------------------------------------------------------
-require('./src/startup/cron-jobs');
+// require('./src/startup/cron-jobs');
 
 //------------------------------------------------------------------------------
 // ERROR HANDLING MIDDLEWARE
