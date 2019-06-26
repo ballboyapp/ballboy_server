@@ -1,6 +1,7 @@
 const signup = require('./signup');
-const sendPasscode = require('./send-passcode');
 const login = require('./login');
+const sendPasscode = require('./send-passcode');
+const validatePasscode = require('./validate-passcode');
 const updateUser = require('./update-user');
 const getPrivateUser = require('./get-private-user');
 const getPublicUser = require('./get-public-user');
@@ -15,8 +16,9 @@ const getPublicUsers = require('./get-public-users');
 
 const genUserModel = ({ usr }) => ({
   signup: args => signup({ usr }, args),
-  sendPasscode: args => sendPasscode({ usr }, args),
   login: args => login({ usr }, args),
+  sendPasscode: args => sendPasscode({ usr }, args),
+  validatePasscode: args => validatePasscode({ usr }, args),
   updateUser: args => updateUser({ usr }, args),
   getPrivateUser: args => getPrivateUser({ usr }, args),
   getPublicUser: args => getPublicUser({ usr }, args),

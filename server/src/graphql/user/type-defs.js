@@ -60,9 +60,10 @@ const typeDefs = `
   # MUTATIONS
 
   type Mutation {
-    signup(username: String!, email: String!): PrivateUser!
-    sendPasscode(email: String!): PrivateUser!
-    login(email: String!, passcode: Int!): AuthToken!
+    signup(username: String!, email: String!): PrivateUser
+    login(email: String!): PrivateUser
+    # sendPasscode(email: String!): PrivateUser
+    validatePasscode(email: String!, passcode: Int!): AuthToken
     updateUser(userFields: UserInput!): PrivateUser
   }
 `;

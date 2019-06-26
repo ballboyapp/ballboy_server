@@ -203,7 +203,6 @@ const emailsSchema = Joi.object({ value: Joi.string() });
 const arraySchema = Joi.array().items(emailsSchema);
 
 const validateSignup = (user) => {
-  console.log('VALIDATE SIGNUP', user);
   const joiSchema = {
     username: usernameVal,
     email: emailVal,
@@ -212,7 +211,16 @@ const validateSignup = (user) => {
   return Joi.validate(user, joiSchema); // { error, value }
 };
 
-const validateLogin = (credentials) => {
+const validateLogin = (user) => {
+  const joiSchema = {
+    // username: usernameVal,
+    email: emailVal,
+  };
+
+  return Joi.validate(user, joiSchema); // { error, value }
+};
+
+const validateCredentials = (credentials) => {
   const joiSchema = {
     email: emailVal,
     passcode: passcodeVal,
@@ -253,6 +261,7 @@ module.exports = {
   User,
   validateSignup,
   validateLogin,
+  validateCredentials,
   validateFBAuth,
   validateUserProfile,
 };
