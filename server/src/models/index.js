@@ -6,7 +6,6 @@ const {
   validateFBAuth,
   validateUserProfile,
   validateUserUpdate,
-  publicUserFields,
 } = require('./user');
 
 const {
@@ -22,7 +21,6 @@ module.exports = {
   validateFBAuth,
   validateUserProfile,
   validateUserUpdate,
-  publicUserFields,
   Subscription,
   validatePush,
 };

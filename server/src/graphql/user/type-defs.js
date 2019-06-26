@@ -10,6 +10,18 @@ const typeDefs = `
     ENSCHEDE
   }
 
+  enum Gender {
+    F
+    M
+    TBD
+  }
+
+  enum Language {
+    en
+    es
+    nl
+  }
+
   # TYPES
 
   type AuthToken {
@@ -17,21 +29,25 @@ const typeDefs = `
     token: String!
   }
 
+  type UserProfile {
+    _id: ID!
+    username: String
+    avatar: String
+    birthdate: Date
+    gender: Gender
+    language: Language
+  }
+
   type PrivateUser {
     _id: ID!
     createdAt: Date
-    # facebookId: String!
-    username: String!
     email: String
-    # gender: String
-    # images: [Image]
+    profile: UserProfile
   }
 
   type PublicUser {
     _id: ID!
-    username: String!
-    gender: String
-    images: [Image]
+    profile: UserProfile
   }
 
   # INPUTS
@@ -60,7 +76,11 @@ const typeDefs = `
   # MUTATIONS
 
   type Mutation {
-    signup(username: String!, email: String!): PrivateUser
+    signup(
+      username: String!,
+      email: String!,
+      language: Language!,
+    ): PrivateUser
     login(email: String!): PrivateUser
     # sendPasscode(email: String!): PrivateUser
     validatePasscode(email: String!, passcode: Int!): AuthToken

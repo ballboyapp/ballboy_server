@@ -10,7 +10,14 @@ const CITIES = {
   ENSCHEDE: 'ENSCHEDE',
 };
 
+const LANGUAGES = {
+  EN: 'en',
+  ES: 'es',
+  NL: 'nl',
+};
+
 module.exports = {
   GENDERS,
   CITIES,
+  LANGUAGES,
 };
