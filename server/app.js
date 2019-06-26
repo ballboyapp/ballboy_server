@@ -39,11 +39,11 @@ app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use((req, res, next) => {
-  console.log('req.body', req.body);
-  // console.log('res', res);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log('req.body', req.body);
+//   // console.log('res', res);
+//   next();
+// });
 
 console.log('app.get(env)', app.get('env'));
 if (app.get('env') === 'development') {

@@ -4,11 +4,9 @@ const { User } = require('../models');
 const { genUserModel } = require('../connectors');
 
 module.exports = (app) => {
-  // console.log('apollo server schema', schema);
   const server = new ApolloServer({
     schema,
     context: async ({ req }) => {
-      console.log('APOLLO SERVER req.user', req.user);
       // User data is decoded on the validateJwtMiddleware
       const usr = req.user && req.user._id ? await User.findOne({ _id: req.user._id }) : null;
 
