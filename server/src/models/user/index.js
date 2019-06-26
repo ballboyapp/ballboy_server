@@ -151,8 +151,8 @@ schema.methods.updateUserFields = async function ({ userFields }) {
 //------------------------------------------------------------------------------
 // OBS: you shouldn't use these methods outside connectors
 //------------------------------------------------------------------------------
-schema.statics.createUser = async function ({ email }) {
-  const newUser = new this({ email });
+schema.statics.createUser = async function ({ username, email }) {
+  const newUser = new this({ username, email });
   await newUser.save();
   return newUser;
 };
@@ -211,7 +211,16 @@ const validateSignup = (user) => {
   return Joi.validate(user, joiSchema); // { error, value }
 };
 
-const validateLogin = (credentials) => {
+const validateLogin = (user) => {
+  const joiSchema = {
+    // username: usernameVal,
+    email: emailVal,
+  };
+
+  return Joi.validate(user, joiSchema); // { error, value }
+};
+
+const validateCredentials = (credentials) => {
   const joiSchema = {
     email: emailVal,
     passcode: passcodeVal,
@@ -252,6 +261,7 @@ module.exports = {
   User,
   validateSignup,
   validateLogin,
+  validateCredentials,
   validateFBAuth,
   validateUserProfile,
 };

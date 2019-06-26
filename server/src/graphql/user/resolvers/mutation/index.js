@@ -1,12 +1,14 @@
-const login = require('./login');
 const signup = require('./signup');
-const sendPasscode = require('./send-passcode');
+const login = require('./login');
+// const sendPasscode = require('./send-passcode');
+const validatePasscode = require('./validate-passcode');
 const updateUser = require('./update-user');
 
 const Mutation = {
-  login,
   signup,
-  sendPasscode,
+  login,
+  // sendPasscode,
+  validatePasscode,
   updateUser,
 };
 
