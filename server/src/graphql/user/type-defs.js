@@ -29,6 +29,11 @@ const typeDefs = `
     token: String!
   }
 
+  type GeoLocation {
+    type: String!
+    coordinates: [Int]!
+  }
+
   type UserProfile {
     _id: ID!
     username: String
@@ -43,6 +48,7 @@ const typeDefs = `
     createdAt: Date
     email: String
     profile: UserProfile
+    location: GeoLocation
   }
 
   type PublicUser {
@@ -61,8 +67,8 @@ const typeDefs = `
   input UserInput {
     username: String
     gender: String
-    email: String
-    images: [ImageInput]
+    avatar: String
+    coordinates: [Int]
   }
 
   # QUERIES
