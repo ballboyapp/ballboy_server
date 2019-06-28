@@ -1,37 +1,43 @@
-const { User } = require('./models');
+const { CITIES } = require('./constants');
+const { City, User } = require('./models');
 
+//------------------------------------------------------------------------------
 // Clear DB
 const clearAll = async () => {
+  await City.deleteMany({});
   await User.deleteMany({});
 };
+//------------------------------------------------------------------------------
+const cities = async () => {
+  const city = await City.findOne({});
 
-// Populate DB.
-const fixtures = async () => {
-  const user = await User.findOne({});
-
-  // Insert a user in case users collection is empty
-  if (user) {
-    console.log('\nTest user already exists!');
+  if (city) {
     return;
   }
 
-  // Create first user in memory
-  const firstUser = new User({
-    email: 'federodes@gmail.com',
+  CITIES.forEach(async (c) => {
+    await City.createCity(c);
   });
+};
+//------------------------------------------------------------------------------
+const users = async () => {
+  const user = await User.findOne({});
 
-  // Insert user
-  try {
-    await firstUser.save();
-    console.log('\nFirst user inserted!');
-  } catch (exc) {
-    console.log(exc);
+  if (user) {
+    return;
   }
+
+  const testUser = {
+    email: 'federodes@gmail.com',
+  };
+
+  await User.createUser(testUser);
+};
+//------------------------------------------------------------------------------
+const fixtures = async () => {
+  await clearAll();
+  await cities();
+  // await users();
 };
 
-const initDB = async () => {
-  // await clearAll();
-  // await fixtures();
-};
-
-module.exports = initDB;
+module.exports = fixtures;

@@ -133,17 +133,20 @@ const schema = mongoose.Schema({
   expirationDate: { // pass code expiration date
     type: Date,
   },
-  location: {
-    type: {
-      type: String,
-      enum: ['Point'],
-      default: 'Point',
-    },
-    coordinates: {
-      type: [Number],
-      default: [0, 0],
-    },
+  cityId: { // sport location / city
+    type: mongoose.Schema.Types.ObjectId,
   },
+  // location: {
+  //   type: {
+  //     type: String,
+  //     enum: ['Point'],
+  //     default: 'Point',
+  //   },
+  //   coordinates: {
+  //     type: [Number],
+  //     default: [0, 0],
+  //   },
+  // },
   // TODO: see jti or jwt balcklist to prevent stolen tokens to pass validation
   // See: https://medium.com/react-native-training/building-chatty-part-7-authentication-in-graphql-cd37770e5ab3
 },
