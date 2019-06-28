@@ -5,6 +5,11 @@ const typeDefs = `
 
   # TYPES
 
+  type Point {
+    type: String!
+    coordinates: [Int]!
+  }
+
   type DateRange {
     #_id: ID!
     startDate: Date
@@ -22,6 +27,12 @@ const typeDefs = `
   input DateRangeInput {
     startDate: String!
     endDate: String!
+  }
+
+  input ImageInput {
+    _id: ID
+    publicId: String!
+    secureUrl: String!
   }
 `;
 

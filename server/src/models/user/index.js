@@ -46,57 +46,13 @@ const profileSchema = mongoose.Schema({
     enum: Object.values(LANGUAGES),
     default: LANGUAGES.EN,
   },
+  cityId: { // sport location / city
+    type: mongoose.Schema.Types.ObjectId,
+  },
   // SPORT/LEVEL
   // AVAILABLE DATES
   // PREFERRED SPOTS
 });
-//------------------------------------------------------------------------------
-// const locationSchema = mongoose.Schema({
-//   "geo.loc": {
-//     type: Object,
-//     label: "Coordinates in geoJSON format",
-//     index: '2dsphere'
-//  },
-
-//   "geo.loc.type": {
-//      type: String,
-//      label: 'geoJSON type',
-//      allowedValues: ['Point'],
-//      autoValue: function() {
-//         if (this.isInsert) {
-//            return 'Point';
-//         }
-//      },
-//      denyUpdate: true // TODO: remove comment after update
-//   },
-//   "geo.loc.coordinates": {
-//      type: [Number],
-//      label: '[lng, lat]',
-//      decimal: true,
-//      minCount: 2,
-//      maxCount: 2,
-//      custom: function () {
-//         if (this.isSet) {
-//            if (this.value[0] < -180 || this.value[0] > 180) {
-//               return "lngOutOfRange";
-//            } else if (this.value[1] < -85 || this.value[1] > 85) {
-//               return "latOutOfRange";
-//            }
-//         }
-//      }
-//   },
-
-//   id: 'amsterdam',
-//   city: 'Amsterdam',
-//   country: 'Netherlands',
-//   coords: {
-//     latitude: 52.3547321,
-//     longitude: 4.8284118,
-//   },
-//   SPORT/LEVEL
-//   AVAILABLE DATES
-//   PREFERRED SPOTS
-// });
 //------------------------------------------------------------------------------
 const schema = mongoose.Schema({
   profile: {
@@ -119,7 +75,7 @@ const schema = mongoose.Schema({
     minlength: MIN_STRING_LENGTH,
     maxlength: MAX_STRING_LENGTH,
     unique: true,
-    // required: [true, 'Email address is required'],
+    required: [true, 'Email address is required'],
     validate: [isEmail, 'Provide a valid email address'],
   },
   emailVerified: {
@@ -133,26 +89,16 @@ const schema = mongoose.Schema({
   expirationDate: { // pass code expiration date
     type: Date,
   },
-  cityId: { // sport location / city
-    type: mongoose.Schema.Types.ObjectId,
-  },
   // location: {
-  //   type: {
-  //     type: String,
-  //     enum: ['Point'],
-  //     default: 'Point',
-  //   },
-  //   coordinates: {
-  //     type: [Number],
-  //     default: [0, 0],
-  //   },
+  //   type: pointSchema,
+  //   required: [true, 'Location is required'],
   // },
   // TODO: see jti or jwt balcklist to prevent stolen tokens to pass validation
   // See: https://medium.com/react-native-training/building-chatty-part-7-authentication-in-graphql-cd37770e5ab3
 },
 { timestamps: true }); // `createdAt` & `updatedAt` will be included
 
-schema.index({ location: '2dsphere' });
+// schema.index({ location: '2dsphere' });
 //------------------------------------------------------------------------------
 // INSTANCE METHODS:
 //------------------------------------------------------------------------------

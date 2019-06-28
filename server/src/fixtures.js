@@ -3,10 +3,10 @@ const { City, User } = require('./models');
 
 //------------------------------------------------------------------------------
 // Clear DB
-const clearAll = async () => {
-  await City.deleteMany({});
-  await User.deleteMany({});
-};
+// const clearAll = async () => {
+//   await City.deleteMany({});
+//   await User.deleteMany({});
+// };
 //------------------------------------------------------------------------------
 const cities = async () => {
   const city = await City.findOne({});
@@ -35,8 +35,7 @@ const users = async () => {
 };
 //------------------------------------------------------------------------------
 const fixtures = async () => {
-  await clearAll();
-  await cities();
+  // await cities();
   // await users();
 };
 

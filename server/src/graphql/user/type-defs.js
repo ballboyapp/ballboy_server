@@ -6,10 +6,6 @@ const typeDefs = `
     FOOTBALL
   }
 
-  enum City {
-    ENSCHEDE
-  }
-
   enum Gender {
     F
     M
@@ -29,11 +25,6 @@ const typeDefs = `
     token: String!
   }
 
-  type GeoLocation {
-    type: String!
-    coordinates: [Int]!
-  }
-
   type UserProfile {
     _id: ID!
     username: String
@@ -41,6 +32,7 @@ const typeDefs = `
     birthdate: Date
     gender: Gender
     language: Language
+    city: City
   }
 
   type PrivateUser {
@@ -48,7 +40,6 @@ const typeDefs = `
     createdAt: Date
     email: String
     profile: UserProfile
-    location: GeoLocation
   }
 
   type PublicUser {
@@ -57,12 +48,6 @@ const typeDefs = `
   }
 
   # INPUTS
-
-  input ImageInput {
-    _id: ID
-    publicId: String!
-    secureUrl: String!
-  }
 
   input UserInput {
     username: String
