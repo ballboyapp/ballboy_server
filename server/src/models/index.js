@@ -9,12 +9,17 @@ const {
 } = require('./user');
 
 const {
+  Spot,
+} = require('./spot');
+
+const {
   Subscription,
   validatePush,
 } = require('./subscription');
 
 module.exports = {
   User,
+  Spot,
   validateSignup,
   validateLogin,
   validateCredentials,

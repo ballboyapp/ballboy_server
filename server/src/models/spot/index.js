@@ -21,7 +21,7 @@ const schema = mongoose.Schema({
     required: [true, 'Location is required'],
   },
   images: {
-    type: imageSchema,
+    type: [imageSchema],
     default: [],
   },
   sports: {
