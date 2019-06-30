@@ -96,7 +96,7 @@ const schema = mongoose.Schema({
   },
   location: {
     type: pointSchema,
-    default: pointSchema,
+    // default: pointSchema,
   },
   // TODO: see jti or jwt balcklist to prevent stolen tokens to pass validation
   // See: https://medium.com/react-native-training/building-chatty-part-7-authentication-in-graphql-cd37770e5ab3
@@ -157,6 +157,9 @@ schema.methods.genAuthToken = function () {
 //------------------------------------------------------------------------------
 schema.methods.updateUserFields = async function ({ userFields }) {
   console.log('user.update', userFields);
+
+  this.profile = this.profile || {};
+  this.location = this.location || {};
 
   Object.keys(userFields).forEach((key) => {
     if (key === 'coordinates') {
@@ -270,17 +273,17 @@ const validateFBAuth = ({ accessToken, profile }) => {
   return Joi.validate(Object.assign({}, { accessToken }, pick(profile, fields)), joiSchema); // { error, value }
 };
 
-const validateUserProfile = ({ userFields }) => {
-  const fields = ['firstName', 'lastName', 'email'];
+// const validateUserProfile = ({ userFields }) => {
+//   const fields = ['firstName', 'lastName', 'email'];
 
-  const joiSchema = {
-    firstName: Joi.string().required(),
-    lastName: Joi.string().required(),
-    email: Joi.string().email({ minDomainAtoms: 2 }),
-  };
+//   const joiSchema = {
+//     firstName: Joi.string().required(),
+//     lastName: Joi.string().required(),
+//     email: Joi.string().email({ minDomainAtoms: 2 }),
+//   };
 
-  return Joi.validate(pick(userFields, fields), joiSchema); // { error, value }
-};
+//   return Joi.validate(pick(userFields, fields), joiSchema); // { error, value }
+// };
 
 module.exports = {
   User,
@@ -288,5 +291,5 @@ module.exports = {
   validateLogin,
   validateCredentials,
   validateFBAuth,
-  validateUserProfile,
+  // validateUserProfile,
 };

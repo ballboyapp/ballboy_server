@@ -57,7 +57,7 @@ const typeDefs = `
     avatar: String
     city: String
     country: String
-    coordinates: [Int]
+    coordinates: [Float]
   }
 
   # QUERIES

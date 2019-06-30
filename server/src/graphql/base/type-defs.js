@@ -7,7 +7,7 @@ const typeDefs = `
 
   type Point {
     type: String!
-    coordinates: [Int]!
+    coordinates: [Float]!
   }
 
   type DateRange {

@@ -1,4 +1,4 @@
-const { User, validateUserProfile } = require('../../models');
+const { User /*, validateUserProfile */ } = require('../../models');
 
 const updateUser = async ({ usr }, { userFields }) => {
   // Only allow owner to update her own data
@@ -6,10 +6,10 @@ const updateUser = async ({ usr }, { userFields }) => {
     return null;
   }
 
-  const { error } = validateUserProfile({ userFields });
-  if (error) {
-    throw new Error(error.details[0].message);
-  }
+  // const { error } = validateUserProfile({ userFields });
+  // if (error) {
+  //   throw new Error(error.details[0].message);
+  // }
 
   // Query current logged in user
   const user = await User.findOne({ _id: usr._id });

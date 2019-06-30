@@ -4,7 +4,7 @@ const {
   validateLogin,
   validateCredentials,
   validateFBAuth,
-  validateUserProfile,
+  // validateUserProfile,
   validateUserUpdate,
 } = require('./user');
 
@@ -19,7 +19,7 @@ module.exports = {
   validateLogin,
   validateCredentials,
   validateFBAuth,
-  validateUserProfile,
+  // validateUserProfile,
   validateUserUpdate,
   Subscription,
   validatePush,

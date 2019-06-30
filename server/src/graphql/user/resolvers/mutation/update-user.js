@@ -1,6 +1,6 @@
-const updateUserProfile = (root, args, ctx) => {
-  console.log('updateUserProfileMutation', args);
-  return ctx.models.User.updateUserProfile(args);
+const updateUser = (root, args, ctx) => {
+  console.log('updateUserMutation', args);
+  return ctx.models.User.updateUser(args);
 };
 
-module.exports = updateUserProfile;
+module.exports = updateUser;
