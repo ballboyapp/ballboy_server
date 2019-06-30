@@ -2,22 +2,6 @@
 const typeDefs = `
   # ENUMS
 
-  enum Sport {
-    FOOTBALL
-  }
-
-  enum Gender {
-    F
-    M
-    TBD
-  }
-
-  enum Language {
-    en
-    es
-    nl
-  }
-
   # TYPES
 
   type AuthToken {
@@ -78,6 +62,7 @@ const typeDefs = `
       country: String,
       coordinates: [Float],
     ): PrivateUser
+    # TODO: delete user
   }
 `;
 

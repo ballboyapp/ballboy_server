@@ -94,6 +94,7 @@ const schema = mongoose.Schema({
   expirationDate: { // pass code expiration date
     type: Date,
   },
+  // TODO: address
   location: {
     type: pointSchema,
     // default: pointSchema,
@@ -104,6 +105,7 @@ const schema = mongoose.Schema({
 { timestamps: true }); // `createdAt` & `updatedAt` will be included
 
 schema.index({ location: '2dsphere' });
+
 //------------------------------------------------------------------------------
 // INSTANCE METHODS:
 //------------------------------------------------------------------------------
@@ -164,7 +166,7 @@ schema.methods.updateUserFields = async function (fields) {
   Object.keys(fields).forEach((key) => {
     const val = fields[key];
 
-    if (!val) { return; }
+    if (!val) { return; } // skip
 
     if (key === 'coordinates') {
       this.location[key] = val;

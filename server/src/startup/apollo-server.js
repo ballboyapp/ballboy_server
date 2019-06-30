@@ -1,7 +1,7 @@
 const { ApolloServer } = require('apollo-server-express');
 const schema = require('../graphql/exec-schema');
 const { User } = require('../models');
-const { genUserModel } = require('../connectors');
+const { genUserModel, geSpotModel } = require('../connectors');
 
 module.exports = (app) => {
   const server = new ApolloServer({
@@ -16,6 +16,7 @@ module.exports = (app) => {
         usr,
         models: {
           User: genUserModel({ usr }),
+          Spot: geSpotModel({ usr }),
         },
       };
     },

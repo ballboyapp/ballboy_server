@@ -3,6 +3,31 @@ const typeDefs = `
 
   scalar Date
 
+  # ENUMS
+
+  enum Gender {
+    F
+    M
+    TBD
+  }
+
+  enum Language {
+    en
+    es
+    nl
+  }
+
+  enum Sport {
+    FOOTBALL
+    VOLLEYBALL
+    BEACH_VOLLEYBALL
+    TENNIS
+    TABLE_TENNIS
+    ABSOLUTE_FRISBEE
+    BASKETBALL
+    BADMINTON
+  }
+
   # TYPES
 
   type Point {
