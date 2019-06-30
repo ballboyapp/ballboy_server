@@ -1,5 +1,4 @@
-const { CITIES } = require('./constants');
-const { City, User } = require('./models');
+const { User } = require('./models');
 
 //------------------------------------------------------------------------------
 // Clear DB
@@ -7,18 +6,6 @@ const { City, User } = require('./models');
 //   await City.deleteMany({});
 //   await User.deleteMany({});
 // };
-//------------------------------------------------------------------------------
-const cities = async () => {
-  const city = await City.findOne({});
-
-  if (city) {
-    return;
-  }
-
-  CITIES.forEach(async (c) => {
-    await City.createCity(c);
-  });
-};
 //------------------------------------------------------------------------------
 const users = async () => {
   const user = await User.findOne({});
@@ -35,7 +22,6 @@ const users = async () => {
 };
 //------------------------------------------------------------------------------
 const fixtures = async () => {
-  // await cities();
   // await users();
 };
 

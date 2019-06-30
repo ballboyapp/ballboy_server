@@ -32,7 +32,8 @@ const typeDefs = `
     birthdate: Date
     gender: Gender
     language: Language
-    city: City
+    city: String
+    country: String
   }
 
   type PrivateUser {
@@ -40,6 +41,7 @@ const typeDefs = `
     createdAt: Date
     email: String
     profile: UserProfile
+    location: Point
   }
 
   type PublicUser {
@@ -53,15 +55,17 @@ const typeDefs = `
     username: String
     gender: String
     avatar: String
+    city: String
+    country: String
     coordinates: [Int]
   }
 
   # QUERIES
 
   type Query {
-    privateUser: PrivateUser
-    publicUser(_id: ID!): PublicUser
-    publicUsers(_ids: [ID!]): [PublicUser]
+    privateUser: PrivateUser # TODO: change name to 'me'
+    publicUser(_id: ID!): PublicUser # TODO: change name to 'user'
+    publicUsers(_ids: [ID!]): [PublicUser] # TODO: change name to 'users'
   }
 
   # MUTATIONS

@@ -1,8 +1,4 @@
 const {
-  City,
-} = require('./city');
-
-const {
   User,
   validateSignup,
   validateLogin,
@@ -18,7 +14,6 @@ const {
 } = require('./subscription');
 
 module.exports = {
-  City,
   User,
   validateSignup,
   validateLogin,

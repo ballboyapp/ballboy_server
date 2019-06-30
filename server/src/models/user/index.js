@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const extend = require('lodash/extend');
 const pick = require('lodash/pick');
 const { GENDERS, LANGUAGES } = require('../../constants');
-const { imageSchema } = require('../common-schemas');
+const { pointSchema, imageSchema } = require('../common-schemas');
 const getExpDate = require('./utils');
 
 //------------------------------------------------------------------------------
@@ -46,8 +46,13 @@ const profileSchema = mongoose.Schema({
     enum: Object.values(LANGUAGES),
     default: LANGUAGES.EN,
   },
-  cityId: { // sport location / city
-    type: mongoose.Schema.Types.ObjectId,
+  city: {
+    type: String,
+    // required: [true, 'name is required'],
+  },
+  country: {
+    type: String,
+    // required: [true, 'Country is required'],
   },
   // SPORT/LEVEL
   // AVAILABLE DATES
@@ -89,16 +94,16 @@ const schema = mongoose.Schema({
   expirationDate: { // pass code expiration date
     type: Date,
   },
-  // location: {
-  //   type: pointSchema,
-  //   required: [true, 'Location is required'],
-  // },
+  location: {
+    type: pointSchema,
+    default: pointSchema,
+  },
   // TODO: see jti or jwt balcklist to prevent stolen tokens to pass validation
   // See: https://medium.com/react-native-training/building-chatty-part-7-authentication-in-graphql-cd37770e5ab3
 },
 { timestamps: true }); // `createdAt` & `updatedAt` will be included
 
-// schema.index({ location: '2dsphere' });
+schema.index({ location: '2dsphere' });
 //------------------------------------------------------------------------------
 // INSTANCE METHODS:
 //------------------------------------------------------------------------------
@@ -154,7 +159,11 @@ schema.methods.updateUserFields = async function ({ userFields }) {
   console.log('user.update', userFields);
 
   Object.keys(userFields).forEach((key) => {
-    this[key] = userFields[key];
+    if (key === 'coordinates') {
+      this.location[key] = userFields[key];
+    } else {
+      this.profile[key] = userFields[key];
+    }
   });
 
   await this.save();
