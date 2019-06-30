@@ -1,6 +1,6 @@
 const { User /*, validateUserProfile */ } = require('../../models');
 
-const updateUser = async ({ usr }, { userFields }) => {
+const updateUser = async ({ usr }, args) => {
   // Only allow owner to update her own data
   if (!usr || !usr._id) {
     return null;
@@ -18,7 +18,7 @@ const updateUser = async ({ usr }, { userFields }) => {
   }
 
   // Update user data
-  return user.updateUserFields({ userFields });
+  return user.updateUserFields(args);
 };
 
 module.exports = updateUser;

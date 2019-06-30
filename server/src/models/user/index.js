@@ -155,17 +155,21 @@ schema.methods.genAuthToken = function () {
   return jwt.sign({ _id: this._id }, JWT_PRIVATE_KEY);
 };
 //------------------------------------------------------------------------------
-schema.methods.updateUserFields = async function ({ userFields }) {
-  console.log('user.update', userFields);
+schema.methods.updateUserFields = async function (fields) {
+  console.log('user.update', fields);
 
   this.profile = this.profile || {};
   this.location = this.location || {};
 
-  Object.keys(userFields).forEach((key) => {
+  Object.keys(fields).forEach((key) => {
+    const val = fields[key];
+
+    if (!val) { return; }
+
     if (key === 'coordinates') {
-      this.location[key] = userFields[key];
+      this.location[key] = val;
     } else {
-      this.profile[key] = userFields[key];
+      this.profile[key] = val;
     }
   });
 

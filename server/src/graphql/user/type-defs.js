@@ -51,15 +51,6 @@ const typeDefs = `
 
   # INPUTS
 
-  input UserInput {
-    username: String
-    gender: String
-    avatar: String
-    city: String
-    country: String
-    coordinates: [Float]
-  }
-
   # QUERIES
 
   type Query {
@@ -79,7 +70,14 @@ const typeDefs = `
     login(email: String!): PrivateUser
     # sendPasscode(email: String!): PrivateUser
     validatePasscode(email: String!, passcode: Int!): AuthToken
-    updateUser(userFields: UserInput!): PrivateUser
+    updateUser(
+      username: String,
+      gender: String,
+      avatar: String,
+      city: String,
+      country: String,
+      coordinates: [Float],
+    ): PrivateUser
   }
 `;
 
