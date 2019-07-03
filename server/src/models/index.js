@@ -4,10 +4,13 @@ const {
   validateLogin,
   validateCredentials,
   validateFBAuth,
-  validateUserProfile,
+  // validateUserProfile,
   validateUserUpdate,
-  publicUserFields,
 } = require('./user');
+
+const {
+  Spot,
+} = require('./spot');
 
 const {
   Subscription,
@@ -16,13 +19,13 @@ const {
 
 module.exports = {
   User,
+  Spot,
   validateSignup,
   validateLogin,
   validateCredentials,
   validateFBAuth,
-  validateUserProfile,
+  // validateUserProfile,
   validateUserUpdate,
-  publicUserFields,
   Subscription,
   validatePush,
 };

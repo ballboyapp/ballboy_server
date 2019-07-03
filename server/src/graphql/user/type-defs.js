@@ -2,14 +2,6 @@
 const typeDefs = `
   # ENUMS
 
-  enum Sport {
-    FOOTBALL
-  }
-
-  enum City {
-    ENSCHEDE
-  }
-
   # TYPES
 
   type AuthToken {
@@ -17,54 +9,60 @@ const typeDefs = `
     token: String!
   }
 
+  type UserProfile {
+    _id: ID!
+    username: String
+    avatar: String
+    birthdate: Date
+    gender: Gender
+    language: Language
+    city: String
+    country: String
+  }
+
   type PrivateUser {
     _id: ID!
     createdAt: Date
-    # facebookId: String!
-    username: String!
     email: String
-    # gender: String
-    # images: [Image]
+    profile: UserProfile
+    location: Point
   }
 
   type PublicUser {
     _id: ID!
-    username: String!
-    gender: String
-    images: [Image]
+    profile: UserProfile
   }
 
   # INPUTS
 
-  input ImageInput {
-    _id: ID
-    publicId: String!
-    secureUrl: String!
-  }
-
-  input UserInput {
-    username: String
-    gender: String
-    email: String
-    images: [ImageInput]
-  }
-
   # QUERIES
 
   type Query {
-    privateUser: PrivateUser
-    publicUser(_id: ID!): PublicUser
-    publicUsers(_ids: [ID!]): [PublicUser]
+    privateUser: PrivateUser # TODO: change name to 'me'
+    publicUser(_id: ID!): PublicUser # TODO: change name to 'user'
+    publicUsers(_ids: [ID!]): [PublicUser] # TODO: change name to 'users'
   }
 
   # MUTATIONS
 
   type Mutation {
-    signup(username: String!, email: String!): PrivateUser
+    signup(
+      username: String!,
+      email: String!,
+      language: Language!,
+    ): PrivateUser
     login(email: String!): PrivateUser
     # sendPasscode(email: String!): PrivateUser
     validatePasscode(email: String!, passcode: Int!): AuthToken
-    updateUser(userFields: UserInput!): PrivateUser
+    updateUser(
+      username: String,
+      gender: String,
+      avatar: String,
+      city: String,
+      country: String,
+      coordinates: [Float],
+    ): PrivateUser
+    # TODO: delete user
   }
 `;
 

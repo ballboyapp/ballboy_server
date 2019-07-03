@@ -7,8 +7,8 @@ const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 const extend = require('lodash/extend');
 const pick = require('lodash/pick');
-const { GENDERS, CITIES } = require('../../constants');
-const { imageSchema } = require('../common-schemas');
+const { GENDERS, LANGUAGES } = require('../../constants');
+const { pointSchema } = require('../common-schemas');
 const getExpDate = require('./utils');
 
 //------------------------------------------------------------------------------
@@ -23,32 +23,46 @@ const PASS_CODE_LENGTH = 6; // plain text passcode length
 //------------------------------------------------------------------------------
 // MONGOOSE SCHEMAS:
 //------------------------------------------------------------------------------
-const publicUserFields = {
+// Profile is publicly available. The remaining user doc fields are private.
+const profileSchema = mongoose.Schema({
   username: {
     type: String,
     trim: true,
     required: [true, 'Username is required'],
   },
-  city: { // OR coords
+  avatar: {
     type: String,
-    enum: Object.values(CITIES),
+  },
+  birthdate: {
+    type: Date,
   },
   gender: {
     type: String,
     enum: Object.values(GENDERS),
     default: GENDERS.TBD,
   },
-  images: {
-    type: [imageSchema],
-    default: [],
-    // TODO: add limit to number of images
+  language: {
+    type: String,
+    enum: Object.values(LANGUAGES),
+    default: LANGUAGES.EN,
+  },
+  city: {
+    type: String,
+    // required: [true, 'name is required'],
+  },
+  country: {
+    type: String,
+    // required: [true, 'Country is required'],
   },
   // SPORT/LEVEL
   // AVAILABLE DATES
   // PREFERRED SPOTS
-};
+});
 //------------------------------------------------------------------------------
-const schema = mongoose.Schema(Object.assign({}, {
+const schema = mongoose.Schema({
+  profile: {
+    type: profileSchema,
+  },
   // facebookId: {
   //   type: String,
   //   unique: true,
@@ -66,7 +80,7 @@ const schema = mongoose.Schema(Object.assign({}, {
     minlength: MIN_STRING_LENGTH,
     maxlength: MAX_STRING_LENGTH,
     unique: true,
-    // required: [true, 'Email address is required'],
+    required: [true, 'Email address is required'],
     validate: [isEmail, 'Provide a valid email address'],
   },
   emailVerified: {
@@ -80,11 +94,18 @@ const schema = mongoose.Schema(Object.assign({}, {
   expirationDate: { // pass code expiration date
     type: Date,
   },
+  // TODO: address
+  location: {
+    type: pointSchema,
+    // default: pointSchema,
+  },
   // TODO: see jti or jwt balcklist to prevent stolen tokens to pass validation
   // See: https://medium.com/react-native-training/building-chatty-part-7-authentication-in-graphql-cd37770e5ab3
 },
-publicUserFields),
 { timestamps: true }); // `createdAt` & `updatedAt` will be included
+
+schema.index({ location: '2dsphere' });
+
 //------------------------------------------------------------------------------
 // INSTANCE METHODS:
 //------------------------------------------------------------------------------
@@ -136,11 +157,22 @@ schema.methods.genAuthToken = function () {
   return jwt.sign({ _id: this._id }, JWT_PRIVATE_KEY);
 };
 //------------------------------------------------------------------------------
-schema.methods.updateUserFields = async function ({ userFields }) {
-  console.log('user.update', userFields);
+schema.methods.updateUserFields = async function (fields) {
+  console.log('user.update', fields);
 
-  Object.keys(userFields).forEach((key) => {
-    this[key] = userFields[key];
+  this.profile = this.profile || {};
+  this.location = this.location || {};
+
+  Object.keys(fields).forEach((key) => {
+    const val = fields[key];
+
+    if (!val) { return; } // skip
+
+    if (key === 'coordinates') {
+      this.location[key] = val;
+    } else {
+      this.profile[key] = val;
+    }
   });
 
   await this.save();
@@ -151,8 +183,9 @@ schema.methods.updateUserFields = async function ({ userFields }) {
 //------------------------------------------------------------------------------
 // OBS: you shouldn't use these methods outside connectors
 //------------------------------------------------------------------------------
-schema.statics.createUser = async function ({ username, email }) {
-  const newUser = new this({ username, email });
+schema.statics.createUser = async function ({ username, email, language }) {
+  const profile = { username, language };
+  const newUser = new this({ email, profile });
   await newUser.save();
   return newUser;
 };
@@ -198,6 +231,7 @@ const User = mongoose.model('User', schema);
 //------------------------------------------------------------------------------
 const usernameVal = Joi.string().min(MIN_STRING_LENGTH).max(MAX_STRING_LENGTH).required(); // eslint-disable-line
 const emailVal = Joi.string().email().min(MIN_STRING_LENGTH).max(MAX_STRING_LENGTH).required(); // eslint-disable-line
+const languageVal = Joi.string().min(2).max(2).required(); // eslint-disable-line
 const passcodeVal = Joi.number().integer().min(0).max(Math.pow(10, PASS_CODE_LENGTH + 1)).required(); // eslint-disable-line
 const emailsSchema = Joi.object({ value: Joi.string() });
 const arraySchema = Joi.array().items(emailsSchema);
@@ -206,6 +240,7 @@ const validateSignup = (user) => {
   const joiSchema = {
     username: usernameVal,
     email: emailVal,
+    language: languageVal,
   };
 
   return Joi.validate(user, joiSchema); // { error, value }
@@ -244,24 +279,23 @@ const validateFBAuth = ({ accessToken, profile }) => {
   return Joi.validate(Object.assign({}, { accessToken }, pick(profile, fields)), joiSchema); // { error, value }
 };
 
-const validateUserProfile = ({ userFields }) => {
-  const fields = ['firstName', 'lastName', 'email'];
+// const validateUserProfile = ({ userFields }) => {
+//   const fields = ['firstName', 'lastName', 'email'];
 
-  const joiSchema = {
-    firstName: Joi.string().required(),
-    lastName: Joi.string().required(),
-    email: Joi.string().email({ minDomainAtoms: 2 }),
-  };
+//   const joiSchema = {
+//     firstName: Joi.string().required(),
+//     lastName: Joi.string().required(),
+//     email: Joi.string().email({ minDomainAtoms: 2 }),
+//   };
 
-  return Joi.validate(pick(userFields, fields), joiSchema); // { error, value }
-};
+//   return Joi.validate(pick(userFields, fields), joiSchema); // { error, value }
+// };
 
 module.exports = {
-  publicUserFields,
   User,
   validateSignup,
   validateLogin,
   validateCredentials,
   validateFBAuth,
-  validateUserProfile,
+  // validateUserProfile,
 };

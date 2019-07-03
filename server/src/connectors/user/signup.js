@@ -4,6 +4,7 @@ const { User, validateSignup } = require('../../models');
  *
  * @param {string} username
  * @param {string} email
+ * @param {string} language
  */
 const signup = async ({ usr }, args) => {
   // Make sure user is logged out

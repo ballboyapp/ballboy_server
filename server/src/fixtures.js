@@ -1,37 +1,57 @@
-const { User } = require('./models');
+const { SPORTS } = require('./constants');
+const { User, Spot } = require('./models');
 
+//------------------------------------------------------------------------------
 // Clear DB
-const clearAll = async () => {
-  await User.deleteMany({});
-};
-
-// Populate DB.
-const fixtures = async () => {
+// const clearAll = async () => {
+//   // await Spot.deleteMany({});
+//   // await User.deleteMany({});
+// };
+//------------------------------------------------------------------------------
+const users = async () => {
   const user = await User.findOne({});
 
-  // Insert a user in case users collection is empty
   if (user) {
-    console.log('\nTest user already exists!');
     return;
   }
 
-  // Create first user in memory
-  const firstUser = new User({
+  const testUser = {
     email: 'federodes@gmail.com',
-  });
+  };
 
-  // Insert user
-  try {
-    await firstUser.save();
-    console.log('\nFirst user inserted!');
-  } catch (exc) {
-    console.log(exc);
+  await User.createUser(testUser);
+};
+//------------------------------------------------------------------------------
+const spots = async () => {
+  const spot = await Spot.findOne({});
+
+  if (spot) {
+    return;
   }
+
+  const SPOTS = [{
+    spotname: 'Performance Factory',
+    address: 'Hoge Bothofstraat 31-49, 7511 ZA Enschede, Netherlands',
+    coordinates: [52.2235817, 6.9028977],
+    images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1557481330/jfytpw0aa5ioa7v3a4rb.jpg'],
+    sports: [SPORTS.FOOTBALL],
+  }, {
+    spotname: 'Beachveld',
+    address: 'Campuslaan, 7522 NB Enschede, Netherlands',
+    coordinates: [52.2235817, 6.9028977],
+    images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1551798266/kvtqwxbywkp3oae11fjk.jpg'],
+    sports: [SPORTS.BEACH_VOLLEYBALL],
+  }];
+
+  SPOTS.forEach(async (s) => {
+    await Spot.createSpot(s);
+  });
+};
+//------------------------------------------------------------------------------
+const fixtures = async () => {
+  // clearAll();
+  // await users();
+  // await spots();
 };
 
-const initDB = async () => {
-  // await clearAll();
-  // await fixtures();
-};
-
-module.exports = initDB;
+module.exports = fixtures;

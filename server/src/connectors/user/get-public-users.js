@@ -1,5 +1,4 @@
 const { User } = require('../../models');
-const { publicUserProjection } = require('../../utils');
 
 const getPublicUsers = ({ usr }, { _ids }) => {
   // Make sure user is logged in
@@ -7,7 +6,7 @@ const getPublicUsers = ({ usr }, { _ids }) => {
     return [];
   }
 
-  return User.find({ _id: { $in: _ids } }).select(publicUserProjection);
+  return User.find({ _id: { $in: _ids } }).select({ _id: 1, profile: 1 });
 };
 
 module.exports = getPublicUsers;
