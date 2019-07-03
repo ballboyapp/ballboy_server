@@ -1,7 +1,7 @@
 /* eslint-disable func-names */
 const mongoose = require('mongoose');
 const { SPORTS } = require('../../constants');
-const { pointSchema, imageSchema } = require('../common-schemas');
+const { pointSchema } = require('../common-schemas');
 
 //------------------------------------------------------------------------------
 // MONGOOSE SCHEMAS:
@@ -21,7 +21,7 @@ const schema = mongoose.Schema({
     required: [true, 'Location is required'],
   },
   images: {
-    type: [imageSchema],
+    type: [String],
     default: [],
   },
   sports: {

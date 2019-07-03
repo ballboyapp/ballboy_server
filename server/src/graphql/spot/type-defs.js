@@ -9,9 +9,9 @@ const typeDefs = `
     spotname: String
     address: String
     location: Point
-    images: [Image]
+    images: [String]
     sports: [Sport]
-    # distance: Float
+    distance: Float
   }
 
   # INPUTS
@@ -26,6 +26,7 @@ const typeDefs = `
       offset: Int!,
     ): [Spot]
     spotDetails(_id: ID!): Spot
+    # activities(_id: ID!): [Activity]
   }
 
   # MUTATIONS

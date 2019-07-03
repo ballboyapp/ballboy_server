@@ -41,11 +41,11 @@ const typeDefs = `
     endDate: Date
   }
 
-  type Image {
-    _id: ID
-    publicId: String!
-    secureUrl: String!
-  }
+  # type Image {
+  #   _id: ID
+  #   publicId: String!
+  #   secureUrl: String!
+  # }
 
   # INPUTS
 
@@ -54,11 +54,11 @@ const typeDefs = `
     endDate: String!
   }
 
-  input ImageInput {
-    _id: ID
-    publicId: String!
-    secureUrl: String!
-  }
+  # input ImageInput {
+  #   _id: ID
+  #   publicId: String!
+  #   secureUrl: String!
+  # }
 `;
 
 module.exports = typeDefs;

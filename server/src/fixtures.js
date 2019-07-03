@@ -4,8 +4,8 @@ const { User, Spot } = require('./models');
 //------------------------------------------------------------------------------
 // Clear DB
 // const clearAll = async () => {
-//   await City.deleteMany({});
-//   await User.deleteMany({});
+//   // await Spot.deleteMany({});
+//   // await User.deleteMany({});
 // };
 //------------------------------------------------------------------------------
 const users = async () => {
@@ -33,19 +33,13 @@ const spots = async () => {
     spotname: 'Performance Factory',
     address: 'Hoge Bothofstraat 31-49, 7511 ZA Enschede, Netherlands',
     coordinates: [52.2235817, 6.9028977],
-    images: [{
-      publicId: 'jfytpw0aa5ioa7v3a4rb',
-      secureUrl: 'https://res.cloudinary.com/dp4vo5nq4/image/upload/v1557481330/jfytpw0aa5ioa7v3a4rb.jpg',
-    }],
+    images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1557481330/jfytpw0aa5ioa7v3a4rb.jpg'],
     sports: [SPORTS.FOOTBALL],
   }, {
     spotname: 'Beachveld',
     address: 'Campuslaan, 7522 NB Enschede, Netherlands',
     coordinates: [52.2235817, 6.9028977],
-    images: [{
-      publicId: 'kvtqwxbywkp3oae11fjk',
-      secureUrl: 'https://res.cloudinary.com/dp4vo5nq4/image/upload/v1551798266/kvtqwxbywkp3oae11fjk.jpg',
-    }],
+    images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1551798266/kvtqwxbywkp3oae11fjk.jpg'],
     sports: [SPORTS.BEACH_VOLLEYBALL],
   }];
 
@@ -55,6 +49,7 @@ const spots = async () => {
 };
 //------------------------------------------------------------------------------
 const fixtures = async () => {
+  // clearAll();
   // await users();
   // await spots();
 };

@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const extend = require('lodash/extend');
 const pick = require('lodash/pick');
 const { GENDERS, LANGUAGES } = require('../../constants');
-const { pointSchema, imageSchema } = require('../common-schemas');
+const { pointSchema } = require('../common-schemas');
 const getExpDate = require('./utils');
 
 //------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ const profileSchema = mongoose.Schema({
     required: [true, 'Username is required'],
   },
   avatar: {
-    type: imageSchema,
+    type: String,
   },
   birthdate: {
     type: Date,
