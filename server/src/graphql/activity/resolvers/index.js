@@ -1,9 +1,9 @@
-const Spot = require('./activity');
+const Activity = require('./activity');
 const Query = require('./query');
 const Mutation = require('./mutation');
 
 const resolvers = {
-  Spot,
+  Activity,
   Query,
   Mutation,
 };

@@ -1,9 +1,9 @@
-const spots = require('./spots');
-const spotDetails = require('./spot-details');
+const activities = require('./activities');
+const activityDetails = require('./activity-details');
 
 const Query = {
-  spots,
-  spotDetails,
+  activities,
+  activityDetails,
 };
 
 module.exports = Query;

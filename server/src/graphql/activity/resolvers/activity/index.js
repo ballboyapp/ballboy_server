@@ -1,7 +1,9 @@
-const distance = require('./distance');
+const organizer = require('./organizer');
+const spot = require('./spot');
 
 const Activity = {
-  distance,
+  organizer,
+  spot,
 };
 
 module.exports = Activity;

@@ -3,9 +3,10 @@ const typeDefs = `
   # ENUMS
 
   enum ActivityStatus {
-    LIVE
+    ACTIVE
     CANCELED
     FINISHED
+    DELETED
   }
 
   enum RespondentStatus {
@@ -23,7 +24,8 @@ const typeDefs = `
 
   type Activity {
     _id: ID!
-    spotId: ID
+    organizer: PublicUser
+    spot: Spot
     sport: Sport
     dateTime: Date
     duration: Int
@@ -38,6 +40,16 @@ const typeDefs = `
 
   # INPUTS
 
+  input ActivityInput {
+    sport: Sport!
+    dateTime: Date!
+    duration: Int
+    capacity: Int
+    spotId: ID!
+    title: String!
+    description: String
+  }
+
   # QUERIES
 
   type Query {
@@ -51,13 +63,12 @@ const typeDefs = `
   }
 
   # MUTATIONS
-#  createActivity(
-#    sports: [Sport],
-#    distance: Float,
-#    limit: Int!,
-#    offset: Int!,
-#  ): [Activity]
-
+  type Mutation {
+    createActivity(fields: ActivityInput!): [Activity]
+    updateActivity(fields: ActivityInput!): [Activity]
+    # delete
+    # cancel
+  }
 `;
 
 module.exports = typeDefs;

@@ -1,15 +1,9 @@
-const signup = require('./signup');
-const login = require('./login');
-// const sendPasscode = require('./send-passcode');
-const validatePasscode = require('./validate-passcode');
-const updateUser = require('./update-user');
+const createActivity = require('./create-activity');
+const updateActivity = require('./update-activity');
 
 const Mutation = {
-  signup,
-  login,
-  // sendPasscode,
-  validatePasscode,
-  updateUser,
+  createActivity,
+  updateActivity,
 };
 
 module.exports = Mutation;

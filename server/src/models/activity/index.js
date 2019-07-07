@@ -52,7 +52,7 @@ const schema = mongoose.Schema({
   status: {
     type: [String],
     enum: Object.values(ACTIVITY_STATUSES),
-    default: ACTIVITY_STATUSES.LIVE,
+    default: ACTIVITY_STATUSES.ACTIVE,
   },
   capacity: {
     type: Number,
@@ -81,9 +81,8 @@ const schema = mongoose.Schema({
 //------------------------------------------------------------------------------
 // OBS: you shouldn't use these methods outside connectors
 //------------------------------------------------------------------------------
-schema.statics.createActivity = async function ({ coordinates, ...rest }) {
-  const location = { coordinates };
-  const newActivity = new this({ location, ...rest });
+schema.statics.createActivity = async function (args) {
+  const newActivity = new this(args);
   await newActivity.save();
   return newActivity;
 };

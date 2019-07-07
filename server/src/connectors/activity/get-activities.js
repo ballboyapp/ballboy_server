@@ -1,9 +1,10 @@
 const isEmpty = require('lodash/isEmpty');
 const isNumber = require('lodash/isNumber');
 const extend = require('lodash/extend');
-const { Spot } = require('../../models');
+const { ACTIVITY_STATUSES } = require('../../constants');
+const { Activity } = require('../../models');
 
-const getSpots = ({ usr }, { sports, distance, limit, offset }) => {
+const getActivities = ({ usr }, { sports, distance, limit, offset }) => {
   // Make sure user is logged in
   // if (!usr || !usr._id) {
   //   return [];
@@ -13,11 +14,11 @@ const getSpots = ({ usr }, { sports, distance, limit, offset }) => {
     return [];
   }
 
-  const query = {};
+  const query = { status: ACTIVITY_STATUSES.ACTIVE };
 
   if (sports && !isEmpty(sports)) {
     extend(query, {
-      sports: { $in: sports },
+      sport: { $in: sports },
     });
   }
 
@@ -27,7 +28,7 @@ const getSpots = ({ usr }, { sports, distance, limit, offset }) => {
   //   });
   // }
 
-  return Spot.find(query).skip(offset).limit(limit); // TODO: sort
+  return Activity.find(query).skip(offset).limit(limit).sort({ dateTime: 1 }); // TODO: sort
 };
 
-module.exports = getSpots;
+module.exports = getActivities;
