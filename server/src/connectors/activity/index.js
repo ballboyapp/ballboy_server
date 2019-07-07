@@ -10,11 +10,11 @@ const getActivityDetails = require('./get-activity-details');
  * @see {@link https://github.com/apollographql/GitHunt-API/blob/cc67a4506c31310b4ba8d811dda11d258c7d60d6/api/sql/schema.js#L63}
  */
 
-const genUserModel = ({ usr }) => ({
+const genActivityModel = ({ usr }) => ({
   createActivity: args => createActivity({ usr }, args),
   updateActivity: args => updateActivity({ usr }, args),
   getActivities: args => getActivities({ usr }, args),
   getActivityDetails: args => getActivityDetails({ usr }, args),
 });
 
-module.exports = genUserModel;
+module.exports = genActivityModel;

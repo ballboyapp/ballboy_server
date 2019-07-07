@@ -19,7 +19,7 @@ const typeDefs = `
   type Respondent {
     _id: ID!
     userID: ID
-    status:
+    status: RespondentStatus
   }
 
   type Activity {
@@ -42,7 +42,7 @@ const typeDefs = `
 
   input ActivityInput {
     sport: Sport!
-    dateTime: Date!
+    dateTime: String!
     duration: Int
     capacity: Int
     spotId: ID!
@@ -63,9 +63,28 @@ const typeDefs = `
   }
 
   # MUTATIONS
+
   type Mutation {
-    createActivity(fields: ActivityInput!): [Activity]
-    updateActivity(fields: ActivityInput!): [Activity]
+    #createActivity(
+    #  sport: Sport!,
+    #  dateTime: String!,
+    #  duration: Int,
+    #  capacity: Int,
+    #  spotId: ID!,
+    #  title: String!,
+    #  description: String,
+    #): Activity
+    #updateActivity(
+    #  sport: Sport!,
+    #  dateTime: String!,
+    #  duration: Int,
+    #  capacity: Int,
+    #  spotId: ID!,
+    #  title: String!,
+    #  description: String,
+    #): Activity
+    createActivity(fields: ActivityInput!): Activity
+    updateActivity(fields: ActivityInput!): Activity
     # delete
     # cancel
   }

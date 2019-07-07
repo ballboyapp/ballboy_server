@@ -64,7 +64,7 @@ const schema = mongoose.Schema({
     type: String,
   },
   respondents: {
-    type: respondentSchema,
+    type: [respondentSchema],
     default: [],
   },
 },

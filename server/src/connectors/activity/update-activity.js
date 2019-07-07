@@ -3,7 +3,7 @@ const { Activity } = require('../../models');
 const getActivities = ({ usr }, { fields }) => {
   // Make sure user is logged in
   if (!usr || !usr._id) {
-    return [];
+    return null;
   }
 
   const { sport, dateTime, spotId, title } = fields;

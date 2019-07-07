@@ -13,6 +13,10 @@ const {
 } = require('./spot');
 
 const {
+  Activity,
+} = require('./activity');
+
+const {
   Subscription,
   validatePush,
 } = require('./subscription');
@@ -20,6 +24,7 @@ const {
 module.exports = {
   User,
   Spot,
+  Activity,
   validateSignup,
   validateLogin,
   validateCredentials,
