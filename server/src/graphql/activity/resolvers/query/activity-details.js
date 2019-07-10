@@ -1,6 +1,6 @@
-const activityDetails = (root, args, ctx) => {
+const activityDetails = async (root, args, ctx) => {
   // console.log('activityDetailsQuery', args);
-  return ctx.models.Spot.getActivityDetails(args);
+  return ctx.models.Activity.getActivityDetails(args);
 };
 
 module.exports = activityDetails;

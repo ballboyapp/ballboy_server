@@ -1,7 +1,6 @@
 const { Activity } = require('../../models');
 
-const createActivity = async ({ usr }, { fields }) => {
-  console.log('createActivity.fields', usr, fields);
+const createActivity = ({ usr }, { fields }) => {
   // Make sure user is logged in
   if (!usr || !usr._id) {
     return null;
@@ -13,10 +12,7 @@ const createActivity = async ({ usr }, { fields }) => {
     return null;
   }
 
-  // return Activity.createActivity({ ...fields, organizerId: usr._id });
-  const activity = await Activity.createActivity({ ...fields, organizerId: usr._id });
-  console.log('activity', activity);
-  return activity;
+  return Activity.createActivity({ ...fields, organizerId: usr._id });
 };
 
 module.exports = createActivity;

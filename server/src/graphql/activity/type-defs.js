@@ -65,26 +65,9 @@ const typeDefs = `
   # MUTATIONS
 
   type Mutation {
-    #createActivity(
-    #  sport: Sport!,
-    #  dateTime: String!,
-    #  duration: Int,
-    #  capacity: Int,
-    #  spotId: ID!,
-    #  title: String!,
-    #  description: String,
-    #): Activity
-    #updateActivity(
-    #  sport: Sport!,
-    #  dateTime: String!,
-    #  duration: Int,
-    #  capacity: Int,
-    #  spotId: ID!,
-    #  title: String!,
-    #  description: String,
-    #): Activity
     createActivity(fields: ActivityInput!): Activity
     updateActivity(fields: ActivityInput!): Activity
+    setRespondentStatus(_id: ID!, status: RespondentStatus!): Activity
     # delete
     # cancel
   }
