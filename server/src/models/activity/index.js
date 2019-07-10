@@ -50,7 +50,7 @@ const schema = mongoose.Schema({
     trim: true,
   },
   status: {
-    type: [String],
+    type: String,
     enum: Object.values(ACTIVITY_STATUSES),
     default: ACTIVITY_STATUSES.ACTIVE,
   },

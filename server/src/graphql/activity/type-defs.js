@@ -18,7 +18,7 @@ const typeDefs = `
 
   type Respondent {
     _id: ID!
-    userID: ID
+    user: PublicUser
     status: RespondentStatus
   }
 
