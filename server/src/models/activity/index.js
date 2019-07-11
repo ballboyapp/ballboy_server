@@ -1,21 +1,9 @@
 /* eslint-disable func-names */
 const mongoose = require('mongoose');
-const { SPORTS, ACTIVITY_STATUSES, RESPONDENT_STATUSES } = require('../../constants');
+const { SPORTS, ACTIVITY_STATUSES } = require('../../constants');
 
 //------------------------------------------------------------------------------
 // MONGOOSE SCHEMAS:
-//------------------------------------------------------------------------------
-const respondentSchema = mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: [true, 'User ID is required'],
-  },
-  status: {
-    type: String,
-    enum: Object.values(RESPONDENT_STATUSES),
-    required: [true, 'Status is required'],
-  },
-});
 //------------------------------------------------------------------------------
 const schema = mongoose.Schema({
   organizerId: {
@@ -63,8 +51,8 @@ const schema = mongoose.Schema({
   chatkitRoomId: {
     type: String,
   },
-  respondents: {
-    type: [respondentSchema],
+  attendeesIds: {
+    type: [String],
     default: [],
   },
 },

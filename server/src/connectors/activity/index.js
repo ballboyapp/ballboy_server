@@ -1,5 +1,7 @@
 const createActivity = require('./create-activity');
 const updateActivity = require('./update-activity');
+const addAttendee = require('./add-attendee');
+const removeAttendee = require('./remove-attendee');
 const getActivities = require('./get-activities');
 const getActivityDetails = require('./get-activity-details');
 
@@ -13,6 +15,8 @@ const getActivityDetails = require('./get-activity-details');
 const genActivityModel = ({ usr }) => ({
   createActivity: args => createActivity({ usr }, args),
   updateActivity: args => updateActivity({ usr }, args),
+  addAttendee: args => addAttendee({ usr }, args),
+  removeAttendee: args => removeAttendee({ usr }, args),
   getActivities: args => getActivities({ usr }, args),
   getActivityDetails: args => getActivityDetails({ usr }, args),
 });

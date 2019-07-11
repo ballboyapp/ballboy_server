@@ -16,12 +16,6 @@ const typeDefs = `
 
   # TYPES
 
-  type Respondent {
-    _id: ID!
-    user: PublicUser
-    status: RespondentStatus
-  }
-
   type Activity {
     _id: ID!
     organizer: PublicUser
@@ -35,7 +29,9 @@ const typeDefs = `
     capacity: Int
     shareLink: String
     chatkitRoomId: String
-    respondents: [Respondent]
+    attendeesIds: [ID]
+    attendees: [PublicUser]
+    isAttendee: Boolean
   }
 
   # INPUTS
@@ -67,9 +63,10 @@ const typeDefs = `
   type Mutation {
     createActivity(fields: ActivityInput!): Activity
     updateActivity(fields: ActivityInput!): Activity
-    setRespondentStatus(_id: ID!, status: RespondentStatus!): Activity
     # delete
     # cancel
+    addAttendee(_id: ID!): Activity
+    removeAttendee(_id: ID!): Activity
   }
 `;
 
