@@ -1,6 +1,7 @@
 const { Activity } = require('../../models');
 
-const createActivity = ({ usr }, { fields }) => {
+// TODO: make sure spot accepts the given sport
+const createActivity = ({ usr }, fields) => {
   // Make sure user is logged in
   if (!usr || !usr._id) {
     return null;

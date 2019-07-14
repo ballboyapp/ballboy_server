@@ -19,6 +19,7 @@ const typeDefs = `
   type Activity {
     _id: ID!
     organizer: PublicUser
+    isOrganizer: Boolean
     spot: Spot
     sport: Sport
     dateTime: Date
@@ -36,16 +37,6 @@ const typeDefs = `
 
   # INPUTS
 
-  input ActivityInput {
-    sport: Sport!
-    dateTime: String!
-    duration: Int
-    capacity: Int
-    spotId: ID!
-    title: String!
-    description: String
-  }
-
   # QUERIES
 
   type Query {
@@ -61,11 +52,32 @@ const typeDefs = `
   # MUTATIONS
 
   type Mutation {
-    createActivity(fields: ActivityInput!): Activity
-    updateActivity(fields: ActivityInput!): Activity
+    createActivity(
+      sport: Sport!
+      dateTime: String!
+      duration: Int
+      capacity: Int
+      spotId: ID!
+      title: String!
+      description: String
+    ): Activity
+
+    updateActivity(
+      _id: ID!,
+      dateTime: String!
+      duration: Int
+      capacity: Int
+      spotId: ID!
+      title: String!
+      description: String
+    ): Activity
+
     # delete
+
     # cancel
+
     addAttendee(_id: ID!): Activity
+
     removeAttendee(_id: ID!): Activity
   }
 `;

@@ -52,7 +52,7 @@ const schema = mongoose.Schema({
     type: String,
   },
   attendeesIds: {
-    type: [String],
+    type: [String], // TODO: mongoose.Schema.Types.ObjectId // Do we need to use ObjectId?
     default: [],
   },
 },
