@@ -1,7 +1,8 @@
 const { Activity } = require('../../models');
 
 // TODO: make sure spot accepts the given sport
-const getActivities = async ({ usr }, fields) => {
+const updateActivity = async ({ usr }, fields) => {
+  console.log('updateActivity', fields);
   // Make sure user is logged in
   if (!usr || !usr._id) {
     return null;
@@ -43,4 +44,4 @@ const getActivities = async ({ usr }, fields) => {
   return Activity.findOne(query);
 };
 
-module.exports = getActivities;
+module.exports = updateActivity;

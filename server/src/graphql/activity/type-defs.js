@@ -46,6 +46,7 @@ const typeDefs = `
       limit: Int!,
       offset: Int!,
     ): [Activity]
+
     activityDetails(_id: ID!): Activity
   }
 
