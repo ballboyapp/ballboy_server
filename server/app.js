@@ -1,7 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const path = require('path');
+// const path = require('path');
 const cors = require('cors');
 const enforce = require('express-sslify');
 
@@ -35,15 +35,17 @@ app.set('port', (PORT || 3001));
 // MIDDLEWARES
 //------------------------------------------------------------------------------
 // Apply middleware to parse incoming body requests into JSON format.
-app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // app.use((req, res, next) => {
+//   // console.log('req', req);
 //   console.log('req.body', req.body);
 //   // console.log('res', res);
 //   next();
 // });
+
+app.use(helmet());
 
 console.log('app.get(env)', app.get('env'));
 if (app.get('env') === 'development') {
@@ -89,7 +91,7 @@ require('./src/startup/apollo-server')(app);
 //------------------------------------------------------------------------------
 // CHATKIT AUTH
 //------------------------------------------------------------------------------
-// require('./src/startup/chatkit-auth')(app);
+require('./src/startup/chatkit-auth')(app);
 
 //------------------------------------------------------------------------------
 // CRON JOBS
