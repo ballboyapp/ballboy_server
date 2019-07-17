@@ -2,7 +2,6 @@ const { Activity } = require('../../models');
 
 // TODO: make sure spot accepts the given sport
 const updateActivity = async ({ usr }, fields) => {
-  console.log('updateActivity', fields);
   // Make sure user is logged in
   if (!usr || !usr._id) {
     return null;

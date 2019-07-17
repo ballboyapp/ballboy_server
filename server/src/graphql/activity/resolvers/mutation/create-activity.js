@@ -13,12 +13,12 @@ const createActivity = async (root, args, ctx) => {
 
   // Create chatkit room
   try {
-    const res = await chatkit.createRoom({
-      id: activity._id.toString(),
+    const room = await chatkit.createRoom({
       creatorId: CHATKIT_USER_ID,
       name: activity._id.toString(),
     });
-    console.log('CHATKIT CREATE ROMM RESPONSE', res);
+    console.log('CHATKIT CREATE ROMM RESPONSE', room);
+    await ctx.models.Activity.setChatkitRoomId({ _id: activity._id, chatkitRoomId: room.id });
   } catch (exc) {
     console.log('Failed creating Chatkit room', exc);
   }
