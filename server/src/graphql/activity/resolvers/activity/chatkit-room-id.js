@@ -1,7 +1,7 @@
-const chatkitRoomId = (root, args, ctx) => {
-  // console.log('chatkitRoomIdField', root, args, ctx);
-  // TODO
-  return 123;
-};
+// const chatkitRoomId = (root, args, ctx) => {
+//   // console.log('chatkitRoomIdField', root, args, ctx);
+//   // TODO
+//   return root._id;
+// };
 
-module.exports = chatkitRoomId;
+// module.exports = chatkitRoomId;

@@ -25,9 +25,7 @@ const signup = async ({ usr }, args) => {
     throw new Error('Email already in use'); // Bad request - 400
   }
 
-  const newUser = await User.createUser(args);
-
-  return { _id: newUser._id }; // Success request
+  return User.createUser(args); // Success request - 200
 };
 
 module.exports = signup;

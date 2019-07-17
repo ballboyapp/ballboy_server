@@ -48,9 +48,9 @@ const schema = mongoose.Schema({
   shareLink: {
     type: String,
   },
-  chatkitRoomId: {
-    type: String,
-  },
+  // chatkitRoomId: {
+  //   type: String,
+  // },
   attendeesIds: {
     type: [String], // TODO: mongoose.Schema.Types.ObjectId // Do we need to use ObjectId?
     default: [],

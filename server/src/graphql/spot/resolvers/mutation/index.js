@@ -1,15 +1,3 @@
-const signup = require('./signup');
-const login = require('./login');
-// const sendPasscode = require('./send-passcode');
-const validatePasscode = require('./validate-passcode');
-const updateUser = require('./update-user');
-
-const Mutation = {
-  signup,
-  login,
-  // sendPasscode,
-  validatePasscode,
-  updateUser,
-};
+const Mutation = {};
 
 module.exports = Mutation;

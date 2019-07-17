@@ -56,7 +56,7 @@ module.exports = (app) => {
 
     try {
       // Register user into Chatkit service
-      await chatkit.createUser({ id: user._id, name: user.displayName });
+      await chatkit.createUser({ id: user._id, name: user.username });
     } catch (exc) {
       console.log('Failed registering user to Chatkit', exc);
     }
