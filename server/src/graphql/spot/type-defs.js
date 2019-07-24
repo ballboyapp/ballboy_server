@@ -25,8 +25,8 @@ const typeDefs = `
       limit: Int!,
       offset: Int!,
     ): [Spot]
+
     spotDetails(_id: ID!): Spot
-    # activities(_id: ID!): [Activity]
   }
 
   # MUTATIONS

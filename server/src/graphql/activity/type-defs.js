@@ -54,28 +54,28 @@ const typeDefs = `
 
   type Mutation {
     createActivity(
-      sport: Sport!
-      dateTime: String!
-      duration: Int
-      capacity: Int
-      spotId: ID!
-      title: String!
-      description: String
+      sport: Sport!,
+      dateTime: String!,
+      duration: Int,
+      capacity: Int,
+      spotId: ID!,
+      title: String!,
+      description: String,
     ): Activity
 
     updateActivity(
       _id: ID!,
-      dateTime: String!
-      duration: Int
-      capacity: Int
-      spotId: ID!
-      title: String!
-      description: String
+      dateTime: String!,
+      duration: Int,
+      capacity: Int,
+      spotId: ID!,
+      title: String!,
+      description: String,
     ): Activity
 
-    # delete
+    cancelActivity(_id: ID!, msg: String): Activity
 
-    # cancel
+    # delete
 
     addAttendee(_id: ID!): Activity
 

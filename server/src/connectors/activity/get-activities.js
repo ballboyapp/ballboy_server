@@ -14,7 +14,14 @@ const getActivities = ({ usr }, { sports, distance, limit, offset }) => {
     return [];
   }
 
-  const query = { status: ACTIVITY_STATUSES.ACTIVE };
+  const query = {
+    status: {
+      $in: [
+        ACTIVITY_STATUSES.ACTIVE,
+        ACTIVITY_STATUSES.CANCELED,
+      ],
+    },
+  };
 
   if (sports && !isEmpty(sports)) {
     extend(query, {
