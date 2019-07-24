@@ -1,5 +1,6 @@
 const createActivity = require('./create-activity');
 const updateActivity = require('./update-activity');
+const cancelActivity = require('./cancel-activity');
 const addAttendee = require('./add-attendee');
 const removeAttendee = require('./remove-attendee');
 const getActivities = require('./get-activities');
@@ -16,6 +17,7 @@ const setChatkitRoomId = require('./set-chatkit-room-id');
 const genActivityModel = ({ usr }) => ({
   createActivity: args => createActivity({ usr }, args),
   updateActivity: args => updateActivity({ usr }, args),
+  cancelActivity: args => cancelActivity({ usr }, args),
   addAttendee: args => addAttendee({ usr }, args),
   removeAttendee: args => removeAttendee({ usr }, args),
   getActivities: args => getActivities({ usr }, args),
