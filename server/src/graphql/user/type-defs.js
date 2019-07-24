@@ -51,9 +51,13 @@ const typeDefs = `
       email: String!,
       language: Language!,
     ): PrivateUser
+
     login(email: String!): PrivateUser
+
     # sendPasscode(email: String!): PrivateUser
+
     validatePasscode(email: String!, passcode: Int!): AuthToken
+
     updateUser(
       username: String,
       gender: String,
