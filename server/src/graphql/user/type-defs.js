@@ -66,6 +66,7 @@ const typeDefs = `
       country: String,
       coordinates: [Float],
     ): PrivateUser
+
     # TODO: delete user
   }
 `;
