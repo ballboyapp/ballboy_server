@@ -32,7 +32,7 @@ const spots = async () => {
   const SPOTS = [{
     spotname: 'Performance Factory',
     address: 'Hoge Bothofstraat 31-49, 7511 ZA Enschede, Netherlands',
-    coordinates: [52.2235817, 6.9028977],
+    coordinates: [52.2235818, 6.9028977],
     images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1557481330/jfytpw0aa5ioa7v3a4rb.jpg'],
     sports: [SPORTS.FOOTBALL],
   }, {

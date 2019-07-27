@@ -12,9 +12,12 @@ module.exports = (app) => {
     schema,
     context: async ({ req }) => {
       // User data is decoded on the validateJwtMiddleware
-      const usr = req.user && req.user._id
-        ? await User.findOne({ _id: req.user._id })
-        : null;
+      // const usr = req.user && req.user._id
+      //   ? await User.findOne({ _id: req.user._id })
+      //   : null;
+
+      // TODO: disable on production
+      const usr = await User.findOne({});
 
       return {
         usr,
