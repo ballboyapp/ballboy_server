@@ -43,6 +43,11 @@ const getActivities = ({ usr }, { sports, distance, limit, offset }) => {
   const lat = coordinates[0];
   const lng = coordinates[1];
 
+  console.log(
+    'lat', lat,
+    'lng', lng,
+  );
+
   const query = {
     status: {
       $in: [
@@ -53,14 +58,13 @@ const getActivities = ({ usr }, { sports, distance, limit, offset }) => {
     location: {
       $geoWithin: {
         $centerSphere: [
-          [lng, lat], // center
+          [lat, lng], // center (WIRED)
           (distance || MAX_RADIUS) / EARTH_RADIUS, // radius
         ],
       },
     },
   };
 
-  // TODO: copy location from spot to activity using mongoose hook before querying
   // TODO: sort by distance
   // TODO: attach distance field
   console.log('query', query);
