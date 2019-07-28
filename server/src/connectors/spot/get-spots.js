@@ -6,7 +6,7 @@ const { Spot } = require('../../models');
 //------------------------------------------------------------------------------
 // CONSTANTS:
 //------------------------------------------------------------------------------
-const MAX_RADIUS = 20; // km
+const MAX_RADIUS = 20000; // mts
 const MAX_RESULTS = 20;
 
 //------------------------------------------------------------------------------
@@ -30,7 +30,6 @@ const getSpots = async ({ usr }, { sports, distance, limit, offset }) => {
     });
   }
 
-  // Build aggregation pipeline
   const pipeline = [
     {
       $geoNear: {

@@ -33,6 +33,7 @@ const typeDefs = `
     attendeesIds: [ID]
     attendees: [PublicUser]
     isAttendee: Boolean
+    distance: Float # meters
   }
 
   # INPUTS
