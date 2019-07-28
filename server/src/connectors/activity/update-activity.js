@@ -2,6 +2,7 @@ const { Activity } = require('../../models');
 
 // TODO: make sure spot accepts the given sport
 const updateActivity = async ({ usr }, fields) => {
+  // console.log('updateActivity', usr, fields);
   // Make sure user is logged in
   if (!usr || !usr._id) {
     return null;
@@ -10,11 +11,11 @@ const updateActivity = async ({ usr }, fields) => {
   const {
     _id,
     dateTime,
-    duration,
-    capacity = null,
+    // duration,
+    // capacity = null,
     spotId,
     title,
-    description = '',
+    // description = '',
   } = fields;
 
   if (!_id || !dateTime || !spotId || !title) {
@@ -29,18 +30,7 @@ const updateActivity = async ({ usr }, fields) => {
     throw new Error('Unauthorized');
   }
 
-  const modifier = {
-    $set: {
-      dateTime,
-      duration,
-      capacity,
-      spotId,
-      title,
-      description,
-    },
-  };
-  await Activity.updateOne(query, modifier);
-  return Activity.findOne(query);
+  return Activity.updateActivity(fields);
 };
 
 module.exports = updateActivity;

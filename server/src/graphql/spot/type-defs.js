@@ -11,7 +11,7 @@ const typeDefs = `
     location: Point
     images: [String]
     sports: [Sport]
-    distance: Float
+    distance: Float # meters
   }
 
   # INPUTS
@@ -21,7 +21,7 @@ const typeDefs = `
   type Query {
     spots(
       sports: [Sport],
-      distance: Float,
+      distance: Float, # meters
       limit: Int!,
       offset: Int!,
     ): [Spot]
