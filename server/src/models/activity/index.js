@@ -64,6 +64,8 @@ const schema = mongoose.Schema({
 },
 { timestamps: true }); // `createdAt` & `updatedAt` will be included
 
+schema.index({ location: '2dsphere' });
+
 //------------------------------------------------------------------------------
 // INSTANCE METHODS:
 //------------------------------------------------------------------------------

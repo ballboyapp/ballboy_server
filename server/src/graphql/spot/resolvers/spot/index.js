@@ -1,7 +1,3 @@
-const distance = require('./distance');
-
-const Spot = {
-  distance,
-};
+const Spot = {};
 
 module.exports = Spot;

@@ -15,38 +15,13 @@ const MAX_RADIUS = 20; // km
 //------------------------------------------------------------------------------
 const getActivities = ({ usr }, { sports, distance, limit, offset }) => {
   // Make sure user is logged in
-  // if (!usr || !usr._id) {
-  //   return [];
-  // }
+  if (!usr || !usr._id) {
+    return [];
+  }
 
   if (!isNumber(limit) || !isNumber(offset)) {
     return [];
   }
-
-//   var ubRadius = 21; // upper bound radius
-
-//   selector = {
-//     'geo.loc': {
-//        $geoWithin: {
-//           $centerSphere: [
-//              [activityLocation.longitude, activityLocation.latitude], // center
-//              ubRadius / 6378.1 // radius
-//           ]
-//        }
-//     },
-//     'profile.sports': {
-//        $in: [match.sport]
-//     }
-//  };
-  const { coordinates } = usr.location;
-
-  const lat = coordinates[0];
-  const lng = coordinates[1];
-
-  console.log(
-    'lat', lat,
-    'lng', lng,
-  );
 
   const query = {
     status: {
@@ -58,16 +33,12 @@ const getActivities = ({ usr }, { sports, distance, limit, offset }) => {
     location: {
       $geoWithin: {
         $centerSphere: [
-          [lat, lng], // center (WIRED)
+          usr.location.coordinates, // center (WIRED, it should be [lng, lat] instead of [let, lng])
           (distance || MAX_RADIUS) / EARTH_RADIUS, // radius
         ],
       },
     },
   };
-
-  // TODO: sort by distance
-  // TODO: attach distance field
-  console.log('query', query);
 
   if (sports && !isEmpty(sports)) {
     extend(query, {
@@ -75,7 +46,8 @@ const getActivities = ({ usr }, { sports, distance, limit, offset }) => {
     });
   }
 
-  return Activity.find(query).skip(offset).limit(limit).sort({ dateTime: 1 }); // TODO: sort
+  // TODO: attach distance field via aggregation
+  return Activity.find(query).skip(offset).limit(limit).sort({ dateTime: 1 });
 };
 
 module.exports = getActivities;

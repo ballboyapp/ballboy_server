@@ -3,11 +3,20 @@ const isNumber = require('lodash/isNumber');
 const extend = require('lodash/extend');
 const { Spot } = require('../../models');
 
-const getSpots = ({ usr }, { sports, distance, limit, offset }) => {
+//------------------------------------------------------------------------------
+// CONSTANTS:
+//------------------------------------------------------------------------------
+const MAX_RADIUS = 20; // km
+const MAX_RESULTS = 20;
+
+//------------------------------------------------------------------------------
+// HANDLER:
+//------------------------------------------------------------------------------
+const getSpots = async ({ usr }, { sports, distance, limit, offset }) => {
   // Make sure user is logged in
-  // if (!usr || !usr._id) {
-  //   return [];
-  // }
+  if (!usr || !usr._id) {
+    return [];
+  }
 
   if (!isNumber(limit) || !isNumber(offset)) {
     return [];
@@ -21,13 +30,34 @@ const getSpots = ({ usr }, { sports, distance, limit, offset }) => {
     });
   }
 
-  // if (distance) {
-  //   extend(query, {
-  //     sports: { $in: sports },
-  //   });
-  // }
+  // Build aggregation pipeline
+  const pipeline = [
+    {
+      $geoNear: {
+        near: {
+          type: 'Point',
+          coordinates: usr.location.coordinates,
+        },
+        query,
+        maxDistance: distance || MAX_RADIUS, //  meters
+        spherical: true,
+        distanceField: 'distance', // attaches a 'distance' (meters) field to the doc
+      },
+    },
+    {
+      $sort: { distance: 1 },
+    },
+    {
+      $skip: offset || 0,
+    },
+    {
+      $limit: limit ? Math.min(limit, MAX_RESULTS) : MAX_RESULTS,
+    },
+  ];
 
-  return Spot.find(query).skip(offset).limit(limit); // TODO: sort
+  // console.log('AGGREGATION', JSON.stringify(await Spot.aggregate(pipeline)));
+
+  return Spot.aggregate(pipeline);
 };
 
 module.exports = getSpots;
