@@ -16,7 +16,7 @@ const schema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: [true, 'Spot ID is required'],
   },
-  location: {
+  location: { // copy from spot
     type: pointSchema,
     required: [true, 'Location is required'],
   },
