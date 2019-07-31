@@ -90,11 +90,16 @@ schema.statics.createActivity = async function (args) {
 };
 //------------------------------------------------------------------------------
 schema.statics.updateActivity = async function (args) {
+  // console.log('\n\nschema.statics.updateActivity', args);
   const spot = await Spot.findOne({ _id: args.spotId });
   if (!spot) {
     throw new Error('No spot found');
   }
-  const location = { coordinates: spot.location.coordinates };
+
+  const location = {
+    type: 'Point',
+    coordinates: spot.location.coordinates,
+  };
 
   const activity = await this.findOne({ _id: args._id });
 
