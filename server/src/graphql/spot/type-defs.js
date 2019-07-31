@@ -12,6 +12,7 @@ const typeDefs = `
     images: [String]
     sports: [Sport]
     distance: Float # meters
+    activities(limit: Int!, offset: Int!): [Activity]
   }
 
   # INPUTS
