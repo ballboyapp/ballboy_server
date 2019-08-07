@@ -229,7 +229,7 @@ const User = mongoose.model('User', schema);
 //------------------------------------------------------------------------------
 // JOI:
 //------------------------------------------------------------------------------
-const usernameVal = Joi.string().min(MIN_STRING_LENGTH).max(MAX_STRING_LENGTH).required(); // eslint-disable-line
+const usernameVal = Joi.string().min(1).max(MAX_STRING_LENGTH).required(); // eslint-disable-line
 const emailVal = Joi.string().email().min(MIN_STRING_LENGTH).max(MAX_STRING_LENGTH).required(); // eslint-disable-line
 const languageVal = Joi.string().min(2).max(2).required(); // eslint-disable-line
 const passcodeVal = Joi.number().integer().min(0).max(Math.pow(10, PASS_CODE_LENGTH + 1)).required(); // eslint-disable-line

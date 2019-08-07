@@ -12,8 +12,8 @@ const { Activity } = require('../models');
 //------------------------------------------------------------------------------
 // 5 AM TASK - SET ACTIVITIES TO FINISHED:
 //------------------------------------------------------------------------------
-// cron.schedule('0 5 * * *', async () => {
-cron.schedule('* * * * *', async () => {
+cron.schedule('0 5 * * *', async () => {
+// cron.schedule('* * * * *', async () => {
   console.log('============================================');
   console.log('running 5am task');
 
@@ -42,3 +42,5 @@ cron.schedule('* * * * *', async () => {
   console.log('running 5am task: DONE');
   console.log('============================================');
 });
+// For testing: db.activities.update({ "_id" : ObjectId("5d416eea3906e802b2c9da50") }, { $set: { "dateTime" : ISODate("2019-07-30T10:35:00Z"), status: "ACTIVE" } })
+
