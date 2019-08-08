@@ -13,7 +13,8 @@ const createActivity = ({ usr }, fields) => {
     return null;
   }
 
-  return Activity.createActivity({ ...fields, organizerId: usr._id });
+  return Activity.createActivity(Object.assign({}, fields, { organizerId: usr._id }));
+  // return Activity.createActivity({ ...fields, organizerId: usr._id });
 };
 
 module.exports = createActivity;
