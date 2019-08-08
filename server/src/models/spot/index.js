@@ -1,5 +1,6 @@
 /* eslint-disable func-names */
 const mongoose = require('mongoose');
+const omit = require('lodash/omit');
 const { SPORTS } = require('../../constants');
 const { pointSchema } = require('../common-schemas');
 
@@ -48,9 +49,12 @@ schema.index({ location: '2dsphere' });
 //------------------------------------------------------------------------------
 // OBS: you shouldn't use these methods outside connectors
 //------------------------------------------------------------------------------
-schema.statics.createSpot = async function ({ coordinates, ...rest }) {
+// schema.statics.createSpot = async function ({ coordinates, ...rest }) {
+schema.statics.createSpot = async function (fields) {
+  const { coordinates } = fields;
   const location = { coordinates };
-  const newSpot = new this({ location, ...rest });
+  // const newSpot = new this({ location, ...rest });
+  const newSpot = new this(Object.assign({}, { location }, omit(fields, 'coordinates')));
   await newSpot.save();
   return newSpot;
 };
