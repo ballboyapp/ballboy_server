@@ -84,7 +84,8 @@ schema.statics.createActivity = async function (args) {
   }
   const location = { coordinates: spot.location.coordinates };
 
-  const newActivity = new this({ ...args, location });
+  const newActivity = new this(Object.assign({}, args, { location }));
+  // const newActivity = new this({ ...args, location });
   await newActivity.save();
   return newActivity;
 };
