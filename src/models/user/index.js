@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const moment = require('moment');
 const bcrypt = require('bcrypt');
 const { isEmail } = require('validator');
+const randomize = require('randomatic');
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 const extend = require('lodash/extend');
@@ -18,7 +19,7 @@ const { JWT_PRIVATE_KEY } = process.env;
 
 const MIN_STRING_LENGTH = 2;
 const MAX_STRING_LENGTH = 255;
-const PASS_CODE_LENGTH = 6; // plain text passcode length
+const PASS_CODE_LENGTH = 4; // plain text passcode length
 
 //------------------------------------------------------------------------------
 // MONGOOSE SCHEMAS:
@@ -115,7 +116,7 @@ schema.methods.validatePasscode = function ({ passcode }) {
   return (
     passcode
     && this.passcode
-    && bcrypt.compare(passcode.toString(), this.passcode)
+    && bcrypt.compare(passcode, this.passcode)
   );
 };
 //------------------------------------------------------------------------------
@@ -132,11 +133,12 @@ schema.methods.passcodeExpired = function () {
   return expDate.diff(now) < 0;
 };
 //------------------------------------------------------------------------------
-schema.methods.genPasscode = async function (digits) {
+schema.methods.genPasscode = async function () {
   // TODO: Math.random() does not provide cryptographically secure random numbers.
   // Do not use them for anything related to security. Use the Web Crypto API
   // instead, and more precisely the window.crypto.getRandomValues() method.
-  const passcode = Math.floor(Math.random() * (10 ** digits));
+  // const passcode = Math.floor(Math.random() * (10 ** PASS_CODE_LENGTH));
+  const passcode = randomize('0', PASS_CODE_LENGTH); // will generate a PASS_CODE_LENGTH-digit random number
 
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(passcode.toString(), salt);
@@ -231,8 +233,8 @@ const User = mongoose.model('User', schema);
 //------------------------------------------------------------------------------
 const usernameVal = Joi.string().min(1).max(MAX_STRING_LENGTH).required(); // eslint-disable-line
 const emailVal = Joi.string().email().min(MIN_STRING_LENGTH).max(MAX_STRING_LENGTH).required(); // eslint-disable-line
-const languageVal = Joi.string().min(2).max(2).required(); // eslint-disable-line
-const passcodeVal = Joi.number().integer().min(0).max(Math.pow(10, PASS_CODE_LENGTH + 1)).required(); // eslint-disable-line
+const languageVal = Joi.string().length(2).required(); // eslint-disable-line
+const passcodeVal = Joi.string().length(PASS_CODE_LENGTH).required(); // eslint-disable-line
 const emailsSchema = Joi.object({ value: Joi.string() });
 const arraySchema = Joi.array().items(emailsSchema);
 
