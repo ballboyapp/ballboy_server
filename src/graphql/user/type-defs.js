@@ -56,7 +56,7 @@ const typeDefs = `
 
     # sendPasscode(email: String!): PrivateUser
 
-    validatePasscode(email: String!, passcode: Int!): AuthToken
+    validatePasscode(email: String!, passcode: String!): AuthToken
 
     updateUser(
       username: String,

@@ -1,6 +1,7 @@
 const { nodemailer, transporter } = require('../../services/nodemailer/config');
 const { User } = require('../../models');
 
+// TODO: i18n
 const getText = ({ passcode }) => (`
 Hello,
 Your verification code is ${passcode}.
@@ -19,8 +20,8 @@ const sendPasscode = async ({ usr }, { email }) => {
     throw new Error('User is not registered'); // Bad request - 400
   }
 
-  // Genearte a 6-digit pass code and attach it to the user
-  const passcode = await user.genPasscode(6);
+  // Genearte a pass code and attach it to the user
+  const passcode = await user.genPasscode();
 
   // Send pass code to user
   const mailOptions = {
