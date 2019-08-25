@@ -63,7 +63,7 @@ const spots = async () => {
 const fixtures = async () => {
   // clearAll();
   // await users();
-  // await spots();
+  await spots();
 };
 
 module.exports = fixtures;
