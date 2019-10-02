@@ -25,6 +25,7 @@ const typeDefs = `
     createdAt: Date
     email: String
     profile: UserProfile
+    formattedAddress: String
     location: Point
   }
 
@@ -38,9 +39,9 @@ const typeDefs = `
   # QUERIES
 
   type Query {
-    privateUser: PrivateUser # TODO: change name to 'me'
-    publicUser(_id: ID!): PublicUser # TODO: change name to 'user'
-    publicUsers(_ids: [ID!]): [PublicUser] # TODO: change name to 'users'
+    privateUser: PrivateUser
+    publicUser(_id: ID!): PublicUser
+    publicUsers(_ids: [ID!]): [PublicUser]
   }
 
   # MUTATIONS
@@ -64,6 +65,7 @@ const typeDefs = `
       avatar: String,
       city: String,
       country: String,
+      formattedAddress: String,
       coordinates: [Float],
     ): PrivateUser
 

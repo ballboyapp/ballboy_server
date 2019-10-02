@@ -95,7 +95,9 @@ const schema = mongoose.Schema({
   expirationDate: { // pass code expiration date
     type: Date,
   },
-  // TODO: address
+  formattedAddress: {
+    type: String,
+  },
   location: {
     type: pointSchema,
     // default: pointSchema,
@@ -163,6 +165,7 @@ schema.methods.updateUserFields = async function (fields) {
   console.log('user.update', fields);
 
   this.profile = this.profile || {};
+  this.formattedAddress = this.formattedAddress || '';
   this.location = this.location || {};
 
   Object.keys(fields).forEach((key) => {
@@ -172,6 +175,8 @@ schema.methods.updateUserFields = async function (fields) {
 
     if (key === 'coordinates') {
       this.location[key] = val;
+    } else if (key === 'formattedAddress') {
+      this.formattedAddress = val;
     } else {
       this.profile[key] = val;
     }
