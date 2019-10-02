@@ -1,5 +1,5 @@
 const spotDetails = (root, args, ctx) => {
-  // console.log('spotDetailsQuery', args);
+  console.log('spotDetailsQuery', args);
   return ctx.models.Spot.getSpotDetails(args);
 };
 
