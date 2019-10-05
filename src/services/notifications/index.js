@@ -29,7 +29,9 @@ Notifications.send = async ({
   const recipientEmail = (recipient && recipient.email) || '';
 
   const subject = getSubject({ msgType });
-  const text = getText({ msgType, url, recipientName, senderName });
+  const text = getText({
+    msgType, url, recipientName, senderName,
+  });
 
   console.log(
     '\n\nAbout to send email',
@@ -57,32 +59,6 @@ Notifications.send = async ({
   } catch (exc) {
     console.log('Email could not be delivered', exc);
   }
-};
-//------------------------------------------------------------------------------
-Notifications.sendCrashReport = async (exc) => {
-  console.log('\nAbout to send Crash report');
-  let text = '';
-
-  try {
-    text = JSON.stringify(exc);
-  } catch (e) {
-    text = exc.message || 'Something bad happened on the server';
-  }
-
-  // Send pass code to user
-  const mailOptions = {
-    from: 'Pet Digs Crash <crash@mypetdigs.com>', // sender address
-    to: 'federodes@gmail.com', // list of receivers
-    subject: 'Server Crash', // subject line
-    text, // plain text body
-    // html: '<b>Hello world?</b>', // html body
-  };
-
-  // Send email with defined transport object
-  const info = await transporter.sendMail(mailOptions);
-  console.log('Message sent: %s', info.messageId);
-  // Preview only available when sending through an Ethereal account
-  console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 };
 //------------------------------------------------------------------------------
 

@@ -9,6 +9,8 @@ const { Activity } = require('../models');
 //------------------------------------------------------------------------------
 // const { APP_DNS } = process.env;
 
+// TODO: use a cronjobs folder and import functions here so that tehy can be
+// tested individually
 //------------------------------------------------------------------------------
 // 5 AM TASK - SET ACTIVITIES TO FINISHED:
 //------------------------------------------------------------------------------
@@ -43,4 +45,3 @@ cron.schedule('0 5 * * *', async () => {
   console.log('============================================');
 });
 // For testing: db.activities.update({ "_id" : ObjectId("5d416eea3906e802b2c9da50") }, { $set: { "dateTime" : ISODate("2019-07-30T10:35:00Z"), status: "ACTIVE" } })
-
