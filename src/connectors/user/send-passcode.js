@@ -1,7 +1,7 @@
 const { nodemailer, transporter } = require('../../services/nodemailer/config');
 const { User } = require('../../models');
 
-const { APP_BRAND, APP_DOMAIN_NAME } = process.env;
+const { APP_NAME, APP_DOMAIN_NAME } = process.env;
 
 // TODO: i18n
 const getText = ({ passcode }) => (`
@@ -27,7 +27,7 @@ const sendPasscode = async ({ usr }, { email }) => {
 
   // Send pass code to user
   const mailOptions = {
-    from: `"${APP_BRAND}" <no-reply@${APP_DOMAIN_NAME}>`, // sender address
+    from: `"${APP_NAME}" <no-reply@${APP_DOMAIN_NAME}>`, // sender address
     to: email, // list of receivers
     subject: `Your verification code is ${passcode}`, // subject line
     text: getText({ passcode }), // plain text body
