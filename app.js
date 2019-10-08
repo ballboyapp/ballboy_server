@@ -38,6 +38,7 @@ app.set('port', (PORT || 3001));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// For testing, DO NOT DELETE
 // app.use((req, res, next) => {
 //   // console.log('req', req);
 //   console.log('req.body', req.body);
@@ -82,6 +83,14 @@ require('./src/startup/db');
 // VALIDATE JWT MIDDLEWARE
 //------------------------------------------------------------------------------
 app.use(require('./src/middlewares/validate-jwt'));
+
+// Catch JWT invalid signature error
+app.use((err, req, res, next) => {
+  if (err.name === 'UnauthorizedError') {
+    req.user = null;
+  }
+  next();
+});
 
 //------------------------------------------------------------------------------
 // APOLLO SERVER

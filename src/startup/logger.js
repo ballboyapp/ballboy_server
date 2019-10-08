@@ -1,7 +1,6 @@
 const winston = require('winston');
 require('winston-mongodb');
 require('express-async-errors');
-const Notifications = require('../services/notifications');
 
 const { MONGO_URL } = process.env;
 
@@ -21,7 +20,6 @@ const logger = winston.createLogger({
 const handleException = async (exc) => {
   console.log(exc);
   await logger.error(exc.message || 'No msg field');
-  Notifications.sendCrashReport(exc);
   // Something bad happened, kill the process and then restart fresh
   // TODO: use other winston transports
   process.exit(1);
