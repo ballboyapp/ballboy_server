@@ -7,10 +7,11 @@ const { NODE_ENV, MONGO_URL, MONGO_URL_TEST } = process.env;
 console.log(
   '\nprocess.env.NODE_ENV', NODE_ENV,
   '\nprocess.env.MONGO_URL', MONGO_URL,
-  '\nprocess.env.MONGO_URL_TEST', MONGO_URL_TEST,
+  // '\nprocess.env.MONGO_URL_TEST', MONGO_URL_TEST,
 );
 
-const MONGO = NODE_ENV === 'test' ? MONGO_URL_TEST : MONGO_URL;
+// const MONGO = NODE_ENV === 'test' ? MONGO_URL_TEST : MONGO_URL;
+const MONGO = MONGO_URL;
 
 mongoose.connect(MONGO, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
