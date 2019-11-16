@@ -53,6 +53,40 @@ const spots = async () => {
     coordinates: [51.9105469, 4.5218993],
     images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1564348028/52706501_579245615905290_6640661627421065216_n.jpg'],
     sports: [SPORTS.FOOTBALL],
+  }, {
+    spotname: 'Erasmuspad',
+    address: 'Erasmuspad 9, 3052 KP Rotterdam, Netherlands',
+    coordinates: [51.947885, 4.4654503],
+    images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1573942160/RKSV_Leonidas.jpg'],
+    sports: [SPORTS.FOOTBALL],
+  }, {
+    spotname: 'De Wilgenring',
+    address: 'Melanchtonweg 70, 3052 KV Rotterdam, Netherlands',
+    coordinates: [51.9486202, 4.4696616],
+    images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1573942600/sportcentrum-wilgenring-9.jpg'],
+    sports: [
+      SPORTS.BASKETBALL,
+      SPORTS.FOOTBALL,
+      SPORTS.BADMINTON,
+      SPORTS.VOLLEYBALL,
+    ],
+  }, {
+    spotname: 'Hazelaarweg',
+    address: 'Hazelaarweg 40, 3053 PM Rotterdam, Netherlands',
+    coordinates: [51.9659456, 4.4778496],
+    images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1573943474/zGvMldtztetiBCWSIknLM4WbSy0S636BjkyHAl8s.jpg'],
+    sports: [SPORTS.FOOTBALL],
+  }, {
+    spotname: 'Kralingen',
+    address: 'Slaak 15, 3061 CR Rotterdam, Netherlands',
+    coordinates: [51.9257414, 4.4969802],
+    images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1573943603/Y1j8TBSxQzlefAtRc044jNg7twpRpbo9FoRSFC6s.jpg'],
+    sports: [
+      SPORTS.BASKETBALL,
+      SPORTS.FOOTBALL,
+      SPORTS.BADMINTON,
+      SPORTS.VOLLEYBALL,
+    ],
   }];
 
   SPOTS.forEach(async (s) => {
