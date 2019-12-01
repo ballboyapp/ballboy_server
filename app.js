@@ -1,9 +1,9 @@
 const express = require('express');
 const helmet = require('helmet');
-const morgan = require('morgan');
 // const path = require('path');
 const cors = require('cors');
 const enforce = require('express-sslify');
+const rateLimit = require('express-rate-limit');
 
 //------------------------------------------------------------------------------
 // MAKE SURE ENV VARS ARE SET
@@ -54,14 +54,28 @@ if (app.get('env') === 'development') {
   // app.use('*', cors({ origin: ['http://localhost:3000', 'http://localhost:9009'] }));
   // This is CORS-enabled for all origins!
   app.use(cors());
-  app.use(morgan('tiny'));
 }
 
 if (app.get('env') === 'production') {
   // Use enforce.HTTPS({ trustProtoHeader: true }) in case you are behind
   // a load balancer (e.g. Heroku).
   app.use(enforce.HTTPS({ trustProtoHeader: true }));
+
+  // Enable if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
+  // see https://expressjs.com/en/guide/behind-proxies.html
+  app.set('trust proxy', 1);
 }
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 200, // limit each IP to 200 requests per windowMs
+  onLimitReached: (req, res, options) => {
+    console.log('Rate Limit Reached req', req);
+  },
+});
+
+// Only apply to requests that begin with /graphql
+app.use('/graphql', limiter);
 //------------------------------------------------------------------------------
 // MONGO CONNECTION
 //------------------------------------------------------------------------------
