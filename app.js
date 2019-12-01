@@ -122,6 +122,16 @@ require('./src/startup/chatkit-auth')(app);
 require('./src/startup/cron-jobs');
 
 //------------------------------------------------------------------------------
+// MIGRATIONS
+//------------------------------------------------------------------------------
+// Wait for 60 secs before running the migrations
+const waitForSec = app.get('env') === 'production' ? 60 : 5;
+
+// setTimeout(() => {
+//   require('./src/startup/migrations'); // eslint-disable-line global-require
+// }, waitForSec * 1000);
+
+//------------------------------------------------------------------------------
 // ERROR HANDLING MIDDLEWARE
 //------------------------------------------------------------------------------
 app.use(require('./src/middlewares/error'));
