@@ -1,9 +1,15 @@
 const express = require('express');
 const helmet = require('helmet');
-const morgan = require('morgan');
 // const path = require('path');
 const cors = require('cors');
 const enforce = require('express-sslify');
+const rateLimit = require('express-rate-limit');
+const Sentry = require('@sentry/node');
+
+//------------------------------------------------------------------------------
+// ENV VARS
+//------------------------------------------------------------------------------
+const { PORT, SENTRY_DSN_SERVER } = process.env;
 
 //------------------------------------------------------------------------------
 // MAKE SURE ENV VARS ARE SET
@@ -25,20 +31,27 @@ require('./src/startup/logger');
 //------------------------------------------------------------------------------
 // Initialize Express server. Port is set by Heroku when the app is deployed or
 // when running locally using the 'heroku local' command.
-const { PORT } = process.env;
 console.log('\nprocess.env.PORT', PORT);
 
 const app = express();
 app.set('port', (PORT || 3001));
 
 //------------------------------------------------------------------------------
+// INIT SENTRY
+//------------------------------------------------------------------------------
+Sentry.init({ dsn: SENTRY_DSN_SERVER });
+
+//------------------------------------------------------------------------------
 // MIDDLEWARES
 //------------------------------------------------------------------------------
+// The request handler must be the first middleware on the app
+app.use(Sentry.Handlers.requestHandler());
+
 // Apply middleware to parse incoming body requests into JSON format.
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// For testing, DO NOT DELETE
+// For DEBUGGING, DO NOT DELETE
 // app.use((req, res, next) => {
 //   // console.log('req', req);
 //   console.log('req.body', req.body);
@@ -54,14 +67,29 @@ if (app.get('env') === 'development') {
   // app.use('*', cors({ origin: ['http://localhost:3000', 'http://localhost:9009'] }));
   // This is CORS-enabled for all origins!
   app.use(cors());
-  app.use(morgan('tiny'));
 }
 
 if (app.get('env') === 'production') {
   // Use enforce.HTTPS({ trustProtoHeader: true }) in case you are behind
   // a load balancer (e.g. Heroku).
   app.use(enforce.HTTPS({ trustProtoHeader: true }));
+
+  // Enable if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
+  // see https://expressjs.com/en/guide/behind-proxies.html
+  app.set('trust proxy', 1);
 }
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 200, // limit each IP to 200 requests per windowMs
+  onLimitReached: (req, res, options) => {
+    console.log('Rate Limit Reached req', req);
+  },
+});
+
+// Only apply to requests that begin with /graphql
+app.use('/graphql', limiter);
+
 //------------------------------------------------------------------------------
 // MONGO CONNECTION
 //------------------------------------------------------------------------------
@@ -102,14 +130,31 @@ require('./src/startup/apollo-server')(app);
 //------------------------------------------------------------------------------
 require('./src/startup/chatkit-auth')(app);
 
+// TODO: disable in production
+app.get('/debug-sentry', (req, res) => {
+  throw new Error('My first Sentry error!');
+});
+
 //------------------------------------------------------------------------------
 // CRON JOBS
 //------------------------------------------------------------------------------
 require('./src/startup/cron-jobs');
 
 //------------------------------------------------------------------------------
+// MIGRATIONS
+//------------------------------------------------------------------------------
+// Wait for 60 secs before running the migrations
+const waitForSecs = app.get('env') === 'production' ? 60 : 5;
+
+// setTimeout(() => {
+//   require('./src/startup/migrations'); // eslint-disable-line global-require
+// }, waitForSecs * 1000);
+
+//------------------------------------------------------------------------------
 // ERROR HANDLING MIDDLEWARE
 //------------------------------------------------------------------------------
+// The error handler must be before any other error middleware and after all controllers
+app.use(Sentry.Handlers.errorHandler());
 app.use(require('./src/middlewares/error'));
 
 //------------------------------------------------------------------------------
