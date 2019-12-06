@@ -131,9 +131,9 @@ require('./src/startup/apollo-server')(app);
 require('./src/startup/chatkit-auth')(app);
 
 // TODO: disable in production
-app.get('/debug-sentry', (req, res) => {
-  throw new Error('My first Sentry error!');
-});
+// app.get('/debug-sentry', (req, res) => {
+//   throw new Error('My first Sentry error!');
+// });
 
 //------------------------------------------------------------------------------
 // CRON JOBS
