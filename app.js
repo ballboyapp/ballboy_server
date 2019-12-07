@@ -7,14 +7,11 @@ const rateLimit = require('express-rate-limit');
 const Sentry = require('@sentry/node');
 
 //------------------------------------------------------------------------------
-// ENV VARS
-//------------------------------------------------------------------------------
-const { PORT, SENTRY_DSN_SERVER } = process.env;
-
-//------------------------------------------------------------------------------
 // MAKE SURE ENV VARS ARE SET
 //------------------------------------------------------------------------------
 require('./src/startup/env-vars');
+
+const { PORT, SENTRY_DSN_SERVER } = process.env;
 
 //------------------------------------------------------------------------------
 // CONFIG VALIDATION LIBS
@@ -61,17 +58,87 @@ app.use(express.json());
 
 app.use(helmet());
 
-console.log('app.get(env)', app.get('env'));
+// You need a JSON parser first.
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    styleSrc: [
+      "'self'",
+      "'unsafe-inline'",
+      'https://fonts.googleapis.com',
+      'http://cdn.jsdelivr.net/npm/@apollographql/graphql-playground-react@1.7.30/build/static/css/index.css',
+    ],
+    fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+    imgSrc: [
+      "'self'",
+      '*.cloudinary.com',
+      // 'http://graph.facebook.com',
+      // 'https://platform-lookaside.fbsbx.com',
+      'http://cdn.jsdelivr.net/npm/@apollographql/graphql-playground-react@1.7.30/build/favicon.png',
+      'https://www.google-analytics.com',
+    ],
+    mediaSrc: ["'self'", '*.cloudinary.com'],
+    scriptSrc: [
+      "'self'",
+      "'unsafe-inline'",
+      // 'http://widget.cloudinary.com/global/all.js',
+      // 'https://static.hotjar.com/',
+      // 'http://cdn4.mxpnl.com/',
+    ],
+    // scriptSrcElem: [
+    //   "'self'",
+    //   "'unsafe-inline'",
+    //   // 'http://widget.cloudinary.com/global/all.js',
+    //   // 'http://cdn4.mxpnl.com/libs/mixpanel-2-latest.min.js',
+    //   // 'https://*.hotjar.com',
+    //   'http://cdn.jsdelivr.net/npm/@apollographql/graphql-playground-react@1.7.30/build/static/js/middleware.js',
+    //   // 'https://www.google-analytics.com/analytics.js',
+    // ],
+    connectSrc: [
+      "'self'",
+      'https://sentry.io',
+      'https://us1.pusherplatform.io',
+      'wss://us1.pusherplatform.io',
+      // 'https://api.mixpanel.com',
+      // 'https://*.hotjar.com',
+      // 'https://*.hotjar.io',
+      // 'wss://*.hotjar.com/api/',
+    ],
+    frameSrc: [
+      "'self'",
+      // 'http://widget.cloudinary.com/',
+      // 'https://vars.hotjar.com/',
+    ],
+  },
+  // This module will detect common mistakes in your directives and throw errors
+  // if it finds any. To disable this, enable "loose mode".
+  loose: true,
+
+  // Set to true if you only want browsers to report errors, not block them.
+  // You may also set this to a function(req, res) in order to decide dynamically
+  // whether to use reportOnly mode, e.g., to allow for a dynamic kill switch.
+  reportOnly: false,
+
+  // Set to true if you want to blindly set all headers: Content-Security-Policy,
+  // X-WebKit-CSP, and X-Content-Security-Policy.
+  setAllHeaders: false,
+
+  // Set to true if you want to disable CSP on Android where it can be buggy.
+  disableAndroid: false,
+
+  // Set to false if you want to completely disable any user-agent sniffing.
+  // This may make the headers less compatible but it will be much faster.
+  // This defaults to `true`.
+  browserSniff: true,
+}));
+
 if (app.get('env') === 'development') {
   // Enable the app to receive requests from the React app and Storybook when running locally.
-  // app.use('*', cors({ origin: ['http://localhost:3000', 'http://localhost:9009'] }));
-  // This is CORS-enabled for all origins!
   app.use(cors());
 }
 
 if (app.get('env') === 'production') {
-  // Use enforce.HTTPS({ trustProtoHeader: true }) in case you are behind
-  // a load balancer (e.g. Heroku).
+  // Use enforce.HTTPS({ trustProtoHeader: true }) in case you are behind a load balancer (Heroku).
   app.use(enforce.HTTPS({ trustProtoHeader: true }));
 
   // Enable if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
@@ -103,11 +170,6 @@ require('./src/startup/db');
 // app.use(staticFiles);
 
 //------------------------------------------------------------------------------
-// PASSPORT AUTH
-//------------------------------------------------------------------------------
-// require('./src/startup/passport')(app);
-
-//------------------------------------------------------------------------------
 // VALIDATE JWT MIDDLEWARE
 //------------------------------------------------------------------------------
 app.use(require('./src/middlewares/validate-jwt'));
@@ -131,9 +193,9 @@ require('./src/startup/apollo-server')(app);
 require('./src/startup/chatkit-auth')(app);
 
 // TODO: disable in production
-// app.get('/debug-sentry', (req, res) => {
-//   throw new Error('My first Sentry error!');
-// });
+app.get('/debug-sentry', (req, res) => {
+  throw new Error('My first Sentry error!');
+});
 
 //------------------------------------------------------------------------------
 // CRON JOBS
