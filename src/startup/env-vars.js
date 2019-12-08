@@ -27,6 +27,7 @@ const ENV_VARS = [
   'CHATKIT_USER_ADMIN',
   'CHATKIT_USER_READ_ONLY',
   'SENTRY_DSN_SERVER',
+  'CLIENT_URL',
 ];
 
 ENV_VARS.forEach((key) => {
