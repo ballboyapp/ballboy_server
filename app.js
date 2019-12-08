@@ -11,7 +11,7 @@ const Sentry = require('@sentry/node');
 //------------------------------------------------------------------------------
 require('./src/startup/env-vars');
 
-const { PORT, SENTRY_DSN_SERVER } = process.env;
+const { PORT, SENTRY_DSN_SERVER, CLIENT_URL } = process.env;
 
 //------------------------------------------------------------------------------
 // CONFIG VALIDATION LIBS
@@ -138,6 +138,9 @@ if (app.get('env') === 'development') {
 }
 
 if (app.get('env') === 'production') {
+  // Enable the app to receive requests from the front end.
+  app.use('*', cors({ origin: [CLIENT_URL] }));
+
   // Use enforce.HTTPS({ trustProtoHeader: true }) in case you are behind a load balancer (Heroku).
   app.use(enforce.HTTPS({ trustProtoHeader: true }));
 
