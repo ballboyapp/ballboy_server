@@ -9,6 +9,10 @@ const {
 } = require('./user');
 
 const {
+  City,
+} = require('./city');
+
+const {
   Spot,
 } = require('./spot');
 
@@ -23,6 +27,7 @@ const {
 
 module.exports = {
   User,
+  City,
   Spot,
   Activity,
   validateSignup,
