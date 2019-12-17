@@ -31,27 +31,27 @@ const cities = async () => {
   }
 
   const CITIES = [{
-    cityname: 'Amsterdam',
+    name: 'Amsterdam',
     country: 'Netherlands',
     formattedAddress: 'Amsterdam, Netherlands',
     coordinates: [52.354733, 4.8284116],
   }, {
-    cityname: 'Enschede',
+    name: 'Enschede',
     country: 'Netherlands',
     formattedAddress: 'Enschede, Netherlands',
     coordinates: [52.220615, 6.895782],
   }, {
-    cityname: 'Rotterdam',
+    name: 'Rotterdam',
     country: 'Netherlands',
     formattedAddress: 'Rotterdam, Netherlands',
     coordinates: [51.92806, 4.420195],
   }, {
-    cityname: 'Barcelona',
+    name: 'Barcelona',
     country: 'Spain',
     formattedAddress: 'Barcelona, Spain',
     coordinates: [41.394897, 2.0785563],
   }, {
-    cityname: 'Buenos Aires',
+    name: 'Buenos Aires',
     country: 'Argentina',
     formattedAddress: 'Buenos Aires, Argentina',
     coordinates: [-34.61566, -58.50351],

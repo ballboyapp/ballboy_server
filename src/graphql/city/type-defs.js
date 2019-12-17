@@ -6,7 +6,7 @@ const typeDefs = `
 
   type City {
     _id: ID!
-    cityname: String
+    name: String
     country: String
     formattedAddress: String
     location: Point

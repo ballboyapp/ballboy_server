@@ -7,10 +7,10 @@ const { pointSchema } = require('../common-schemas');
 // MONGOOSE SCHEMAS:
 //------------------------------------------------------------------------------
 const schema = mongoose.Schema({
-  cityname: {
+  name: {
     type: String,
     trim: true,
-    required: [true, 'Cityname is required'],
+    required: [true, 'Name is required'],
   },
   country: {
     type: String,
