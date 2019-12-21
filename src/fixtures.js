@@ -1,11 +1,12 @@
 const { SPORTS } = require('./constants');
-const { User, Spot } = require('./models');
+const { User, City, Spot } = require('./models');
 
 //------------------------------------------------------------------------------
 // Clear DB
 // const clearAll = async () => {
 //   // await Spot.deleteMany({});
 //   // await User.deleteMany({});
+//   // await City.deleteMany({});
 // };
 //------------------------------------------------------------------------------
 const users = async () => {
@@ -20,6 +21,45 @@ const users = async () => {
   };
 
   await User.createUser(testUser);
+};
+//------------------------------------------------------------------------------
+const cities = async () => {
+  const city = await City.findOne({});
+
+  if (city) {
+    return;
+  }
+
+  const CITIES = [{
+    name: 'Amsterdam',
+    country: 'Netherlands',
+    formattedAddress: 'Amsterdam, Netherlands',
+    coordinates: [52.354733, 4.8284116],
+  }, {
+    name: 'Enschede',
+    country: 'Netherlands',
+    formattedAddress: 'Enschede, Netherlands',
+    coordinates: [52.220615, 6.895782],
+  }, {
+    name: 'Rotterdam',
+    country: 'Netherlands',
+    formattedAddress: 'Rotterdam, Netherlands',
+    coordinates: [51.92806, 4.420195],
+  }, {
+    name: 'Barcelona',
+    country: 'Spain',
+    formattedAddress: 'Barcelona, Spain',
+    coordinates: [41.394897, 2.0785563],
+  }, {
+    name: 'Buenos Aires',
+    country: 'Argentina',
+    formattedAddress: 'Buenos Aires, Argentina',
+    coordinates: [-34.61566, -58.50351],
+  }];
+
+  CITIES.forEach(async (c) => {
+    await City.createCity(c);
+  });
 };
 //------------------------------------------------------------------------------
 const spots = async () => {
@@ -97,6 +137,7 @@ const spots = async () => {
 const fixtures = async () => {
   // clearAll();
   // await users();
+  await cities();
   await spots();
 };
 

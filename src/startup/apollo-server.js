@@ -3,6 +3,7 @@ const schema = require('../graphql/exec-schema');
 const { User } = require('../models');
 const {
   genUserModel,
+  genCityModel,
   genSpotModel,
   genActivityModel,
 } = require('../connectors');
@@ -23,6 +24,7 @@ module.exports = (app) => {
         usr,
         models: {
           User: genUserModel({ usr }),
+          City: genCityModel({ usr }),
           Spot: genSpotModel({ usr }),
           Activity: genActivityModel({ usr }),
         },
