@@ -1,6 +1,6 @@
-const isAttendee = (root, args, ctx) => {
+const isAttendee = (root, args, ctx) => (
   // console.log('isAttendeeField', root, args);
-  return ctx.usr ? root.attendeesIds.includes(ctx.usr._id) : false;
-};
+  ctx.usr ? root.attendeesIds.includes(ctx.usr._id.toString()) : false
+);
 
 module.exports = isAttendee;
