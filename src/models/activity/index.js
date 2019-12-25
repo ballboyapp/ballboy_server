@@ -61,6 +61,10 @@ const schema = mongoose.Schema({
     type: [String], // TODO: mongoose.Schema.Types.ObjectId // Do we need to use ObjectId?
     default: [],
   },
+  repeatFrequency: {
+    type: Number,
+    default: 0, // In weeks. 0 means do not repeat
+  },
 },
 { timestamps: true }); // `createdAt` & `updatedAt` will be included
 

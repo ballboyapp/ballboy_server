@@ -34,6 +34,7 @@ const typeDefs = `
     attendees: [PublicUser]
     isAttendee: Boolean
     distance: Float # meters
+    repeatFrequency: Int # weeks. 0 means do no repeat
   }
 
   # INPUTS
@@ -62,6 +63,7 @@ const typeDefs = `
       spotId: ID!,
       title: String!,
       description: String,
+      repeatFrequency: Int,
     ): Activity
 
     updateActivity(
@@ -72,6 +74,7 @@ const typeDefs = `
       spotId: ID!,
       title: String!,
       description: String,
+      repeatFrequency: Int,
     ): Activity
 
     cancelActivity(_id: ID!, msg: String): Activity
