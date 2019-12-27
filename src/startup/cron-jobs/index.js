@@ -1,4 +1,4 @@
 const cron = require('node-cron');
-const setActivitiesToFinished = require('./set-activities-to-finished');
+const processActivitiesFinishingToday = require('./process-activities-finishing-today');
 
-cron.schedule('0 5 * * *', setActivitiesToFinished);
+cron.schedule('0 5 * * *', processActivitiesFinishingToday);
