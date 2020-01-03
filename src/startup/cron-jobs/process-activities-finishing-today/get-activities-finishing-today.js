@@ -18,7 +18,7 @@ const getActivitiesFinishingToday = () => {
     },
   };
 
-  return Activity.find(query); // Promise
+  return Activity.find(query).lean(); // Promise
 };
 
 module.exports = getActivitiesFinishingToday;

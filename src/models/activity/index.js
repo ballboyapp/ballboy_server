@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const { SPORTS, ACTIVITY_STATUSES } = require('../../constants');
 const { pointSchema } = require('../common-schemas');
 const { Spot } = require('../spot');
+const { getSpotId } = require('./utils');
 
 //------------------------------------------------------------------------------
 // MONGOOSE SCHEMAS:
@@ -61,9 +62,9 @@ const schema = mongoose.Schema({
     type: [String], // TODO: mongoose.Schema.Types.ObjectId // Do we need to use ObjectId?
     default: [],
   },
-  repeatFrequency: {
+  repeatFrequency: { // Weeks
     type: Number,
-    default: 0, // In weeks. 0 means do not repeat
+    default: 0, // 0 means do not repeat
   },
 },
 { timestamps: true }); // `createdAt` & `updatedAt` will be included
@@ -81,22 +82,25 @@ schema.index({ location: '2dsphere' });
 //------------------------------------------------------------------------------
 // OBS: you shouldn't use these methods outside connectors
 //------------------------------------------------------------------------------
+// TODO: pick only the required fields from args
 schema.statics.createActivity = async function (args) {
-  const spot = await Spot.findOne({ _id: args.spotId });
+  // console.log('\n\nschema.statics.createActivity', args);
+  const spotId = getSpotId(args.spotId);
+  const spot = await Spot.findOne({ _id: spotId });
   if (!spot) {
     throw new Error('No spot found');
   }
   const location = { coordinates: spot.location.coordinates };
 
   const newActivity = new this(Object.assign({}, args, { location }));
-  // const newActivity = new this({ ...args, location });
   await newActivity.save();
   return newActivity;
 };
 //------------------------------------------------------------------------------
 schema.statics.updateActivity = async function (args) {
   // console.log('\n\nschema.statics.updateActivity', args);
-  const spot = await Spot.findOne({ _id: args.spotId });
+  const spotId = getSpotId(args.spotId);
+  const spot = await Spot.findOne({ _id: spotId });
   if (!spot) {
     throw new Error('No spot found');
   }
