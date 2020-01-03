@@ -1,5 +1,9 @@
 /* eslint-disable func-names */
 const mongoose = require('mongoose');
+const moment = require('moment');
+const cloneDeep = require('lodash/cloneDeep');
+const extend = require('lodash/extend');
+const omit = require('lodash/omit');
 const { SPORTS, ACTIVITY_STATUSES } = require('../../constants');
 const { pointSchema } = require('../common-schemas');
 const { Spot } = require('../spot');
@@ -121,6 +125,50 @@ schema.statics.updateActivity = async function (args) {
 
   await activity.save();
   return activity;
+};
+//------------------------------------------------------------------------------
+/**
+ * @summary Query activities finishing on the given date
+ * @param {Date} - date
+ * @returns {Promise} - activities
+ */
+schema.statics.getActivitiesFinishingOnDate = function (date) {
+  const query = {
+    status: {
+      $in: [
+        ACTIVITY_STATUSES.ACTIVE,
+        ACTIVITY_STATUSES.CANCELED,
+      ],
+    },
+    dateTime: {
+      $lt: date,
+    },
+  };
+
+  return this.find(query).lean(); // Promise
+};
+//------------------------------------------------------------------------------
+/**
+ * @summary Set activity status to finished
+ * @param {ID} - _id - activity ID to be updated
+ * @returns {Promise} - promise
+ */
+schema.statics.setActivityStatusToFinished = function (_id) {
+  return this.updateOne({ _id }, { $set: { status: ACTIVITY_STATUSES.FINISHED } }); // Promise
+};
+//------------------------------------------------------------------------------
+/**
+ * @summary Recreate the given activity
+ * @param {object} - activity
+ * @returns {Promise} - promise
+ */
+schema.statics.recreateActivity = function (activity) {
+  console.log('\n\nrecreateActivity', activity);
+  if (!activity || !activity.repeatFrequency) return null;
+  const newDateTime = moment(activity.dateTime).add(activity.repeatFrequency, 'weeks');
+  const newActivity = omit(cloneDeep(activity), '_id');
+  extend(newActivity, { dateTime: newDateTime, attendeesIds: [newActivity.organizerId] });
+  return this.createActivity(newActivity); // Promise
 };
 //------------------------------------------------------------------------------
 // MONGOOSE MODEL:
