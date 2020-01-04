@@ -14,15 +14,20 @@ The second option is to create a FREE database hosted on mLab and then connect y
 ### 2. Environment variables
 At the root directory, copy the file called `.sample.env` and rename it into `.env`.
 
-### 3. Register the app on Mailgun (you can use any other email provider):
+#### Register the app on Mailgun (you can use any other email provider):
 Mailgun allows you to send emails from your app.
 
 In order to get started, first access your [Mailgun](https://www.mailgun.com/) account. Then, grab your sandbox domain smtp username and password and copy said values into your `.env` file. Finally, add your email address to the list of [Auhtorized Recipients](https://help.mailgun.com/hc/en-us/articles/217531258-Authorized-Recipients).
 
-### 4. Chatkit and Cloudinary
-Register into Cloudinary and Chatkit and create a new instance. Then go the `.env` file and set you environment variables.
+#### Chatkit and Cloudinary
+Follow the instructions on the React Native repo to set the following env variables: `CHATKIT_INSTANCE_LOCATOR`, `CHATKIT_SECRET_KEY`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` and `CLOUDINARY_CLOUDNAME`. Notice `CHATKIT_USER_ADMIN=admin`, `CHATKIT_USER_READ_ONLY=readonly`, `CLOUDINARY_UPLOAD_PRESET=default` should be kept unchanged.
 
-### 5. Running the app locally in dev mode
+#### Sentry (error tracking service API)
+
+- Visit [https://sentry.io](https://sentry.io) and create an account and a new 'Organization' (you can use the same organization as the client app).
+- Set `SENTRY_DSN_SERVER` env var by creating a new 'Express' project and getting the DSN key.
+
+### 3. Running the app locally in dev mode
 Once we have our Mongo provider, these are the next steps that we need to follow to run the app locally in dev mode:
 
 1. Inside you project's directory, clone the project and move to the project's folder
@@ -42,7 +47,7 @@ Once we have our Mongo provider, these are the next steps that we need to follow
 The server should be running on port 3001 --> [http://localhost:3001](http://localhost:3001)
 The GraphQL playground should be running on [http://localhost:3001/graphql](http://localhost:3001/graphql) (only accessible in dev mode).
 
-### 6. Running the app locally in production mode
+### 4. Running the app locally in production mode
 1. Follow the steps above to setup your Mongo service.
 
 2. Install heroku cli: [https://devcenter.heroku.com/articles/heroku-cli](https://devcenter.heroku.com/articles/heroku-cli)
@@ -63,7 +68,7 @@ The GraphQL playground should be running on [http://localhost:3001/graphql](http
 ```
 This should launch the server on port 5000 --> http://localhost:5000. As far as I understand, the port (process.env.PORT) is setup by heroku and can't be changed.
 
-### 7. Deploy to heroku
+### 5. Deploy to heroku
 1. Follow the steps above to setup a Mongo service on mLab.
 
 2. Install heroku cli: [https://devcenter.heroku.com/articles/heroku-cli](https://devcenter.heroku.com/articles/heroku-cli)
@@ -97,7 +102,7 @@ Comment: if you want to deploy from a branch different than master run:
 >> git push heroku <BRANCH_NAME>:master
 ```
 
-### 8. Heroku deploy troubleshooting
+### 6. Heroku deploy troubleshooting
 
 In case your build fails with an error ```/bin/sh: 1: <SOME-DEP>: not found``` and you are building the project with yarn, try setting the following env variable:
 ```

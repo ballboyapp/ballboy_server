@@ -1,8 +1,13 @@
 /* eslint-disable func-names */
 const mongoose = require('mongoose');
+const moment = require('moment');
+const cloneDeep = require('lodash/cloneDeep');
+const extend = require('lodash/extend');
+const omit = require('lodash/omit');
 const { SPORTS, ACTIVITY_STATUSES } = require('../../constants');
 const { pointSchema } = require('../common-schemas');
 const { Spot } = require('../spot');
+const { getSpotId } = require('./utils');
 
 //------------------------------------------------------------------------------
 // MONGOOSE SCHEMAS:
@@ -61,6 +66,10 @@ const schema = mongoose.Schema({
     type: [String], // TODO: mongoose.Schema.Types.ObjectId // Do we need to use ObjectId?
     default: [],
   },
+  repeatFrequency: { // Weeks
+    type: Number,
+    default: 0, // 0 means do not repeat
+  },
 },
 { timestamps: true }); // `createdAt` & `updatedAt` will be included
 
@@ -77,22 +86,25 @@ schema.index({ location: '2dsphere' });
 //------------------------------------------------------------------------------
 // OBS: you shouldn't use these methods outside connectors
 //------------------------------------------------------------------------------
+// TODO: pick only the required fields from args
 schema.statics.createActivity = async function (args) {
-  const spot = await Spot.findOne({ _id: args.spotId });
+  // console.log('\n\nschema.statics.createActivity', args);
+  const spotId = getSpotId(args.spotId);
+  const spot = await Spot.findOne({ _id: spotId });
   if (!spot) {
     throw new Error('No spot found');
   }
   const location = { coordinates: spot.location.coordinates };
 
   const newActivity = new this(Object.assign({}, args, { location }));
-  // const newActivity = new this({ ...args, location });
   await newActivity.save();
   return newActivity;
 };
 //------------------------------------------------------------------------------
 schema.statics.updateActivity = async function (args) {
   // console.log('\n\nschema.statics.updateActivity', args);
-  const spot = await Spot.findOne({ _id: args.spotId });
+  const spotId = getSpotId(args.spotId);
+  const spot = await Spot.findOne({ _id: spotId });
   if (!spot) {
     throw new Error('No spot found');
   }
@@ -113,6 +125,50 @@ schema.statics.updateActivity = async function (args) {
 
   await activity.save();
   return activity;
+};
+//------------------------------------------------------------------------------
+/**
+ * @summary Query activities finishing on the given date
+ * @param {Date} - date
+ * @returns {Promise} - activities
+ */
+schema.statics.getActivitiesFinishingOnDate = function (date) {
+  const query = {
+    status: {
+      $in: [
+        ACTIVITY_STATUSES.ACTIVE,
+        ACTIVITY_STATUSES.CANCELED,
+      ],
+    },
+    dateTime: {
+      $lt: date,
+    },
+  };
+
+  return this.find(query).lean(); // Promise
+};
+//------------------------------------------------------------------------------
+/**
+ * @summary Set activity status to finished
+ * @param {ID} - _id - activity ID to be updated
+ * @returns {Promise} - promise
+ */
+schema.statics.setActivityStatusToFinished = function (_id) {
+  return this.updateOne({ _id }, { $set: { status: ACTIVITY_STATUSES.FINISHED } }); // Promise
+};
+//------------------------------------------------------------------------------
+/**
+ * @summary Recreate the given activity
+ * @param {object} - activity
+ * @returns {Promise} - promise
+ */
+schema.statics.recreateActivity = function (activity) {
+  console.log('\n\nrecreateActivity', activity);
+  if (!activity || !activity.repeatFrequency) return null;
+  const newDateTime = moment(activity.dateTime).add(activity.repeatFrequency, 'weeks');
+  const newActivity = omit(cloneDeep(activity), '_id');
+  extend(newActivity, { dateTime: newDateTime, attendeesIds: [newActivity.organizerId] });
+  return this.createActivity(newActivity); // Promise
 };
 //------------------------------------------------------------------------------
 // MONGOOSE MODEL:
