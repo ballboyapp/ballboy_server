@@ -34,7 +34,7 @@ const typeDefs = `
     attendees: [PublicUser]
     isAttendee: Boolean
     distance: Float # meters
-    repeatFrequency: Int # weeks. 0 means do no repeat
+    repeatFrequency: Int # weeks. 0 means do not repeat
   }
 
   # INPUTS
