@@ -20,11 +20,6 @@ const {
   Activity,
 } = require('./activity');
 
-const {
-  Subscription,
-  validatePush,
-} = require('./subscription');
-
 module.exports = {
   User,
   City,
@@ -36,6 +31,4 @@ module.exports = {
   validateFBAuth,
   // validateUserProfile,
   validateUserUpdate,
-  Subscription,
-  validatePush,
 };
