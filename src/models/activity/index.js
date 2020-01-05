@@ -87,6 +87,7 @@ schema.index({ location: '2dsphere' });
 // OBS: you shouldn't use these methods outside connectors
 //------------------------------------------------------------------------------
 // TODO: pick only the required fields from args
+// TODO: remove spot dependency
 schema.statics.createActivity = async function (args) {
   // console.log('\n\nschema.statics.createActivity', args);
   const spotId = getSpotId(args.spotId);
@@ -101,6 +102,7 @@ schema.statics.createActivity = async function (args) {
   return newActivity;
 };
 //------------------------------------------------------------------------------
+// TODO: remove spot dependency
 schema.statics.updateActivity = async function (args) {
   // console.log('\n\nschema.statics.updateActivity', args);
   const spotId = getSpotId(args.spotId);
@@ -165,9 +167,11 @@ schema.statics.setActivityStatusToFinished = function (_id) {
 schema.statics.recreateActivity = function (activity) {
   console.log('\n\nrecreateActivity', activity);
   if (!activity || !activity.repeatFrequency) return null;
+
   const newDateTime = moment(activity.dateTime).add(activity.repeatFrequency, 'weeks');
   const newActivity = omit(cloneDeep(activity), '_id');
   extend(newActivity, { dateTime: newDateTime, attendeesIds: [newActivity.organizerId] });
+
   return this.createActivity(newActivity); // Promise
 };
 //------------------------------------------------------------------------------
