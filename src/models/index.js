@@ -20,11 +20,16 @@ const {
   Activity,
 } = require('./activity');
 
+const {
+  Notification,
+} = require('./notification');
+
 module.exports = {
   User,
   City,
   Spot,
   Activity,
+  Notification,
   validateSignup,
   validateLogin,
   validateCredentials,

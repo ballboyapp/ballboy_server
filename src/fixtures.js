@@ -1,5 +1,7 @@
 const { SPORTS } = require('./constants');
-const { User, City, Spot } = require('./models');
+const {
+  User, City, Spot, Notification,
+} = require('./models');
 
 //------------------------------------------------------------------------------
 // Clear DB
@@ -134,11 +136,27 @@ const spots = async () => {
   });
 };
 //------------------------------------------------------------------------------
+// const notifications = async () => {
+//   const notification = await Notification.findOne({});
+
+//   if (notification) {
+//     return;
+//   }
+
+//   const testNotification = {
+//     recipientId: '5e1065c85f83d61a9b3a0e98',
+//     notificationType: 'NEW_ACTIVITY',
+//   };
+
+//   await Notification.createNotification(testNotification);
+// };
+//------------------------------------------------------------------------------
 const fixtures = async () => {
   // clearAll();
   // await users();
   await cities();
   await spots();
+  // await notifications();
 };
 
 module.exports = fixtures;

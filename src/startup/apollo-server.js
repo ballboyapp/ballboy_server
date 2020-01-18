@@ -6,6 +6,7 @@ const {
   genCityModel,
   genSpotModel,
   genActivityModel,
+  genNotificationModel,
 } = require('../connectors');
 
 module.exports = (app) => {
@@ -17,7 +18,7 @@ module.exports = (app) => {
         ? await User.findOne({ _id: req.user._id })
         : null;
 
-      // TODO: disable on production
+      // TODO: disable in production
       // const usr = await User.findOne({});
 
       return {
@@ -27,6 +28,7 @@ module.exports = (app) => {
           City: genCityModel({ usr }),
           Spot: genSpotModel({ usr }),
           Activity: genActivityModel({ usr }),
+          Notification: genNotificationModel({ usr }),
         },
       };
     },
