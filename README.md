@@ -109,6 +109,19 @@ In case your build fails with an error ```/bin/sh: 1: <SOME-DEP>: not found``` a
 heroku config:set NPM_CONFIG_PRODUCTION=false
 ```
 
+Set app name:
+```
+heroku apps:<SOME_COMMAND> --app <APP_NAME>
+```
+
+Source: [https://devcenter.heroku.com/articles/using-the-cli](https://devcenter.heroku.com/articles/using-the-cli)
+
+
+Set a FREE dyno:
+```
+heroku ps:scale web=1 --app <APP_NAME>
+```
+
 ## Further reading
 
 ### GraphQL / Apollo

@@ -8,6 +8,7 @@ const typeDefs = `
     ACTIVITY_RECREATED
     ATTENDEE_ADDED
     ATTENDEE_REMOVED
+    NEW_MESSAGE
   }
 
   # TYPES
@@ -17,9 +18,9 @@ const typeDefs = `
     createdBy: ID
     createdAt: Date!
     recipientId: ID!
-    recipient: PublicUser!
+    #recipient: PublicUser!
     notificationType: NotificationType!
-    link: String!
+    link: String #!
     didRead: Boolean!
   }
 

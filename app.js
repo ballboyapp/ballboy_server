@@ -5,6 +5,7 @@ const cors = require('cors');
 const enforce = require('express-sslify');
 const rateLimit = require('express-rate-limit');
 const Sentry = require('@sentry/node');
+const csp = require('./src/csp');
 
 //------------------------------------------------------------------------------
 // MAKE SURE ENV VARS ARE SET
@@ -59,79 +60,7 @@ app.use(express.json());
 app.use(helmet());
 
 // You need a JSON parser first.
-app.use(helmet.contentSecurityPolicy({
-  directives: {
-    defaultSrc: ["'self'"],
-    styleSrc: [
-      "'self'",
-      "'unsafe-inline'",
-      'https://fonts.googleapis.com',
-      'http://cdn.jsdelivr.net/npm/@apollographql/graphql-playground-react@1.7.26/build/static/css/index.css',
-    ],
-    fontSrc: ["'self'", 'https://fonts.gstatic.com'],
-    imgSrc: [
-      "'self'",
-      '*.cloudinary.com',
-      // 'http://graph.facebook.com',
-      // 'https://platform-lookaside.fbsbx.com',
-      'http://cdn.jsdelivr.net/npm/@apollographql/graphql-playground-react@1.7.26/build/favicon.png',
-      'https://www.google-analytics.com',
-    ],
-    mediaSrc: ["'self'", '*.cloudinary.com'],
-    scriptSrc: [
-      "'self'",
-      "'unsafe-inline'",
-      'http://cdn.jsdelivr.net/npm/@apollographql/graphql-playground-react@1.7.26/build/static/js/middleware.js',
-      // 'http://widget.cloudinary.com/global/all.js',
-      // 'https://static.hotjar.com/',
-      // 'http://cdn4.mxpnl.com/',
-    ],
-    scriptSrcElem: [
-      "'self'",
-      "'unsafe-inline'",
-      // 'http://widget.cloudinary.com/global/all.js',
-      // 'http://cdn4.mxpnl.com/libs/mixpanel-2-latest.min.js',
-      // 'https://*.hotjar.com',
-      'http://cdn.jsdelivr.net/npm/@apollographql',
-      // 'https://www.google-analytics.com/analytics.js',
-    ],
-    connectSrc: [
-      "'self'",
-      'https://sentry.io',
-      'https://us1.pusherplatform.io',
-      'wss://us1.pusherplatform.io',
-      // 'https://api.mixpanel.com',
-      // 'https://*.hotjar.com',
-      // 'https://*.hotjar.io',
-      // 'wss://*.hotjar.com/api/',
-    ],
-    frameSrc: [
-      "'self'",
-      // 'http://widget.cloudinary.com/',
-      // 'https://vars.hotjar.com/',
-    ],
-  },
-  // This module will detect common mistakes in your directives and throw errors
-  // if it finds any. To disable this, enable "loose mode".
-  loose: true,
-
-  // Set to true if you only want browsers to report errors, not block them.
-  // You may also set this to a function(req, res) in order to decide dynamically
-  // whether to use reportOnly mode, e.g., to allow for a dynamic kill switch.
-  reportOnly: false,
-
-  // Set to true if you want to blindly set all headers: Content-Security-Policy,
-  // X-WebKit-CSP, and X-Content-Security-Policy.
-  setAllHeaders: false,
-
-  // Set to true if you want to disable CSP on Android where it can be buggy.
-  disableAndroid: false,
-
-  // Set to false if you want to completely disable any user-agent sniffing.
-  // This may make the headers less compatible but it will be much faster.
-  // This defaults to `true`.
-  browserSniff: true,
-}));
+app.use(helmet.contentSecurityPolicy(csp));
 
 if (app.get('env') === 'development') {
   // Enable the app to receive requests from the React app and Storybook when running locally.
