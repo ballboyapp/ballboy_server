@@ -79,11 +79,13 @@ const typeDefs = `
 
     cancelActivity(_id: ID!, msg: String): Activity
 
-    # delete
+    # deleteActivity
 
     addAttendee(_id: ID!): Activity
 
     removeAttendee(_id: ID!): Activity
+
+    #newMessage(_id: ID!, senderId!): Activity
   }
 `;
 

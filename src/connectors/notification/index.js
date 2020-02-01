@@ -1,4 +1,4 @@
-const getNotifications = require('./get-notifications');
+const getNotificationsList = require('./get-notifications-list');
 const markAsRead = require('./mark-as-read');
 
 /**
@@ -8,9 +8,9 @@ const markAsRead = require('./mark-as-read');
  * @see {@link https://github.com/apollographql/GitHunt-API/blob/cc67a4506c31310b4ba8d811dda11d258c7d60d6/api/sql/schema.js#L63}
  */
 
-const genNotificationModel = ({ usr }) => ({
-  getNotifications: args => getNotifications({ usr }, args),
+const genNotificationsListModel = ({ usr }) => ({
+  getNotificationsList: args => getNotificationsList({ usr }, args),
   markAsRead: args => markAsRead({ usr }, args),
 });
 
-module.exports = genNotificationModel;
+module.exports = genNotificationsListModel;

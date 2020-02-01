@@ -21,15 +21,15 @@ const {
 } = require('./activity');
 
 const {
-  Notification,
-} = require('./notification');
+  NotificationsList,
+} = require('./notifications-list');
 
 module.exports = {
   User,
   City,
   Spot,
   Activity,
-  Notification,
+  NotificationsList,
   validateSignup,
   validateLogin,
   validateCredentials,

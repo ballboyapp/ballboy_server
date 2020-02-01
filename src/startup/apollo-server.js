@@ -6,7 +6,7 @@ const {
   genCityModel,
   genSpotModel,
   genActivityModel,
-  genNotificationModel,
+  genNotificationsListModel,
 } = require('../connectors');
 
 module.exports = (app) => {
@@ -28,7 +28,7 @@ module.exports = (app) => {
           City: genCityModel({ usr }),
           Spot: genSpotModel({ usr }),
           Activity: genActivityModel({ usr }),
-          Notification: genNotificationModel({ usr }),
+          Notification: genNotificationsListModel({ usr }),
         },
       };
     },

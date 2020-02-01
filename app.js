@@ -121,9 +121,16 @@ app.use((err, req, res, next) => {
 require('./src/startup/apollo-server')(app);
 
 //------------------------------------------------------------------------------
-// CHATKIT AUTH
+// CHATKIT ENDPOINTS
 //------------------------------------------------------------------------------
 require('./src/startup/chatkit-auth')(app);
+
+// app.use(express.text({
+//   // Treat body as raw text regardless of content-type
+//   type: () => true,
+// }));
+
+require('./src/startup/chatkit-webhook')(app);
 
 // TODO: disable in production
 // app.get('/debug-sentry', (req, res) => {

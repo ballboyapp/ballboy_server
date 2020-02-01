@@ -1,9 +1,9 @@
-const Notification = require('./notification');
+const NotificationsList = require('./notifications-list');
 const Query = require('./query');
 const Mutation = require('./mutation');
 
 const resolvers = {
-  Notification,
+  NotificationsList,
   Query,
   Mutation,
 };
