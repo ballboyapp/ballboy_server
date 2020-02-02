@@ -2,7 +2,7 @@ const genUserModel = require('./user');
 const genCityModel = require('./city');
 const genSpotModel = require('./spot');
 const genActivityModel = require('./activity');
-const genNotificationsListModel = require('./notification');
+const genNotificationsListModel = require('./notifications-list');
 
 module.exports = {
   genUserModel,

@@ -1,4 +1,4 @@
-const { NotificationsList } = require('../models');
+const { User, NotificationsList } = require('../models');
 const { NOTIFICATION_TYPES } = require('../constants');
 // const crypto = require('crypto');
 
@@ -23,20 +23,42 @@ const { NOTIFICATION_TYPES } = require('../constants');
 
 
 module.exports = (app) => {
-  app.post('/chatkit-webhook', (req, res) => {
+  app.post('/chatkit-webhook', async (req, res) => {
     const message = req.body.payload.messages[0];
 
     const { user_id: recipientId, room_id: activityId } = message;
 
-    const notification = {
-      notificationType: NOTIFICATION_TYPES.NEW_MESSAGE,
-      senderId: recipientId, // TODO: target all participants in the game + the owner/admins
-      payload: { activityId },
-    };
+    console.log('chatkit webhook', { message });
 
-    NotificationsList.insertNotification(recipientId, notification);
+    try {
+      // TODO: target all participants in the game + the owner/admins
+      const sender = await User.findOne({ _id: recipientId });
+      console.log({ sender });
 
-    res.sendStatus(200);
+      if (!sender) {
+        throw new Error('Sender not found');
+      }
+
+      const notification = {
+        notificationType: NOTIFICATION_TYPES.NEW_MESSAGE,
+        sender: {
+          id: recipientId,
+          name: sender.profile.username,
+          avatarURL: sender.profile.avatar || '',
+        },
+        payload: { activityId },
+      };
+
+      console.log({ notification });
+
+      await NotificationsList.insertNotification(recipientId, notification);
+
+      res.sendStatus(200);
+    } catch (exc) {
+      // TODO: log to sentry
+      console.log({ exc });
+      res.sendStatus(500);
+    }
   });
 };
 

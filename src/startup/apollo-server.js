@@ -28,7 +28,7 @@ module.exports = (app) => {
           City: genCityModel({ usr }),
           Spot: genSpotModel({ usr }),
           Activity: genActivityModel({ usr }),
-          Notification: genNotificationsListModel({ usr }),
+          NotificationsList: genNotificationsListModel({ usr }),
         },
       };
     },

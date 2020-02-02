@@ -18,7 +18,7 @@ const profileSchema = mongoose.Schema({
   name: {
     type: String,
     trim: true,
-    required: [true, 'Username is required'],
+    required: [true, 'User name is required'],
   },
   avatarURL: {
     type: String,
@@ -75,21 +75,26 @@ const schema = mongoose.Schema({
 //------------------------------------------------------------------------------
 // STATIC METHODS:
 //------------------------------------------------------------------------------
-schema.statics.createUser = async function (fields) {
-  const exist = this.findOne({ 'recipient.id': fields.id });
+schema.statics.createUser = async function ({ id, name }) {
+  const exist = await this.findOne({ 'recipient.id': id });
 
   if (exist) {
     throw new Error('User already exist in NotificationsList collection');
   }
 
-  const newList = new this(fields);
+  const recipient = { id, name };
+
+  const newList = new this({ recipient });
   await newList.save();
   return newList;
 };
 //------------------------------------------------------------------------------
 schema.statics.insertNotification = async function (recipientId, notification) {
+  console.log('INSERT NOTIFICATION', { recipientId, notification });
   const query = { 'recipient.id': recipientId };
   const notificationsList = await this.findOne(query);
+
+  console.log({ notificationsList });
 
   if (!notificationsList) {
     throw new Error('NotificationsList does not exist');
@@ -97,10 +102,10 @@ schema.statics.insertNotification = async function (recipientId, notification) {
 
   if (notificationsList.items.length === MAX_ITEMS) {
     // Remove the first item (oldest) from the items array
-    await this.update(query, { $pop: { items: -1 } });
+    await this.updateOne(query, { $pop: { items: -1 } });
   }
 
-  this.update(query, { $push: { items: notification } }); // Promise
+  await this.updateOne(query, { $push: { items: notification } });
 };
 //------------------------------------------------------------------------------
 schema.statics.updateRecipientProfile = async function ({ id, name, avatarURL }) {
@@ -111,7 +116,7 @@ schema.statics.updateRecipientProfile = async function ({ id, name, avatarURL })
     throw new Error('NotificationsList does not exist');
   }
 
-  this.update(query, { $set: { name, avatarURL } }); // Promise
+  await this.update(query, { $set: { name, avatarURL } });
 };
 //------------------------------------------------------------------------------
 schema.statics.deleteRecipientData = async function (fields) {

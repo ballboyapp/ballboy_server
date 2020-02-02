@@ -1,7 +1,7 @@
-const notifications = require('./notifications');
+const notificationsList = require('./notifications-list');
 
 const Query = {
-  notifications,
+  notificationsList,
 };
 
 module.exports = Query;

@@ -40,7 +40,7 @@ const typeDefs = `
   # QUERIES
 
   type Query {
-    notificationsList(limit: Int!, offset: Int!): NotificationsList
+    notificationsList: NotificationsList
   }
 
   # MUTATIONS
