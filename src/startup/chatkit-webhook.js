@@ -1,4 +1,5 @@
-const { User, NotificationsList } = require('../models');
+const get = require('lodash/get');
+const { User, NotificationsList, Activity } = require('../models');
 const { NOTIFICATION_TYPES } = require('../constants');
 // const crypto = require('crypto');
 
@@ -26,32 +27,41 @@ module.exports = (app) => {
   app.post('/chatkit-webhook', async (req, res) => {
     const message = req.body.payload.messages[0];
 
-    const { user_id: recipientId, room_id: activityId } = message;
+    const { user_id: senderId, room_id: chatkitRoomId } = message;
 
     console.log('chatkit webhook', { message });
 
     try {
-      // TODO: target all participants in the game + the owner/admins
-      const sender = await User.findOne({ _id: recipientId });
-      console.log({ sender });
+      const activity = await Activity.findOne({ chatkitRoomId });
+      const sender = await User.findOne({ _id: senderId });
 
-      if (!sender) {
+      if (activity == null) {
+        throw new Error('Activity not found');
+      }
+
+      if (sender == null) {
         throw new Error('Sender not found');
       }
+
+      // TODO: make sure sender is either a participant or the owner/admin
 
       const notification = {
         notificationType: NOTIFICATION_TYPES.NEW_MESSAGE,
         sender: {
-          id: recipientId,
-          name: sender.profile.username,
-          avatarURL: sender.profile.avatar || '',
+          id: senderId,
+          name: get(sender, 'profile.username', ''),
+          avatarURL: get(sender, 'profile.avatar', ''),
         },
-        payload: { activityId },
+        payload: {
+          activityId: activity.id,
+          chatkitRoomId,
+        },
       };
 
       console.log({ notification });
 
-      await NotificationsList.insertNotification(recipientId, notification);
+      // TODO: send notification to participants instead of sender
+      await NotificationsList.insertNotification(senderId, notification);
 
       res.sendStatus(200);
     } catch (exc) {
