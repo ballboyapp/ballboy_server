@@ -1,4 +1,5 @@
 const get = require('lodash/get');
+const union = require('lodash/union');
 const { User, NotificationsList, Activity } = require('../models');
 const { NOTIFICATION_TYPES } = require('../constants');
 // const crypto = require('crypto');
@@ -32,18 +33,19 @@ module.exports = (app) => {
     console.log('chatkit webhook', { message });
 
     try {
-      const activity = await Activity.findOne({ chatkitRoomId });
+      // OBS: sender doesn't need to be a participant or the owner;
+      // any registered user should be able to leave a message
       const sender = await User.findOne({ _id: senderId });
-
-      if (activity == null) {
-        throw new Error('Activity not found');
-      }
 
       if (sender == null) {
         throw new Error('Sender not found');
       }
 
-      // TODO: make sure sender is either a participant or the owner/admin
+      const activity = await Activity.findOne({ chatkitRoomId });
+
+      if (activity == null) {
+        throw new Error('Activity not found');
+      }
 
       const notification = {
         notificationType: NOTIFICATION_TYPES.NEW_MESSAGE,
@@ -58,10 +60,17 @@ module.exports = (app) => {
         },
       };
 
-      console.log({ notification });
+      // Send notification to all attendees plus the organizer
+      const { organizerId, attendeesIds } = activity;
 
-      // TODO: send notification to participants instead of sender
-      await NotificationsList.insertNotification(senderId, notification);
+      const promises = union(
+        [organizerId.toString()],
+        attendeesIds.map(attendeeId => attendeeId.toString()),
+      ) // removes dup
+        .filter(userId => userId !== senderId)
+        .map(userId => NotificationsList.insertNotification(userId, notification));
+
+      await Promise.all(promises);
 
       res.sendStatus(200);
     } catch (exc) {

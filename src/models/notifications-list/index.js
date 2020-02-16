@@ -23,7 +23,7 @@ const profileSchema = mongoose.Schema({
   avatarURL: {
     type: String,
   },
-});
+}, { _id: false });
 //------------------------------------------------------------------------------
 const notificationSchema = mongoose.Schema({
   createdAt: {
@@ -85,6 +85,17 @@ schema.statics.createUser = async function ({ id, name }) {
   return newList;
 };
 //------------------------------------------------------------------------------
+schema.statics.updateRecipientProfile = async function ({ id, name, avatarURL }) {
+  const query = { 'recipient.id': id };
+  const notificationsList = await this.findOne(query);
+
+  if (!notificationsList) {
+    throw new Error('NotificationsList does not exist');
+  }
+
+  await this.update(query, { $set: { name, avatarURL } });
+};
+//------------------------------------------------------------------------------
 schema.statics.insertNotification = async function (recipientId, notification) {
   const query = { 'recipient.id': recipientId };
   const notificationsList = await this.findOne(query);
@@ -101,17 +112,6 @@ schema.statics.insertNotification = async function (recipientId, notification) {
   }
 
   await this.updateOne(query, { $push: { items: notification } });
-};
-//------------------------------------------------------------------------------
-schema.statics.updateRecipientProfile = async function ({ id, name, avatarURL }) {
-  const query = { 'recipient.id': id };
-  const notificationsList = await this.findOne(query);
-
-  if (!notificationsList) {
-    throw new Error('NotificationsList does not exist');
-  }
-
-  await this.update(query, { $set: { name, avatarURL } });
 };
 //------------------------------------------------------------------------------
 schema.statics.deleteRecipientData = async function (fields) {
