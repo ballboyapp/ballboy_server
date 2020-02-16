@@ -63,7 +63,7 @@ const schema = mongoose.Schema({
     type: String,
   },
   attendeesIds: {
-    type: [String], // TODO: mongoose.Schema.Types.ObjectId // Do we need to use ObjectId?
+    type: [mongoose.Schema.Types.ObjectId],
     default: [],
   },
   repeatFrequency: { // Weeks
