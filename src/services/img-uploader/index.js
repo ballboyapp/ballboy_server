@@ -34,6 +34,10 @@ class ImgUploader {
   }
 
   deleteImg(secureUrl) {
+    if (!secureUrl) {
+      return Promise.resolve(null);
+    }
+
     const publicId = getPublicId(secureUrl);
     return this.service.uploader.destroy(publicId); // promise
   }
