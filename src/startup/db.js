@@ -21,11 +21,16 @@ const db = mongoose.connection;
 // db.on('error', console.error.bind(console, 'Connection error:'));
 db.once('open', console.log.bind(console, `Database connected to ${MONGO}`));
 
+// Convert all ObjectIds to string
+// See: http://thecodebarbarian.com/whats-new-in-mongoose-54-global-schematype-configuration.html#schematype-getters
+// mongoose.Schema.Types.ObjectId.get(v => v.toString());
+
 // Clean and populate DB
 fixtures();
 
 // Required for graphql to properly parse ObjectId
 const { ObjectId } = mongoose.Types;
+
 ObjectId.prototype.valueOf = function () {
   return this.toString();
 };

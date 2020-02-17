@@ -1,5 +1,4 @@
 const get = require('lodash/get');
-const union = require('lodash/union');
 const { User, NotificationsList, Activity } = require('../models');
 const { NOTIFICATION_TYPES } = require('../constants');
 // const crypto = require('crypto');
@@ -55,20 +54,15 @@ module.exports = (app) => {
           avatarURL: get(sender, 'profile.avatar', ''),
         },
         payload: {
-          activityId: activity.id,
+          activityId: activity._id,
           chatkitRoomId,
         },
       };
 
       // Send notification to all attendees plus the organizer
-      const { organizerId, attendeesIds } = activity;
-
-      const promises = union(
-        [organizerId.toString()],
-        attendeesIds.map(attendeeId => attendeeId.toString()),
-      ) // removes dup
-        .filter(userId => userId !== senderId)
-        .map(userId => NotificationsList.insertNotification(userId, notification));
+      const promises = activity.getUsersExcept(senderId).map(userId => (
+        NotificationsList.insertNotification(userId, notification)
+      ));
 
       await Promise.all(promises);
 
