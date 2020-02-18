@@ -3,7 +3,7 @@ const { NotificationsList } = require('../../../../models');
 const { NOTIFICATION_TYPES } = require('../../../../constants');
 
 /**
- * Add current logged in user to the list of attendees
+ * Add currently logged in user to the attendees' list
  * @param {Object} root activity doc
  * @param {Object} args { _id } // activity id
  * @param {Object} ctx { usr, models, ... }
