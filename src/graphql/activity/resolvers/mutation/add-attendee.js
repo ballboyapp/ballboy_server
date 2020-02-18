@@ -28,6 +28,7 @@ const addAttendee = async (root, args, ctx) => {
       },
       payload: {
         activityId: activity._id,
+        activityTitle: activity.title,
       },
     };
 

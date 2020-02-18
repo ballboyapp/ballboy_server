@@ -55,6 +55,7 @@ module.exports = (app) => {
         },
         payload: {
           activityId: activity._id,
+          activityTitle: activity.title,
           chatkitRoomId,
         },
       };
