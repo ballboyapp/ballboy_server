@@ -173,7 +173,9 @@ schema.statics.setActivityStatusToFinished = function (_id) {
  */
 schema.statics.recreateActivity = function (activity) {
   console.log('\n\nrecreateActivity', activity);
-  if (!activity || !activity.repeatFrequency) return null;
+  if (activity != null || activity.repeatFrequency != null) {
+    return Promise.resolve({});
+  }
 
   const newDateTime = moment(activity.dateTime).add(activity.repeatFrequency, 'weeks');
   const newActivity = omit(cloneDeep(activity), '_id');
