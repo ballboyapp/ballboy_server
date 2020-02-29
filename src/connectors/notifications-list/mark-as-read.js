@@ -1,4 +1,4 @@
-const { Notification } = require('../../models');
+const { NotificationsList } = require('../../models');
 
 const markAsRead = async ({ usr }) => {
   // Make sure user is logged in
@@ -6,9 +6,12 @@ const markAsRead = async ({ usr }) => {
     return null;
   }
 
-  await Notification.update({ recipientId: usr._id, didRead: false }, { $set: { didRead: true } });
+  const query = { 'recipient.id': usr._id };
+  const modifier = { $set: { 'items.$[].didRead': true } };
 
-  return [];
+  await NotificationsList.updateOne(query, modifier, { multi: true });
+
+  return NotificationsList.findOne(query);
 };
 
 module.exports = markAsRead;
