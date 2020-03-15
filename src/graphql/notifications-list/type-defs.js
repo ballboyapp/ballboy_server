@@ -29,10 +29,10 @@ const typeDefs = `
   }
 
   type NotificationsList {
-    _id: ID!
-    recipient: NotificationUserProfile!
-    unreadCounter: Int!
-    items: [Notification]!
+    _id: ID
+    recipient: NotificationUserProfile
+    unreadCounter: Int
+    items: [Notification]
   }
 
   # INPUTS
