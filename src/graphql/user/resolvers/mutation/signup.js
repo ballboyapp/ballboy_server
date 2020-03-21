@@ -1,4 +1,5 @@
 const chatkit = require('../../../../services/chatkit');
+const { NotificationsList } = require('../../../../models');
 
 const signup = async (root, args, ctx) => {
   const user = await ctx.models.User.signup(args);
@@ -13,6 +14,18 @@ const signup = async (root, args, ctx) => {
     });
   } catch (exc) {
     console.log('Failed registering user to Chatkit', exc);
+    // TODO: log/sentry
+  }
+
+  // Register user on NotificationsList
+  try {
+    await NotificationsList.createUser({
+      id: user._id.toString(),
+      name: user.profile.username,
+    });
+  } catch (exc) {
+    console.log('Failed registering user to NotificationsList', exc);
+    // TODO: log/sentry
   }
 
   return user;

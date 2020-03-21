@@ -22,6 +22,12 @@ In order to get started, first access your [Mailgun](https://www.mailgun.com/) a
 #### Chatkit and Cloudinary
 Follow the instructions on the React Native repo to set the following env variables: `CHATKIT_INSTANCE_LOCATOR`, `CHATKIT_SECRET_KEY`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` and `CLOUDINARY_CLOUDNAME`. Notice `CHATKIT_USER_ADMIN=admin`, `CHATKIT_USER_READ_ONLY=readonly`, `CLOUDINARY_UPLOAD_PRESET=default` should be kept unchanged.
 
+Finally, we'll need to add a webhook to chatkit so that we can receive events coming from the service every time a user leaves a new message. We use this to deliver notifications from the server to the list of attendees of an activity.
+
+In order to achive this, go to your chatkit project, click on the `Settings` tab, and create a new webhook. The webhook should fire with every `new message` (Message Created). For the name of the webhooks you can use whatever name you want, `chatkit-webhook` for instance. For the target url you'll need to point to your server's chatkit-webhook endpoint. In case your server is deployed, the url should look something like this `https://<YOUR_SERVER_URL>/chatkit-webhook`. In case you are running a local dev server, then you'll need  to expose your chatkit-webhook endpoint to be reachanble by chatkit. This can achieved really easily via ngrok service [https://ngrok.com/](https://ngrok.com/). Basically ngrok creates a bridge between your local computer and an externad https ip address. Then you can point the chatkit webhook to the ngrok ip address so that the event is re-routed to your local machine.
+
+After installing ngrok, start the service via `./ngrok http 3001` (the port should match your server's port). Use the provided url to create the target url for the chatkit webhook. It should look something like this `https://67a582cf.ngrok.io/chatkit-webhook`. Finally, type any random string for your chatkit webhook secret and store that value in the `CHATKIT_WEBHOOK_SECRET` env var.
+
 #### Sentry (error tracking service API)
 
 - Visit [https://sentry.io](https://sentry.io) and create an account and a new 'Organization' (you can use the same organization as the client app).
@@ -107,6 +113,19 @@ Comment: if you want to deploy from a branch different than master run:
 In case your build fails with an error ```/bin/sh: 1: <SOME-DEP>: not found``` and you are building the project with yarn, try setting the following env variable:
 ```
 heroku config:set NPM_CONFIG_PRODUCTION=false
+```
+
+Set app name:
+```
+heroku apps:<SOME_COMMAND> --app <APP_NAME>
+```
+
+Source: [https://devcenter.heroku.com/articles/using-the-cli](https://devcenter.heroku.com/articles/using-the-cli)
+
+
+Set a FREE dyno:
+```
+heroku ps:scale web=1 --app <APP_NAME>
 ```
 
 ## Further reading

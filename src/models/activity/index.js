@@ -4,6 +4,7 @@ const moment = require('moment');
 const cloneDeep = require('lodash/cloneDeep');
 const extend = require('lodash/extend');
 const omit = require('lodash/omit');
+const union = require('lodash/union');
 const { SPORTS, ACTIVITY_STATUSES } = require('../../constants');
 const { pointSchema } = require('../common-schemas');
 const { Spot } = require('../spot');
@@ -63,7 +64,7 @@ const schema = mongoose.Schema({
     type: String,
   },
   attendeesIds: {
-    type: [String], // TODO: mongoose.Schema.Types.ObjectId // Do we need to use ObjectId?
+    type: [mongoose.Schema.Types.ObjectId],
     default: [],
   },
   repeatFrequency: { // Weeks
@@ -80,6 +81,12 @@ schema.index({ location: '2dsphere' });
 //------------------------------------------------------------------------------
 // OBS: you shouldn't use these methods outside connectors
 //------------------------------------------------------------------------------
+schema.methods.getUsersExcept = function (userId) {
+  return union( // removes dup
+    [this.organizerId.toString()],
+    this.attendeesIds.map(attendeeId => attendeeId.toString()),
+  ).filter(id => id !== userId.toString());
+};
 
 //------------------------------------------------------------------------------
 // STATIC METHODS:
@@ -166,7 +173,9 @@ schema.statics.setActivityStatusToFinished = function (_id) {
  */
 schema.statics.recreateActivity = function (activity) {
   console.log('\n\nrecreateActivity', activity);
-  if (!activity || !activity.repeatFrequency) return null;
+  if (activity != null || activity.repeatFrequency != null) {
+    return Promise.resolve({});
+  }
 
   const newDateTime = moment(activity.dateTime).add(activity.repeatFrequency, 'weeks');
   const newActivity = omit(cloneDeep(activity), '_id');

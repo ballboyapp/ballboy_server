@@ -7,7 +7,7 @@ module.exports = (app) => {
     // User data is decoded on the validateJwtMiddleware
     const userId = (req.user && req.user._id) || CHATKIT_USER_READ_ONLY;
     const authData = chatkit.authenticate({ userId });
-    // console.log('authData', authData);
+    // console.log({ authData });
     res.status(authData.status).send(authData.body); // { access_token, expires_in }
   });
 };

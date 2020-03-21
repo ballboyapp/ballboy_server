@@ -32,7 +32,7 @@ const updateUser = async (root, args, ctx) => {
   // Remove old avatar from cloudinary
   const { avatar: oldAvatar } = usr.profile;
 
-  if (newAvatar !== oldAvatar) {
+  if (oldAvatar && newAvatar !== oldAvatar) {
     try {
       await imgUploader.deleteImg(oldAvatar);
     } catch (exc) {
