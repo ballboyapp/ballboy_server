@@ -71,8 +71,12 @@ schema.statics.insertMessage = async function ({ roomId, sender, text }) {
 
   console.log({ room });
 
-  if (!room) {
+  if (room == null) {
     throw new Error('Room does not exist');
+  }
+
+  if (text.trim().length === 0) {
+    throw new Error('Text is required');
   }
 
   if (room.messages.length === MAX_MESSAGES) {

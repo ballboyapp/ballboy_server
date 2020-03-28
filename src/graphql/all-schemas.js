@@ -4,6 +4,7 @@ const City = require('./city');
 const Spot = require('./spot');
 const Activity = require('./activity');
 const NotificationsList = require('./notifications-list');
+const ChatRooms = require('./chat-rooms');
 
 // Add all your schemas here!
 const allSchemas = {
@@ -13,6 +14,7 @@ const allSchemas = {
   Spot,
   Activity,
   NotificationsList,
+  ChatRooms,
 };
 
 module.exports = allSchemas;
