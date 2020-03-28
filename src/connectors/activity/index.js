@@ -6,7 +6,7 @@ const removeAttendee = require('./remove-attendee');
 const getActivities = require('./get-activities');
 const getActivityDetails = require('./get-activity-details');
 const getSpotActivities = require('./get-spot-activities');
-const setChatkitRoomId = require('./set-chatkit-room-id');
+const setChatRoomId = require('./set-chat-room-id');
 
 /**
  * @see {@link https://blog.apollographql.com/authorization-in-graphql-452b1c402a9}
@@ -24,7 +24,7 @@ const genActivityModel = ({ usr }) => ({
   getActivities: args => getActivities({ usr }, args),
   getSpotActivities: args => getSpotActivities({ usr }, args),
   getActivityDetails: args => getActivityDetails({ usr }, args),
-  setChatkitRoomId: args => setChatkitRoomId({ usr }, args),
+  setChatRoomId: args => setChatRoomId({ usr }, args),
 });
 
 module.exports = genActivityModel;

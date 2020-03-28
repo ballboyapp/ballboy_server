@@ -29,7 +29,7 @@ const typeDefs = `
     status: ActivityStatus
     capacity: Int
     shareLink: String
-    chatkitRoomId: String
+    chatRoomId: String
     attendeesIds: [ID]
     attendees: [PublicUser]
     isAttendee: Boolean

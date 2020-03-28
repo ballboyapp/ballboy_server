@@ -1,6 +1,4 @@
-const chatkit = require('../../../../services/chatkit');
-
-const { CHATKIT_USER_ADMIN, CHATKIT_USER_READ_ONLY } = process.env;
+const { ChatRooms } = require('../../../../models');
 
 const createActivity = async (root, args, ctx) => {
   // console.log('createActivityMutation', args, ctx);
@@ -9,23 +7,16 @@ const createActivity = async (root, args, ctx) => {
   // TODO: create shareLink
 
   try {
-    // Create chatkit room
-    const room = await chatkit.createRoom({
-      creatorId: CHATKIT_USER_ADMIN,
-      name: activity._id.toString(),
-    });
-    // Subscribe to chatkit room
-    await chatkit.addUsersToRoom({
-      roomId: room.id,
-      userIds: [CHATKIT_USER_READ_ONLY],
-    });
+    // Create chat room
+    const room = await ChatRooms.createRoom();
+
     // Store roomId into activity doc
-    await ctx.models.Activity.setChatkitRoomId({
+    await ctx.models.Activity.setChatRoomId({
       _id: activity._id,
-      chatkitRoomId: room.id,
+      chatRoomId: room._id,
     });
   } catch (exc) {
-    console.log('Failed creating Chatkit room', exc);
+    console.log('Failed creating chat room', exc);
   }
 
   return activity;

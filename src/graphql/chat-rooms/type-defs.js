@@ -33,7 +33,7 @@ const typeDefs = `
   # MUTATIONS
 
   type Mutation {
-    sendMessage(roomId: ID!, text: String!): ChatRoom
+    sendMessage(roomId: ID!, text: String!): Message
   }
 `;
 

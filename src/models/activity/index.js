@@ -60,8 +60,8 @@ const schema = mongoose.Schema({
   shareLink: {
     type: String,
   },
-  chatkitRoomId: {
-    type: String,
+  chatRoomId: {
+    type: mongoose.Schema.Types.ObjectId,
   },
   attendeesIds: {
     type: [mongoose.Schema.Types.ObjectId],

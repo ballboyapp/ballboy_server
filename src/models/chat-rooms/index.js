@@ -84,7 +84,7 @@ schema.statics.insertMessage = async function ({ roomId, sender, text }) {
   }
 
   await this.updateOne(query, { $push: { messages: { sender, text } } });
-  return this.findOne(query); // Promise
+  return { sender, text };
 };
 //------------------------------------------------------------------------------
 schema.statics.deleteRoom = async function (roomId) {
