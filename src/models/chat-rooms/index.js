@@ -1,5 +1,6 @@
 /* eslint-disable func-names */
 const mongoose = require('mongoose');
+const last = require('lodash/last');
 
 //------------------------------------------------------------------------------
 // CONSTANTS:
@@ -84,7 +85,9 @@ schema.statics.insertMessage = async function ({ roomId, sender, text }) {
   }
 
   await this.updateOne(query, { $push: { messages: { sender, text } } });
-  return { sender, text };
+
+  const upRoom = await this.findOne(query);
+  return last(upRoom.messages);
 };
 //------------------------------------------------------------------------------
 schema.statics.deleteRoom = async function (roomId) {

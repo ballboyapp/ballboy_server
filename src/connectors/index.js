@@ -3,7 +3,7 @@ const genCityModel = require('./city');
 const genSpotModel = require('./spot');
 const genActivityModel = require('./activity');
 const genNotificationsListModel = require('./notifications-list');
-const genChatRooms = require('./chat-rooms');
+const genChatRoomsModel = require('./chat-rooms');
 
 module.exports = {
   genUserModel,
@@ -11,5 +11,5 @@ module.exports = {
   genSpotModel,
   genActivityModel,
   genNotificationsListModel,
-  genChatRooms,
+  genChatRoomsModel,
 };

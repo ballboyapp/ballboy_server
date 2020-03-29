@@ -18,8 +18,8 @@ const typeDefs = `
   }
 
   type ChatRoom {
-    _id: ID
-    messages: [Message]
+    _id: ID!
+    messages: [Message]!
   }
 
   # INPUTS

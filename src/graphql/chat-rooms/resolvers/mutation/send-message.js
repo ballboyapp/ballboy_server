@@ -24,11 +24,7 @@ const sendMessage = async (root, args, ctx) => {
 
     const notification = {
       notificationType: NOTIFICATION_TYPES.NEW_MESSAGE,
-      sender: {
-        id: sender.id,
-        name: get(sender, 'profile.username', ''),
-        avatarURL: get(sender, 'profile.avatar', ''),
-      },
+      sender,
       payload: {
         activityId: activity._id,
         activityTitle: activity.title,

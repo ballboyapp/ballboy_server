@@ -8,9 +8,9 @@ const sendMessage = require('./send-message');
  * @see {@link https://github.com/apollographql/GitHunt-API/blob/cc67a4506c31310b4ba8d811dda11d258c7d60d6/api/sql/schema.js#L63}
  */
 
-const genChatRoomModel = ({ usr }) => ({
+const genChatRoomsModel = ({ usr }) => ({
   getChatRoom: args => getChatRoom({ usr }, args),
   sendMessage: args => sendMessage({ usr }, args),
 });
 
-module.exports = genChatRoomModel;
+module.exports = genChatRoomsModel;
