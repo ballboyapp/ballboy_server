@@ -1,4 +1,3 @@
-const chatkit = require('../../../../services/chatkit');
 const { imgUploader } = require('../../../../services/img-uploader');
 
 const updateUser = async (root, args, ctx) => {
@@ -11,25 +10,10 @@ const updateUser = async (root, args, ctx) => {
 
   const upUser = await ctx.models.User.updateUser(args);
 
-  // Update chatkit profile
-  const {
-    username: newUsername,
-    avatar: newAvatar,
-  } = upUser.profile;
-
-  if (newUsername && newAvatar) {
-    try {
-      await chatkit.updateUser({
-        id: usr._id.toString(),
-        name: newUsername,
-        avatarURL: newAvatar,
-      });
-    } catch (exc) {
-      console.log('Failed updating user on Chatkit', exc);
-    }
-  }
+  // TODO: Update chat room profile?
 
   // Remove old avatar from cloudinary
+  const { avatar: newAvatar } = upUser.profile;
   const { avatar: oldAvatar } = usr.profile;
 
   if (oldAvatar && newAvatar !== oldAvatar) {

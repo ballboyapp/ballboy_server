@@ -1,6 +1,5 @@
 const express = require('express');
 const helmet = require('helmet');
-// const path = require('path');
 const cors = require('cors');
 const enforce = require('express-sslify');
 const rateLimit = require('express-rate-limit');
@@ -119,18 +118,6 @@ app.use((err, req, res, next) => {
 // APOLLO SERVER
 //------------------------------------------------------------------------------
 require('./src/startup/apollo-server')(app);
-
-//------------------------------------------------------------------------------
-// CHATKIT ENDPOINTS
-//------------------------------------------------------------------------------
-require('./src/startup/chatkit-auth')(app);
-
-// app.use(express.text({
-//   // Treat body as raw text regardless of content-type
-//   type: () => true,
-// }));
-
-require('./src/startup/chatkit-webhook')(app);
 
 // TODO: disable in production
 // app.get('/debug-sentry', (req, res) => {

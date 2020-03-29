@@ -24,12 +24,17 @@ const {
   NotificationsList,
 } = require('./notifications-list');
 
+const {
+  ChatRooms,
+} = require('./chat-rooms');
+
 module.exports = {
   User,
   City,
   Spot,
   Activity,
   NotificationsList,
+  ChatRooms,
   validateSignup,
   validateLogin,
   validateCredentials,
