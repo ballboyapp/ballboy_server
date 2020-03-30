@@ -1,4 +1,3 @@
-const get = require('lodash/get');
 const { NotificationsList, Activity } = require('../../../../models');
 const { NOTIFICATION_TYPES } = require('../../../../constants');
 
