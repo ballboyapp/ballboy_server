@@ -12,10 +12,6 @@ const addAttendee = async (root, args, ctx) => {
   // console.log('addAttendeeMutation', args, ctx);
   const { usr } = ctx;
 
-  if (usr == null) {
-    return null;
-  }
-
   const activity = await ctx.models.Activity.addAttendee(args);
 
   if (activity != null) {
