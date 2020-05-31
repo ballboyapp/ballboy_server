@@ -86,9 +86,8 @@ This should launch the server on port 5000 --> http://localhost:5000. As far as 
 >> heroku create <YOUR_APP_NAME>
 ```
 
-5. Install buildpacks (probably not necessary if you don't use yarn) and set MONGO_URL env variable.
+5. Set MONGO_URL env variable.
 ```
-heroku buildpacks:set https://github.com/heroku/heroku-buildpack-nodejs#yarn
 heroku config:set MONGO_URL=mongodb://<dbuser>:<dbpassword>@<something>.mlab.com:<port>/<dbname>
 ```
 

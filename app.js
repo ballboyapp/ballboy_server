@@ -33,6 +33,8 @@ console.log('\nprocess.env.PORT', PORT);
 const app = express();
 app.set('port', (PORT || 3001));
 
+const isProduction = app.get('env') === 'production';
+
 //------------------------------------------------------------------------------
 // INIT SENTRY
 //------------------------------------------------------------------------------
@@ -61,12 +63,7 @@ app.use(helmet());
 // You need a JSON parser first.
 app.use(helmet.contentSecurityPolicy(csp));
 
-if (app.get('env') === 'development') {
-  // Enable the app to receive requests from the React app and Storybook when running locally.
-  app.use(cors());
-}
-
-if (app.get('env') === 'production') {
+if (isProduction) {
   // Enable the app to receive requests from the front end.
   app.use('*', cors({ origin: [CLIENT_URL] }));
 
@@ -76,11 +73,14 @@ if (app.get('env') === 'production') {
   // Enable if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
   // see https://expressjs.com/en/guide/behind-proxies.html
   app.set('trust proxy', 1);
+} else {
+  // Enable the app to receive requests from the React app and Storybook when running locally.
+  app.use(cors());
 }
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 200, // limit each IP to 200 requests per windowMs
+  max: isProduction ? 200 : 1000, // limit each IP to 200 requests per windowMs
   onLimitReached: (req, res, options) => {
     console.log('Rate Limit Reached req', req);
   },
