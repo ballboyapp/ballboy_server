@@ -67,9 +67,9 @@ const cities = async () => {
 const spots = async () => {
   const spot = await Spot.findOne({});
 
-  // if (spot) {
-  //   return;
-  // }
+  if (spot) {
+    return;
+  }
 
   const SPOTS = [{
     spotname: 'Roombeek',
