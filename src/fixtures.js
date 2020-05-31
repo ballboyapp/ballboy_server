@@ -67,69 +67,89 @@ const cities = async () => {
 const spots = async () => {
   const spot = await Spot.findOne({});
 
-  if (spot) {
-    return;
-  }
+  // if (spot) {
+  //   return;
+  // }
 
   const SPOTS = [{
-    spotname: 'Performance Factory',
-    address: 'Hoge Bothofstraat 31-49, 7511 ZA Enschede, Netherlands',
-    coordinates: [52.2236654, 6.9029265],
-    images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1557481330/jfytpw0aa5ioa7v3a4rb.jpg'],
-    sports: [SPORTS.FOOTBALL],
-  }, {
-    spotname: 'Rigtersbleek',
-    address: 'G.J. van Heekstraat 15, 7521 EB Enschede, Netherlands',
-    coordinates: [52.2263591, 6.8730052],
-    images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1564347619/IMG_20180601_184705_761-ConvertImage.jpg'],
+    spotname: 'Roombeek',
+    address: 'Steenbeltweg 59-35, 7523 VZ Enschede, Netherlands',
+    coordinates: [52.2370547, 6.8985376],
+    images: ['https://res.cloudinary.com/dxot4z4ma/image/upload/v1590944463/Screenshot_from_2020-05-31_18-59-28_uzbuh9.png'],
     sports: [SPORTS.FOOTBALL],
   }, {
     spotname: 'Beachveld',
-    address: 'Campuslaan, 7522 NB Enschede, Netherlands',
-    coordinates: [52.2462745, 6.8494801],
-    images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1551798266/kvtqwxbywkp3oae11fjk.jpg'],
+    address: 'Matenweg, 7522 NB Enschede, Netherlands',
+    coordinates: [52.2461157, 6.8497418],
+    images: ['https://res.cloudinary.com/dxot4z4ma/image/upload/v1590945496/mtq-rlbny50i7tujvarycg_av69u9.png'],
     sports: [SPORTS.BEACH_VOLLEYBALL],
   }, {
-    spotname: 'Lage Filterweg',
-    address: 'Lage Filterweg 16, 3063 SB Rotterdam, Netherlands',
-    coordinates: [51.9105469, 4.5218993],
-    images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1564348028/52706501_579245615905290_6640661627421065216_n.jpg'],
-    sports: [SPORTS.FOOTBALL],
-  }, {
-    spotname: 'Erasmuspad',
-    address: 'Erasmuspad 9, 3052 KP Rotterdam, Netherlands',
-    coordinates: [51.947885, 4.4654503],
-    images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1573942160/RKSV_Leonidas.jpg'],
-    sports: [SPORTS.FOOTBALL],
-  }, {
-    spotname: 'De Wilgenring',
-    address: 'Melanchtonweg 70, 3052 KV Rotterdam, Netherlands',
-    coordinates: [51.9486202, 4.4696616],
-    images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1573942600/sportcentrum-wilgenring-9.jpg'],
-    sports: [
-      SPORTS.BASKETBALL,
-      SPORTS.FOOTBALL,
-      SPORTS.BADMINTON,
-      SPORTS.VOLLEYBALL,
-    ],
-  }, {
-    spotname: 'Hazelaarweg',
-    address: 'Hazelaarweg 40, 3053 PM Rotterdam, Netherlands',
-    coordinates: [51.9659456, 4.4778496],
-    images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1573943474/zGvMldtztetiBCWSIknLM4WbSy0S636BjkyHAl8s.jpg'],
-    sports: [SPORTS.FOOTBALL],
-  }, {
-    spotname: 'Kralingen',
-    address: 'Slaak 15, 3061 CR Rotterdam, Netherlands',
-    coordinates: [51.9257414, 4.4969802],
-    images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1573943603/Y1j8TBSxQzlefAtRc044jNg7twpRpbo9FoRSFC6s.jpg'],
-    sports: [
-      SPORTS.BASKETBALL,
-      SPORTS.FOOTBALL,
-      SPORTS.BADMINTON,
-      SPORTS.VOLLEYBALL,
-    ],
+    spotname: 'Basketball Court UT',
+    address: 'Matenweg, 7522 NB Enschede, Netherlands',
+    coordinates: [52.2457184, 6.8496936],
+    images: ['https://res.cloudinary.com/dxot4z4ma/image/upload/v1590945483/md-rozavlj2dtbtkonnoew_ik1out.png'],
+    sports: [SPORTS.BASKETBALL],
   }];
+
+  // const SPOTS = [{
+  //   spotname: 'Performance Factory',
+  //   address: 'Hoge Bothofstraat 31-49, 7511 ZA Enschede, Netherlands',
+  //   coordinates: [52.2236654, 6.9029265],
+  //   images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1557481330/jfytpw0aa5ioa7v3a4rb.jpg'],
+  //   sports: [SPORTS.FOOTBALL],
+  // }, {
+  //   spotname: 'Rigtersbleek',
+  //   address: 'G.J. van Heekstraat 15, 7521 EB Enschede, Netherlands',
+  //   coordinates: [52.2263591, 6.8730052],
+  //   images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1564347619/IMG_20180601_184705_761-ConvertImage.jpg'],
+  //   sports: [SPORTS.FOOTBALL],
+  // }, {
+  //   spotname: 'Beachveld',
+  //   address: 'Campuslaan, 7522 NB Enschede, Netherlands',
+  //   coordinates: [52.2462745, 6.8494801],
+  //   images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1551798266/kvtqwxbywkp3oae11fjk.jpg'],
+  //   sports: [SPORTS.BEACH_VOLLEYBALL],
+  // }, {
+  //   spotname: 'Lage Filterweg',
+  //   address: 'Lage Filterweg 16, 3063 SB Rotterdam, Netherlands',
+  //   coordinates: [51.9105469, 4.5218993],
+  //   images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1564348028/52706501_579245615905290_6640661627421065216_n.jpg'],
+  //   sports: [SPORTS.FOOTBALL],
+  // }, {
+  //   spotname: 'Erasmuspad',
+  //   address: 'Erasmuspad 9, 3052 KP Rotterdam, Netherlands',
+  //   coordinates: [51.947885, 4.4654503],
+  //   images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1573942160/RKSV_Leonidas.jpg'],
+  //   sports: [SPORTS.FOOTBALL],
+  // }, {
+  //   spotname: 'De Wilgenring',
+  //   address: 'Melanchtonweg 70, 3052 KV Rotterdam, Netherlands',
+  //   coordinates: [51.9486202, 4.4696616],
+  //   images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1573942600/sportcentrum-wilgenring-9.jpg'],
+  //   sports: [
+  //     SPORTS.BASKETBALL,
+  //     SPORTS.FOOTBALL,
+  //     SPORTS.BADMINTON,
+  //     SPORTS.BEACH_VOLLEYBALL,
+  //   ],
+  // }, {
+  //   spotname: 'Hazelaarweg',
+  //   address: 'Hazelaarweg 40, 3053 PM Rotterdam, Netherlands',
+  //   coordinates: [51.9659456, 4.4778496],
+  //   images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1573943474/zGvMldtztetiBCWSIknLM4WbSy0S636BjkyHAl8s.jpg'],
+  //   sports: [SPORTS.FOOTBALL],
+  // }, {
+  //   spotname: 'Kralingen',
+  //   address: 'Slaak 15, 3061 CR Rotterdam, Netherlands',
+  //   coordinates: [51.9257414, 4.4969802],
+  //   images: ['https://res.cloudinary.com/dp4vo5nq4/image/upload/v1573943603/Y1j8TBSxQzlefAtRc044jNg7twpRpbo9FoRSFC6s.jpg'],
+  //   sports: [
+  //     SPORTS.BASKETBALL,
+  //     SPORTS.FOOTBALL,
+  //     SPORTS.BADMINTON,
+  //     SPORTS.BEACH_VOLLEYBALL,
+  //   ],
+  // }];
 
   SPOTS.forEach(async (s) => {
     await Spot.createSpot(s);
