@@ -173,7 +173,7 @@ schema.statics.setActivityStatusToFinished = function (_id) {
  */
 schema.statics.recreateActivity = function (activity) {
   console.log('\n\nrecreateActivity', activity);
-  if (activity != null || activity.repeatFrequency != null) {
+  if (activity == null || activity.repeatFrequency == null || activity.repeatFrequency < 1) {
     return Promise.resolve({});
   }
 
