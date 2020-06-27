@@ -179,7 +179,11 @@ schema.statics.recreateActivity = function (activity) {
 
   const newDateTime = moment(activity.dateTime).add(activity.repeatFrequency, 'weeks');
   const newActivity = omit(cloneDeep(activity), '_id');
-  extend(newActivity, { dateTime: newDateTime, attendeesIds: [newActivity.organizerId] });
+  extend(newActivity, {
+    dateTime: newDateTime,
+    attendeesIds: [newActivity.organizerId],
+    status: ACTIVITY_STATUSES.ACTIVE,
+  });
 
   return this.createActivity(newActivity); // Promise
 };

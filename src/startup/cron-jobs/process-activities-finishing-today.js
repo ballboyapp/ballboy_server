@@ -1,7 +1,9 @@
 const moment = require('moment');
 const get = require('lodash/get');
 const { NOTIFICATION_TYPES } = require('../../constants');
-const { User, Activity, NotificationsList } = require('../../models');
+const {
+  User, Activity, NotificationsList, ChatRooms,
+} = require('../../models');
 
 // For testing: db.activities.update({ "_id" : ObjectId("5e035018fbbedd3e6b234e9d") }, { $set: { "dateTime" : ISODate("2019-12-25T10:35:00Z"), status: "ACTIVE", repeatFrequency: 1 } })
 const processActivitiesFinishingToday = async () => {
@@ -19,31 +21,45 @@ const processActivitiesFinishingToday = async () => {
       promises.push(Activity.setActivityStatusToFinished(activity._id));
 
       if (activity.repeatFrequency != null) {
-        promises.push(Activity.recreateActivity(activity));
-
         promises.push(async () => {
-          const { organizerId } = activity;
+          try {
+            const newActivity = await Activity.recreateActivity(activity);
 
-          const organizer = await User.findOne({ _id: organizerId });
+            // Create chat room
+            const room = await ChatRooms.createRoom();
 
-          if (organizer == null) {
-            throw new Error('Organizer not found');
+            // Store roomId into activity doc
+            await Activity.setChatRoomId({
+              _id: newActivity._id,
+              chatRoomId: room._id,
+            });
+
+            // Insert notifications
+            const { organizerId } = newActivity;
+
+            const organizer = await User.findOne({ _id: organizerId });
+
+            if (organizer == null) {
+              throw new Error('Organizer not found');
+            }
+
+            const notification = {
+              notificationType: NOTIFICATION_TYPES.ACTIVITY_RECREATED,
+              sender: {
+                id: organizerId,
+                name: get(organizer, 'profile.username', ''),
+                avatarURL: get(organizer, 'profile.avatar', ''),
+              },
+              payload: {
+                activityId: newActivity._id,
+                activityTitle: newActivity.title,
+              },
+            };
+
+            await NotificationsList.insertNotification(organizerId, notification);
+          } catch (e) {
+            console.log(e);
           }
-
-          const notification = {
-            notificationType: NOTIFICATION_TYPES.ACTIVITY_RECREATED,
-            sender: {
-              id: organizerId,
-              name: get(organizer, 'profile.username', ''),
-              avatarURL: get(organizer, 'profile.avatar', ''),
-            },
-            payload: {
-              activityId: activity._id,
-              activityTitle: activity.title,
-            },
-          };
-
-          await NotificationsList.insertNotification(organizerId, notification);
         });
       }
     });
