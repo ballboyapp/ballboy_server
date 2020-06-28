@@ -11,7 +11,7 @@ const MAX_RESULTS = 20;
 // HANDLER:
 //------------------------------------------------------------------------------
 const getSpotActivities = ({ usr }, { spotId, limit, offset }) => {
-  console.log('getSpotActivities', { spotId, limit, offset });
+  // console.log('getSpotActivities', { spotId, limit, offset });
   // Make sure user is logged in
   if (!usr || !usr._id || !spotId) {
     return [];

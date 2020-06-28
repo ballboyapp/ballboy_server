@@ -70,7 +70,7 @@ schema.statics.insertMessage = async function ({ roomId, sender, text }) {
   const query = { _id: roomId };
   const room = await this.findOne(query);
 
-  console.log({ room });
+  // console.log({ room });
 
   if (room == null) {
     throw new Error('Room does not exist');

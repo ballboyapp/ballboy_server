@@ -100,7 +100,7 @@ schema.statics.insertNotification = async function (recipientId, notification) {
   const query = { 'recipient.id': recipientId };
   const notificationsList = await this.findOne(query);
 
-  console.log({ notificationsList });
+  // console.log({ notificationsList });
 
   if (!notificationsList) {
     throw new Error('NotificationsList does not exist');
