@@ -1,4 +1,5 @@
 const { ApolloServer } = require('apollo-server-express');
+const get = require('lodash/get');
 const schema = require('../graphql/exec-schema');
 const { User } = require('../models');
 const {
@@ -21,6 +22,7 @@ module.exports = (app) => {
 
       // TODO: disable in production
       // const usr = await User.findOne({});
+      console.log({ loggedInUser: get(usr, 'profile.username', 'unknown') });
 
       return {
         usr,
