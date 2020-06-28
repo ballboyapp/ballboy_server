@@ -1,13 +1,24 @@
+const get = require('lodash/get');
 const { nodemailer, transporter } = require('../../services/nodemailer/config');
 const { User } = require('../../models');
 
 const { APP_NAME, APP_DOMAIN_NAME } = process.env;
 
 // TODO: i18n
-const getText = ({ passcode }) => (`
-Hello,
+const getText = ({ username, passcode }) => (`
+Hey${username.length > 0 ? ' ' : ''}${username},
 Your verification code is ${passcode}.
-Thanks.
+Enjoy!
+`);
+
+const getHtml = ({ username, passcode }) => (`
+<p>
+Hey${username.length > 0 ? ' ' : ''}${username},
+</p>
+<p>
+Your verification code is <b>${passcode}</b>.
+</p>
+<p>Enjoy!</p>
 `);
 
 const sendPasscode = async ({ usr }, { email }) => {
@@ -24,14 +35,15 @@ const sendPasscode = async ({ usr }, { email }) => {
 
   // Genearte a pass code and attach it to the user
   const passcode = await user.genPasscode();
+  const username = get(user, 'profile.username', '');
 
   // Send pass code to user
   const mailOptions = {
     from: `"${APP_NAME}" <no-reply@${APP_DOMAIN_NAME}>`, // sender address
     to: email, // list of receivers
-    subject: `Your verification code is ${passcode}`, // subject line
-    text: getText({ passcode }), // plain text body
-    // html: '<b>Hello world?</b>', // html body
+    subject: 'Verification code for Ballboy', // subject line
+    text: getText({ username, passcode }), // plain text body
+    html: getHtml({ username, passcode }), // html body
   };
 
   // Send email with defined transport object
