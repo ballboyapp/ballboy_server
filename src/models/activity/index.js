@@ -5,9 +5,14 @@ const cloneDeep = require('lodash/cloneDeep');
 const extend = require('lodash/extend');
 const omit = require('lodash/omit');
 const union = require('lodash/union');
-const { SPORTS, ACTIVITY_STATUSES } = require('../../constants');
+const get = require('lodash/get');
+const { SPORTS, ACTIVITY_STATUSES, NOTIFICATION_TYPES } = require('../../constants');
 const { pointSchema } = require('../common-schemas');
 const { Spot } = require('../spot');
+const { User } = require('../user');
+const { NotificationsList } = require('../notifications-list');
+const { ChatRooms } = require('../chat-rooms');
+
 const { getSpotId } = require('./utils');
 
 //------------------------------------------------------------------------------
@@ -171,27 +176,58 @@ schema.statics.setActivityStatusToFinished = function (_id) {
  * @param {object} - activity
  * @returns {Promise} - promise
  */
-schema.statics.recreateActivity = function (activity) {
+schema.statics.recreateActivity = async function (activity) {
   console.log('\n\nrecreateActivity', activity);
   if (activity == null || activity.repeatFrequency == null || activity.repeatFrequency < 1) {
     return Promise.resolve({});
   }
 
   const newDateTime = moment(activity.dateTime).add(activity.repeatFrequency, 'weeks');
-  const newActivity = omit(cloneDeep(activity), '_id');
-  extend(newActivity, {
+  const clonedActivity = omit(cloneDeep(activity), '_id');
+
+  // Create chat room
+  const room = await ChatRooms.createRoom();
+
+  extend(clonedActivity, {
     dateTime: newDateTime,
-    attendeesIds: [newActivity.organizerId],
+    attendeesIds: [clonedActivity.organizerId],
     status: ACTIVITY_STATUSES.ACTIVE,
+    chatRoomId: room._id,
   });
 
-  return this.createActivity(newActivity); // Promise
+  const newActivity = await this.createActivity(clonedActivity);
+  console.log({ newActivity });
+
+  // Insert notifications
+  const { organizerId } = newActivity;
+
+  const organizer = await User.findOne({ _id: organizerId });
+
+  if (organizer == null) {
+    throw new Error('Organizer not found');
+  }
+
+  const notification = {
+    notificationType: NOTIFICATION_TYPES.ACTIVITY_RECREATED,
+    sender: {
+      id: organizerId,
+      name: get(organizer, 'profile.username', ''),
+      avatarURL: get(organizer, 'profile.avatar', ''),
+    },
+    payload: {
+      activityId: newActivity._id,
+      activityTitle: newActivity.title,
+    },
+  };
+
+  await NotificationsList.insertNotification(organizerId, notification);
+
+  return newActivity;
 };
 //------------------------------------------------------------------------------
 // MONGOOSE MODEL:
 //------------------------------------------------------------------------------
 const Activity = mongoose.model('Activity', schema);
-
 
 module.exports = {
   Activity,
