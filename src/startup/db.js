@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 const mongoose = require('mongoose');
-const fixtures = require('../fixtures');
+const fixtures = require('./fixtures');
 
 const { NODE_ENV, MONGO_URL, MONGO_URL_TEST } = process.env;
 
