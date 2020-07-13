@@ -1,7 +1,7 @@
-const { SPORTS } = require('./constants');
+const { SPORTS } = require('../constants');
 const {
   User, City, Spot, Notification,
-} = require('./models');
+} = require('../models');
 
 //------------------------------------------------------------------------------
 // Clear DB
@@ -67,28 +67,22 @@ const cities = async () => {
 const spots = async () => {
   const spot = await Spot.findOne({});
 
-  if (spot) {
-    return;
-  }
+  // if (spot) {
+  //   return;
+  // }
 
   const SPOTS = [{
-    spotname: 'Roombeek',
-    address: 'Steenbeltweg 59-35, 7523 VZ Enschede, Netherlands',
-    coordinates: [52.2370547, 6.8985376],
-    images: ['https://res.cloudinary.com/dxot4z4ma/image/upload/v1590944463/Screenshot_from_2020-05-31_18-59-28_uzbuh9.png'],
+    spotname: 'Sport Club Enschede',
+    address: 'Weggelhorstweg 30, 7541 WJ Enschede, Netherlands',
+    coordinates: [52.2048187, 6.8983154],
+    images: ['https://res.cloudinary.com/dxot4z4ma/image/upload/v1594623979/Screenshot_from_2020-07-13_09-06-16_wiyxvt.png'],
     sports: [SPORTS.FOOTBALL],
   }, {
-    spotname: 'Beachveld',
-    address: 'Matenweg, 7522 NB Enschede, Netherlands',
-    coordinates: [52.2461157, 6.8497418],
-    images: ['https://res.cloudinary.com/dxot4z4ma/image/upload/v1590945496/mtq-rlbny50i7tujvarycg_av69u9.png'],
+    spotname: 'Rigtersbleek Beach Volleyball',
+    address: 'G.J. van Heekstraat 15, 7521 EB Enschede, Netherlands',
+    coordinates: [52.2262906, 6.8734922],
+    images: ['https://res.cloudinary.com/dxot4z4ma/image/upload/v1594624277/Screenshot_from_2020-07-13_09-08-19_qttc1n.png'],
     sports: [SPORTS.BEACH_VOLLEYBALL],
-  }, {
-    spotname: 'Basketball Court UT',
-    address: 'Matenweg, 7522 NB Enschede, Netherlands',
-    coordinates: [52.2457184, 6.8496936],
-    images: ['https://res.cloudinary.com/dxot4z4ma/image/upload/v1590945483/md-rozavlj2dtbtkonnoew_ik1out.png'],
-    sports: [SPORTS.BASKETBALL],
   }];
 
   // const SPOTS = [{
